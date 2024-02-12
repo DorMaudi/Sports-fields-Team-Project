@@ -4,9 +4,20 @@
 
 #include "db.h"
 
-db::db(std::string userPath, std::string fieldsPath)
-        : userPath(std::move(userPath)), fieldsPath(std::move(fieldsPath)), numOfUserFiles(0), numOfFieldFiles(0)
-{}
+db::db()
+: numOfUserFiles(0), numOfFieldFiles(0)
+{
+    // using winApi to fetch abs path for each database folder.
+    char buffer[MAX_PATH];
+    GetFullPathNameA("dataBase", MAX_PATH, buffer, nullptr); // set buffer to path.
+
+    std::string basePath = buffer;
+    DWORD getPartToRemove = basePath.find("\\cmake-build-debug\\", 0);
+    basePath.erase(getPartToRemove);
+
+    this->userPath = basePath + "\\dataBase\\users";
+    this->fieldsPath = basePath + "\\dataBase\\fields";
+}
 
 void db::init()
 {
@@ -14,9 +25,9 @@ void db::init()
     std::fstream myFile;
 
     // create users using userCtor.
-    for (const auto& entry : std::filesystem::directory_iterator(this->userPath))
+    for (const auto& curFile : std::filesystem::directory_iterator(this->userPath))
     {
-        myFile.open(entry.path(), std::ios::in);
+        myFile.open(curFile.path(), std::ios::in);
 
         std::string id;
         std::string password;
@@ -40,16 +51,16 @@ void db::init()
     std::cout << "Loaded " << this->numOfUserFiles << " users into mem" << '\n';
 
     // create fields using fieldsCtor.
-    for (const auto& entry : std::filesystem::directory_iterator(this->fieldsPath))
+    for (const auto& curFile : std::filesystem::directory_iterator(this->fieldsPath))
     {
-        myFile.open(entry.path());
+        myFile.open(curFile.path());
 
         // set fields into here.
-        std::string name;
-        std::string city;
+        //std::string name;
+        //std::string city;
 
-        loadStringToMem(name, myFile);
-        loadStringToMem(name, myFile);
+        //loadStringToMem(name, myFile);
+        //loadStringToMem(name, myFile);
 
         // call fields ctor here.
 

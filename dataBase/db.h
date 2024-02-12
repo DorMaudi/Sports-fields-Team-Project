@@ -10,13 +10,14 @@
 #include <fstream>
 #include <filesystem>
 #include <iostream>
+#include <fileapi.h>
 
 class db {
 
 public:
 
     // constructor.
-    db(std::string userPath, std::string fieldsPath);
+    db();
 
     // basic functions to load db to mem & to save to disk.
     void init();    // loads all users and fields into mem.
