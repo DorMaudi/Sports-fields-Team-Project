@@ -31,6 +31,9 @@ public:
     bool dbDelUser();
     bool dbDelField();
 
+    // getFunctions.
+    int getNumOfUsers() { return this->numOfUserFiles; }
+    int getNumOfFields() { return this->numOfUserFiles; }
 
 private:
 
