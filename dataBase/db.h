@@ -10,26 +10,30 @@
 #include <fstream>
 #include <filesystem>
 #include <iostream>
+#include <fileapi.h>
 
 class db {
 
 public:
 
     // constructor.
-    db(std::string userPath, std::string fieldsPath);
+    db();
 
     // basic functions to load db to mem & to save to disk.
     void init();    // loads all users and fields into mem.
     void commit(); // commits all users and fields into mem.
 
     // create user / field on db.
-    bool dbMakeUser();
+    bool dbMakeUser(); // get Player& here.
     bool dbMakeField();
 
     // delete user / field on db.
     bool dbDelUser();
     bool dbDelField();
 
+    // getFunctions.
+    int getNumOfUsers() { return this->numOfUserFiles; }
+    int getNumOfFields() { return this->numOfUserFiles; }
 
 private:
 
