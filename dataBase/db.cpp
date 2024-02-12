@@ -12,11 +12,11 @@ db::db()
     GetFullPathNameA("dataBase", MAX_PATH, buffer, nullptr); // set buffer to path.
 
     std::string basePath = buffer;
-    DWORD getPartToRemove = basePath.find("\\cmake-build-debug\\", 0);
+    DWORD getPartToRemove = basePath.find("\\Sports-fields-Team-Project\\", 0);
     basePath.erase(getPartToRemove);
 
-    this->userPath = basePath + "\\dataBase\\users";
-    this->fieldsPath = basePath + "\\dataBase\\fields";
+    this->userPath = basePath + R"(\Sports-fields-Team-Project\dataBase\users)";
+    this->fieldsPath = basePath + R"(\Sports-fields-Team-Project\dataBase\fields)";
 }
 
 void db::init()
