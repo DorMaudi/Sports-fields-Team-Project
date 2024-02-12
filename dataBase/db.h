@@ -24,7 +24,7 @@ public:
     void commit(); // commits all users and fields into mem.
 
     // create user / field on db.
-    bool dbMakeUser();
+    bool dbMakeUser(); // get Player& here.
     bool dbMakeField();
 
     // delete user / field on db.

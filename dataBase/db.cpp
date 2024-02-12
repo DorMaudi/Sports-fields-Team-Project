@@ -128,10 +128,19 @@ void db::loadCharToMem(char &output, std::fstream &file)
     }
 }
 
-bool db::dbMakeUser()
+bool db::dbMakeUser() // add Player& newUser
 {
-    // if user exist return false, else create a new user.
+    // creating a new user on file.
+    std::string newUser = this->userPath;
+    //newUser.append("\\" + getUserID + ".txt"); //
+    std::fstream newUserData;
 
+    if (!newUserData.bad())
+    {
+        newUserData.open(newUser, std::ios::out);
+        //newUserData << "id: " + this->userId + '\n' + "pass: " + this->password + '\n' + "age: 18\n" + "gender: " + this->gender + '\n';
+        newUserData.close();
+    }
     return true;
 }
 
