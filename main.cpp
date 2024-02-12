@@ -7,7 +7,7 @@
 int main() {
 
     // make a new db.
-    db dataBase("/Users/maudi/Documents/Dev/Sports-fields-Team-Project/dataBase/users",
+    db dataBase("C:\\Users\\Jacob\\Numeric\\matrix\\Sports-fields-Team-Project\\dataBase\\users",
                 "/Users/maudi/Documents/Dev/Sports-fields-Team-Project/dataBase/fields");
 
 
