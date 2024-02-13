@@ -1,6 +1,3 @@
-//
-// Created by Dor Maudi on 11/02/2024.
-//
 
 #include "db.h"
 
