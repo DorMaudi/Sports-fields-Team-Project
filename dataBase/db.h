@@ -38,8 +38,8 @@ public:
 private:
 
     // set here the path to db folders.
-    std::string userPath;
-    std::string fieldsPath;
+    std::wstring userPath;
+    std::wstring fieldsPath;
     int numOfUserFiles;
     int numOfFieldFiles;
 
