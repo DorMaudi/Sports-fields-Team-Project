@@ -1,5 +1,6 @@
 
-#include "db.h"
+#include "dataBase/db.h"
+#include "Auth/Auth.h"
 
 int main() {
 
@@ -8,7 +9,6 @@ int main() {
 
     // load every user and field from the db.
     dataBase.init();
-    
 
     return 0;
 }
