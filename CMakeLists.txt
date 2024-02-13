@@ -9,4 +9,5 @@ add_executable(Sports_fields_Team_Project main.cpp
         dataBase/db.cpp
         dataBase/db.h
         Auth/Auth.cpp
-        Auth/Auth.h)
+        Auth/Auth.h
+        Auth/date.cpp)
