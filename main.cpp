@@ -1,6 +1,6 @@
 
-#include "dataBase/db.h"
-#include "Auth/Auth.h"
+#include "db.h"
+#include "Auth.h"
 
 int main() {
 
