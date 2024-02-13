@@ -14,8 +14,8 @@ db::db()
     std::wstring basePath = buffer;
     basePath.erase(basePath.find(L"\\Sports-fields-Team-Project\\", 0));
 
-    this->userPath = basePath + reinterpret_cast<const wchar_t*>(L"\\Sports-fields-Team-Project\\dataBase\\users");
-    this->fieldsPath = basePath + reinterpret_cast<const wchar_t*>(L"\\Sports-fields-Team-Project\\dataBase\\fields");
+    this->userPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\users";
+    this->fieldsPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\fields";
 }
 
 void db::init()
