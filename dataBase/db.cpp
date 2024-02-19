@@ -127,6 +127,28 @@ void db::loadCharToMem(char &output, std::fstream &file)
     }
 }
 
+void db::loadArrToMem(std::vector<std::string> &output, std::fstream file)
+{
+    std::string arrValue;
+    while (!file.eof())
+    {
+        char buf = (char)file.get();
+        if (buf == ' ')
+        {
+            while (buf != '\n')
+            {
+                if (buf == ',')
+                {
+                    //output.
+                }
+                buf = (char)file.get();
+                arrValue += buf;
+            }
+            return;
+        }
+    }
+}
+
 bool db::dbMakeUser() // add Player& newUser
 {
     // creating a new user on file.

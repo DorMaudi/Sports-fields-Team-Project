@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <iostream>
 #include <fileapi.h>
+#include <vector>
 
 class db {
 
@@ -34,19 +35,24 @@ public:
     // getFunctions.
     int getNumOfUsers() { return this->numOfUserFiles; }
     int getNumOfFields() { return this->numOfUserFiles; }
+    // const Person* getPersonArr() const { return this->personArr; }
+    // const Field* getFieldArr() const { return this->fieldsArr; }
 
 private:
 
     // set here the path to db folders.
     std::wstring userPath;
     std::wstring fieldsPath;
+    // Person* personArr;
+    // Fields* fieldsArr;
     int numOfUserFiles;
     int numOfFieldFiles;
 
     // memory management static functions.
-    static void loadStringToMem (std::string& output, std::fstream& file);
-    static void loadIntToMem (int& output, std::fstream& file);
-    static void loadCharToMem (char& output, std::fstream& file);
+    static void loadStringToMem(std::string& output, std::fstream& file);
+    static void loadIntToMem(int& output, std::fstream& file);
+    static void loadCharToMem(char& output, std::fstream& file);
+    static void loadArrToMem(std::vector<std::string>& output, std::fstream file);
 
 };
 
