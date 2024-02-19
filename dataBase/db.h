@@ -52,7 +52,7 @@ private:
     static void loadStringToMem(std::string& output, std::fstream& file);
     static void loadIntToMem(int& output, std::fstream& file);
     static void loadCharToMem(char& output, std::fstream& file);
-    static void loadArrToMem(std::vector<std::string>& output, std::fstream file);
+    static void loadArrToMem(std::vector<std::string>& output, std::fstream& file);
 
 };
 
