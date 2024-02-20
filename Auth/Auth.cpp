@@ -233,9 +233,4 @@ bool Auth::phonenumberAuth(std::string& e, std::string phonenumber) {
     return true;
 }
 
-bool Auth::login(const std::string &ID, const std::string &Password, std::string &Message)
-{
-    auto arr = db::getPersonArr();
-}
-
 
