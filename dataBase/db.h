@@ -12,6 +12,8 @@
 #include <iostream>
 #include <fileapi.h>
 #include <vector>
+#include "Manager.h"
+#include "Players.h"
 
 class db {
 
@@ -20,9 +22,12 @@ public:
     // constructor.
     db();
 
+    // dtor.
+    ~db();
+
     // basic functions to load db to mem & to save to disk.
     void init();    // loads all users and fields into mem.
-    void commit(); // commits all users and fields into mem.
+    void commit(); // commits all from mem into disk.
 
     // create user / field on db.
     bool dbMakeUser(); // get Player& here.
@@ -43,8 +48,8 @@ private:
     // set here the path to db folders.
     std::wstring userPath;
     std::wstring fieldsPath;
-    // Person* personArr;
-    // Fields* fieldsArr;
+    std::vector<Person*> personArr;
+    //std::vector<Fields*> fieldArr;
     int numOfUserFiles;
     int numOfFieldFiles;
 

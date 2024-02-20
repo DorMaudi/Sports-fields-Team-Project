@@ -18,6 +18,16 @@ db::db()
     this->fieldsPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\fields";
 }
 
+db::~db()
+{
+    // delete vectors.
+    while (!this->personArr.empty())
+    {
+        delete this->personArr.back();
+        this->personArr.pop_back();
+    }
+}
+
 void db::init()
 {
     // create a new file instance.
@@ -28,24 +38,44 @@ void db::init()
     {
         myFile.open(curFile.path(), std::ios::in);
 
+        int type = 0;
         std::string id;
         std::string password;
+        std::string name;
+        std::string lName;
+        std::string phone;
         int age = 0;
         char gender = 'A';
         std::vector<std::string> vecUser;
 
+        loadIntToMem(type, myFile);
         loadStringToMem(id, myFile);
         loadStringToMem(password, myFile);
+        loadStringToMem(name, myFile);
+        loadStringToMem(lName, myFile);
+        loadStringToMem(phone, myFile);
         loadIntToMem(age, myFile);
         loadCharToMem(gender, myFile);
         loadArrToMem(vecUser, myFile);
 
         // use user ctor here.
-        std::cout << "user entry\nid: " << id
-                  << "password: " << password
-                  << "age: " << age << '\n'
-                  << "gender: " << gender << '\n' << '\n'
-                  << "Arr: " << vecUser[0] << '\n';
+        enum userType {PlayerType = 1, ManagerType};
+
+        switch (type)
+        {
+            case PlayerType:
+            {
+                this->personArr.push_back(new Players(id, password, name, lName, phone, gender));
+                break;
+            }
+            case ManagerType:
+            {
+                this->personArr.push_back(new Manager(id, password, name, lName, phone, gender));
+                break;
+            }
+            default:
+                continue;
+        }
 
         ++this->numOfUserFiles;
         myFile.close();
@@ -146,7 +176,8 @@ void db::loadArrToMem(std::vector<std::string> &output, std::fstream &file)
                     singleValue = "";
                 }
                 buf = (char)file.get();
-                singleValue += buf;
+                if (buf != ',')
+                    singleValue += buf;
             }
             return;
         }
