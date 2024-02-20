@@ -38,8 +38,8 @@ public:
     bool dbDelField();
 
     // getFunctions.
-    int getNumOfUsers() { return this->numOfUserFiles; }
-    int getNumOfFields() { return this->numOfUserFiles; }
+    int getNumOfUsers() const { return this->numOfUserFiles; }
+    int getNumOfFields() const { return this->numOfUserFiles; }
     const std::vector<Person*> getPersonArr() const { return this->personArr; }
     // const Field* getFieldArr() const { return this->fieldsArr; }
 
