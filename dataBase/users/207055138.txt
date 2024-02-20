@@ -1,5 +1,8 @@
+type: 1
 id: 207055138
-password: abc123$%^
+pass: abc123$%^
+name: Dor
+l_name: Maudi
 age: 18
 gender: M
-vec: Abc,Hi,Six
+reservations: Abc,Hi,Six

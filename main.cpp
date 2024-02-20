@@ -4,7 +4,7 @@
 
 int main() {
 
-    // make a new db.
+    // make a new database.
     db dataBase;
 
     // load every user and field from the db.
