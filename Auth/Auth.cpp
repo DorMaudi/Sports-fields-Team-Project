@@ -1,7 +1,13 @@
 #include "Auth.h"
-#include "date.h"
-#include <iostream>
-#include <cctype>
+
+#define ASCI_ZERO 48
+#define ASCI_FIVE 53
+#define ASCI_NINE 57
+
+std::string formatDate(int day, int month, int year) {
+    return std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
+}
+
 
 bool Auth::Register() {
     // Declaration of variables
@@ -93,19 +99,33 @@ bool Auth::Register() {
         }
     } while (!cond);
 
+    int phoneNum;
     do {
+
+        cond = false;
+        std::string phoneNumberStr;
         std::cout << "Enter your Phone number: ";
-        std::cin >> PhoneNumber;
+        std::cin >> phoneNumberStr;
 
-        // Convert the phone number to a string for length and prefix validation
-        std::string phoneNumberStr = std::to_string(PhoneNumber);
-
-        if (phoneNumberStr.length() != 10 || phoneNumberStr.substr(0, 2) != "05") {
-            std::cout << "Invalid phone number format. Please enter a 10-digit number starting with '05'." << std::endl;
-            cond = false;
-        } else {
+        if ((int)phoneNumberStr[0] != ASCI_ZERO && (int)phoneNumberStr[1] != ASCI_FIVE)
+        {
+            std::cout << "bad number\n";
+            continue;
+        }
+        else
+        {
+            for (int i = 2; i <= 9; ++i)
+            {
+                if ((int)phoneNumberStr[i] < ASCI_ZERO || (int)phoneNumberStr[i] > ASCI_NINE)
+                {
+                    std::cout << "bad phone number\n";
+                    continue;
+                }
+            }
             cond = true;
         }
+
+
     } while (!cond);
 
     this->ID = ID;
@@ -113,6 +133,7 @@ bool Auth::Register() {
     this->F_Name = F_Name;
     this->L_Name = L_Name;
     this->Gender = Gender;
-    //B_Date =
+    this->B_Date= formatDate(day,month,year);
     this->PhoneNumber = PhoneNumber;
+    //dbMakeUser()
 }

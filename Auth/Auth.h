@@ -1,6 +1,9 @@
 
 #include "db.h"
 #include <string>
+#include "date.h"
+#include <iostream>
+#include <cctype>
 #ifndef SPORTS_FIELDS_TEAM_PROJECT_AUTH_H
 #define SPORTS_FIELDS_TEAM_PROJECT_AUTH_H
 

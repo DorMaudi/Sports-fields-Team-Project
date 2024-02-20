@@ -1,5 +1,6 @@
 
 #include "db.h"
+#include "Auth.h"
 
 int main() {
 
@@ -8,6 +9,8 @@ int main() {
 
     // load every user and field from the db.
     dataBase.init();
+    Auth user;
+    user.Register();
     
 
     return 0;
