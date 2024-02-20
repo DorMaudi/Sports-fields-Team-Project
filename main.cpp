@@ -1,19 +1,12 @@
-//
-// Created by Dor Maudi on 11/02/2024.
-//
 
 #include "db.h"
+#include "Auth.h"
 
 int main() {
 
     // make a new db.
-    db dataBase("/Users/maudi/Documents/Dev/Sports-fields-Team-Project/dataBase/users",
-                "/Users/maudi/Documents/Dev/Sports-fields-Team-Project/dataBase/fields");
+    db dataBase;
 
-
-    //
-
-    //
     // load every user and field from the db.
     dataBase.init();
 

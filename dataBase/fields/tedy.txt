@@ -1,0 +1,8 @@
+name: tedy
+city: tel-aviv
+sport-type: 2
+description: tedy_is_the_best.
+reservations: 7
+reviews: david:_this_is_a_cool_place.
+accessible: 1
+total-orders: 87

@@ -4,9 +4,19 @@
 
 #include "db.h"
 
-db::db(std::string userPath, std::string fieldsPath)
-        : userPath(std::move(userPath)), fieldsPath(std::move(fieldsPath)), numOfUserFiles(0), numOfFieldFiles(0)
-{}
+db::db()
+: numOfUserFiles(0), numOfFieldFiles(0)
+{
+    // using winApi to fetch abs path for each database folder.
+    WCHAR buffer[MAX_PATH];
+    GetFullPathNameW(L"dataBase", MAX_PATH, buffer, nullptr); // set buffer to path.
+
+    std::wstring basePath = buffer;
+    basePath.erase(basePath.find(L"\\Sports-fields-Team-Project\\", 0));
+
+    this->userPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\users";
+    this->fieldsPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\fields";
+}
 
 void db::init()
 {
@@ -14,9 +24,9 @@ void db::init()
     std::fstream myFile;
 
     // create users using userCtor.
-    for (const auto& entry : std::filesystem::directory_iterator(this->userPath))
+    for (const auto& curFile : std::filesystem::directory_iterator(this->userPath))
     {
-        myFile.open(entry.path(), std::ios::in);
+        myFile.open(curFile.path(), std::ios::in);
 
         std::string id;
         std::string password;
@@ -40,16 +50,16 @@ void db::init()
     std::cout << "Loaded " << this->numOfUserFiles << " users into mem" << '\n';
 
     // create fields using fieldsCtor.
-    for (const auto& entry : std::filesystem::directory_iterator(this->fieldsPath))
+    for (const auto& curFile : std::filesystem::directory_iterator(this->fieldsPath))
     {
-        myFile.open(entry.path());
+        myFile.open(curFile.path());
 
         // set fields into here.
-        std::string name;
-        std::string city;
+        //std::string name;
+        //std::string city;
 
-        loadStringToMem(name, myFile);
-        loadStringToMem(name, myFile);
+        //loadStringToMem(name, myFile);
+        //loadStringToMem(name, myFile);
 
         // call fields ctor here.
 
@@ -117,10 +127,20 @@ void db::loadCharToMem(char &output, std::fstream &file)
     }
 }
 
-bool db::dbMakeUser()
+bool db::dbMakeUser() // add Player& newUser
 {
-    // if user exist return false, else create a new user.
+    // creating a new user on file.
+    std::wstring newUser = this->userPath;
+    const wchar_t* wtNewUser = newUser.c_str();
+    //newUser.append("\\" + getUserID + ".txt"); //
+    std::fstream newUserData;
 
+    if (!newUserData.bad())
+    {
+        newUserData.open(wtNewUser, std::ios::out);
+        //newUserData << "id: " + this->userId + '\n' + "pass: " + this->password + '\n' + "age: 18\n" + "gender: " + this->gender + '\n';
+        newUserData.close();
+    }
     return true;
 }
 
