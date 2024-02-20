@@ -8,7 +8,6 @@ include_directories(dataBase Auth person)
 add_executable(Sports_fields_Team_Project main.cpp
                 dataBase/db.cpp
                 dataBase/db.h
-                Updated upstream
                 Auth/Auth.cpp
                 Auth/Auth.h
                 Auth/date.cpp
