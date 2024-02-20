@@ -82,6 +82,7 @@ void db::init()
     }
     std::cout << "Loaded " << this->numOfUserFiles << " users into mem" << '\n';
 
+
     // create fields using fieldsCtor.
     for (const auto& curFile : std::filesystem::directory_iterator(this->fieldsPath))
     {
@@ -101,7 +102,7 @@ void db::init()
         myFile.close();
     }
     std::cout << "Loaded " << this->numOfFieldFiles << " fields into mem" << '\n';
-
+    //system("cls");
 }
 
 void db::commit()
@@ -136,7 +137,7 @@ void db::loadIntToMem(int &output, std::fstream &file)
             while (buf != '\n') {
                 buf = (char)file.get();
                 num += buf;
-                output = std::stoi(num, nullptr, 10);
+                output = std::stoi(num);
             }
             return;
         }
