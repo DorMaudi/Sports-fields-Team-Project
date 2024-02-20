@@ -8,15 +8,14 @@ db::db()
 : numOfUserFiles(0), numOfFieldFiles(0)
 {
     // using winApi to fetch abs path for each database folder.
-    char buffer[MAX_PATH];
-    GetFullPathNameA("dataBase", MAX_PATH, buffer, nullptr); // set buffer to path.
+    WCHAR buffer[MAX_PATH];
+    GetFullPathNameW(L"dataBase", MAX_PATH, buffer, nullptr); // set buffer to path.
 
-    std::string basePath = buffer;
-    DWORD getPartToRemove = basePath.find("\\Sports-fields-Team-Project\\", 0);
-    basePath.erase(getPartToRemove);
+    std::wstring basePath = buffer;
+    basePath.erase(basePath.find(L"\\Sports-fields-Team-Project\\", 0));
 
-    this->userPath = basePath + R"(\Sports-fields-Team-Project\dataBase\users)";
-    this->fieldsPath = basePath + R"(\Sports-fields-Team-Project\dataBase\fields)";
+    this->userPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\users";
+    this->fieldsPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\fields";
 }
 
 void db::init()
@@ -33,17 +32,20 @@ void db::init()
         std::string password;
         int age = 0;
         char gender = 'A';
+        std::vector<std::string> vecUser;
 
         loadStringToMem(id, myFile);
         loadStringToMem(password, myFile);
         loadIntToMem(age, myFile);
         loadCharToMem(gender, myFile);
+        loadArrToMem(vecUser, myFile);
 
         // use user ctor here.
         std::cout << "user entry\nid: " << id
                   << "password: " << password
                   << "age: " << age << '\n'
-                  << "gender: " << gender << '\n' << '\n';
+                  << "gender: " << gender << '\n' << '\n'
+                  << "Arr: " << vecUser[0] << '\n';
 
         ++this->numOfUserFiles;
         myFile.close();
@@ -128,16 +130,40 @@ void db::loadCharToMem(char &output, std::fstream &file)
     }
 }
 
+void db::loadArrToMem(std::vector<std::string> &output, std::fstream &file)
+{
+    while (!file.eof())
+    {
+        char buf = (char)file.get();
+        if (buf == ' ')
+        {
+            std::string singleValue;
+            while (buf != '\n')
+            {
+                if (buf == ',')
+                {
+                    output.push_back(singleValue);
+                    singleValue = "";
+                }
+                buf = (char)file.get();
+                singleValue += buf;
+            }
+            return;
+        }
+    }
+}
+
 bool db::dbMakeUser() // add Player& newUser
 {
     // creating a new user on file.
-    std::string newUser = this->userPath;
+    std::wstring newUser = this->userPath;
+    const wchar_t* wtNewUser = newUser.c_str();
     //newUser.append("\\" + getUserID + ".txt"); //
     std::fstream newUserData;
 
     if (!newUserData.bad())
     {
-        newUserData.open(newUser, std::ios::out);
+        newUserData.open(wtNewUser, std::ios::out);
         //newUserData << "id: " + this->userId + '\n' + "pass: " + this->password + '\n' + "age: 18\n" + "gender: " + this->gender + '\n';
         newUserData.close();
     }
