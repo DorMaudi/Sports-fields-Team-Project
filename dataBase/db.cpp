@@ -32,17 +32,20 @@ void db::init()
         std::string password;
         int age = 0;
         char gender = 'A';
+        std::vector<std::string> vecUser;
 
         loadStringToMem(id, myFile);
         loadStringToMem(password, myFile);
         loadIntToMem(age, myFile);
         loadCharToMem(gender, myFile);
+        loadArrToMem(vecUser, myFile);
 
         // use user ctor here.
         std::cout << "user entry\nid: " << id
                   << "password: " << password
                   << "age: " << age << '\n'
-                  << "gender: " << gender << '\n' << '\n';
+                  << "gender: " << gender << '\n' << '\n'
+                  << "Arr: " << vecUser[0] << '\n';
 
         ++this->numOfUserFiles;
         myFile.close();
@@ -123,6 +126,29 @@ void db::loadCharToMem(char &output, std::fstream &file)
                 output = (char)buf;
                 return;
             }
+        }
+    }
+}
+
+void db::loadArrToMem(std::vector<std::string> &output, std::fstream &file)
+{
+    while (!file.eof())
+    {
+        char buf = (char)file.get();
+        if (buf == ' ')
+        {
+            std::string singleValue;
+            while (buf != '\n')
+            {
+                if (buf == ',')
+                {
+                    output.push_back(singleValue);
+                    singleValue = "";
+                }
+                buf = (char)file.get();
+                singleValue += buf;
+            }
+            return;
         }
     }
 }
