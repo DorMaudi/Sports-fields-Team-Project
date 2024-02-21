@@ -5,13 +5,15 @@
 #include "Person.h"
 #include <regex>
 
-Person::Person(const std::string& ID, const std::string& password, const std::string& firstName,const std::string& lastName, const std::string& phoneNumber, char gender) {
-    setID(ID);
-    setPassword(password);
-    setFirstName(firstName);
-    setLastName(lastName);
-    setPhoneNumber(phoneNumber);
-    setGender(gender);
+Person::Person(std::string ID, std::string password, std::string firstName, std::string lastName, std::string phoneNumber, char gender)
+: ID(std::move(ID)) , password(std::move(password)) , f_name(std::move(firstName)) , l_name(std::move(lastName)) , phoneNumber(std::move(phoneNumber)) , gender(gender)
+{
+    //setID(ID);
+    //setPassword(password);
+    //setFirstName(firstName);
+    //setLastName(lastName);
+    //setPhoneNumber(phoneNumber);
+    //setGender(gender);
 }
 
 std::string Person::getID() const {
