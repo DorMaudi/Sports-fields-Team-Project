@@ -27,7 +27,7 @@ public:
 
     // basic functions to load db to mem & to save to disk.
     void init();    // loads all users and fields into mem.
-    void commit(); // commits all from mem into disk.
+    void commitToDisk(); // commits all from mem into disk.
 
     // create user / field on db.
     bool dbMakeUser(); // get Player& here.
