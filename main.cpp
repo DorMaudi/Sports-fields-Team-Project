@@ -13,9 +13,8 @@ int main() {
     std::string password = "abc123789\n"; // Remove '\n'
     std::string message;
 
-    if(Auth::login(userID,password,message,dataBase)){
-        std::cout<<"kaki\n";
-    }
+    Auth::login(userID,password,message,dataBase);
+
     /*auto personArr = dataBase.getPersonArr();
     int personArrSize = dataBase.getNumOfUsers();
     for (int i = 0; i < personArrSize; ++i) {
