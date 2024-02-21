@@ -8,12 +8,12 @@
 Person::Person(std::string ID, std::string password, std::string firstName, std::string lastName, std::string phoneNumber, char gender)
 : ID(std::move(ID)) , password(std::move(password)) , f_name(std::move(firstName)) , l_name(std::move(lastName)) , phoneNumber(std::move(phoneNumber)) , gender(gender)
 {
-    //setID(ID);
-    //setPassword(password);
-    //setFirstName(firstName);
-    //setLastName(lastName);
-    //setPhoneNumber(phoneNumber);
-    //setGender(gender);
+    setID(ID);
+    setPassword(password);
+    setFirstName(firstName);
+    setLastName(lastName);
+    setPhoneNumber(phoneNumber);
+    setGender(gender);
 }
 
 std::string Person::getID() const {

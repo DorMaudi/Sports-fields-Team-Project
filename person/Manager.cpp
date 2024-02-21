@@ -4,6 +4,11 @@
 
 #include "Manager.h"
 
+
+
+
+
+/*
 void Manager::addOrder(const std::vector<std::string> &feildOrder) {
     orders.push_back(feildOrder);
 }
@@ -18,3 +23,4 @@ void Manager::displayOrders(){
         std::cout << "--------" << std::endl;
     }
 }
+*/

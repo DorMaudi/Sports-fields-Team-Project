@@ -13,10 +13,10 @@ int main() {
     std::string password = "abc123789\n"; // Remove '\n'
     std::string message;
 
-    if(Auth::login(userID,password,message,dataBase)){
+    /*if(Auth::login(userID,password,message,dataBase)){
         std::cout<<"kaki\n";
-    }
-    /*auto personArr = dataBase.getPersonArr();
+    }*/
+    auto personArr = dataBase.getPersonArr();
     int personArrSize = dataBase.getNumOfUsers();
     for (int i = 0; i < personArrSize; ++i) {
         if (personArr[i]->getID() == userID) {
@@ -28,7 +28,7 @@ int main() {
                 break; // Found the user, exit the loop
             }
         }
-    }*/
+    }
 
     std::cout << message << std::endl; // Output the result
     return 0; // Return 0 to indicate successful execution
