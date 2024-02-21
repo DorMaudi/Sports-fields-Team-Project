@@ -60,7 +60,7 @@ std::string ui::login()
         std::cout << "Enter your password:\n;";
         std::cin >> pass;
 
-        if (!Auth::Login(id, pass, msg))
+        if (!Auth::login(id, pass, msg, db))
         {
             std::cout << msg; //bad input.
             continue;
@@ -76,10 +76,63 @@ std::string ui::login()
 void ui::playerPanel()
 {
     std::cout << "WELCOME " << "name\n"; //להוסיף את שם המשתמש מממסד הנתונים
-    std::cout << "Menu:\nBook field - enter 1\nCancel field - enter 2\nCalendar - enter 3\nEdit profile - enter 4\n".
+    int option = 0;
+    while(option < 1 || option > 4)
+    {
+        std::cout << "Menu:\nBook field - enter 1\nCancel field - enter 2\nCalendar - enter 3\nEdit profile - enter 4\n";
+        std::cin >> option;
+        if(option < 1 || option > 4)
+            std::cout << "invalid value\n";
+    }
+
+    enum menuOptions {bookF = 1, cancelF, cal, edit};
+
+    switch (option)
+    {
+        case bookF:
+        {
+            break;
+        }
+        case cancelF:
+        {
+            break;
+        }
+        case cal:
+        {
+            break;
+        }
+        case edit:
+        {
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
 }
 
-void ui::managerPanel()
+// להמשיך מהצגת רשימת המשחקים המתאימים לבחירתי
+void ui::bookField()
 {
+    std::cout << "Book Field:\n";
+    int sportOption = 0;
+    while(sportOption < 1 || sportOption > 4)
+    {
+        std::cout << "Please choose a specific sport from this list-\nFor soccer - enter 1.\nFor Basketball - enter 2.\n"
+                     "For tennis - enter 3.\nFor football - enter 4.\n";
+        std::cin >> sportOption;
+        if(sportOption < 1 || sportOption > 4)
+            std::cout << "invalid value\n";
+    }
 
+    int cityOption = 0;
+    while(cityOption < 1 || cityOption > 4)
+    {
+        std::cout << "Please choose a city to play in-\nFor Ashdod - enter 1.\nFor Tel Aviv - enter 2.\n"
+                     "For Jerusalem - enter 3.\nFor Eilat - enter 4.\n";
+        std::cin >> cityOption;
+        if(cityOption < 1 || cityOption > 4)
+            std::cout << "invalid value\n";
+    }
 }

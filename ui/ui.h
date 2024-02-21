@@ -18,6 +18,7 @@ public:
     static std::string login();
     static void playerPanel();
     static void managerPanel();
+    static void bookField();
 
 
 
