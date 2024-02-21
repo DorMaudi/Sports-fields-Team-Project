@@ -18,6 +18,16 @@ db::db()
     this->fieldsPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\fields";
 }
 
+db::~db()
+{
+    // delete vectors.
+    while (!this->personArr.empty())
+    {
+        delete this->personArr.back();
+        this->personArr.pop_back();
+    }
+}
+
 void db::init()
 {
     // create a new file instance.
@@ -28,26 +38,50 @@ void db::init()
     {
         myFile.open(curFile.path(), std::ios::in);
 
+        int type = 0;
         std::string id;
         std::string password;
+        std::string name;
+        std::string lName;
+        std::string phone;
         int age = 0;
         char gender = 'A';
+        std::vector<std::string> vecUser;
 
+        loadIntToMem(type, myFile);
         loadStringToMem(id, myFile);
         loadStringToMem(password, myFile);
+        loadStringToMem(name, myFile);
+        loadStringToMem(lName, myFile);
+        loadStringToMem(phone, myFile);
         loadIntToMem(age, myFile);
         loadCharToMem(gender, myFile);
+        loadArrToMem(vecUser, myFile);
 
         // use user ctor here.
-        std::cout << "user entry\nid: " << id
-                  << "password: " << password
-                  << "age: " << age << '\n'
-                  << "gender: " << gender << '\n' << '\n';
+        enum userType {PlayerType = 1, ManagerType};
+
+        switch (type)
+        {
+            case PlayerType:
+            {
+                this->personArr.push_back(new Players(id, password, name, lName, phone, gender));
+                break;
+            }
+            case ManagerType:
+            {
+                this->personArr.push_back(new Manager(id, password, name, lName, phone, gender));
+                break;
+            }
+            default:
+                continue;
+        }
 
         ++this->numOfUserFiles;
         myFile.close();
     }
     std::cout << "Loaded " << this->numOfUserFiles << " users into mem" << '\n';
+
 
     // create fields using fieldsCtor.
     for (const auto& curFile : std::filesystem::directory_iterator(this->fieldsPath))
@@ -68,7 +102,7 @@ void db::init()
         myFile.close();
     }
     std::cout << "Loaded " << this->numOfFieldFiles << " fields into mem" << '\n';
-
+    //system("cls");
 }
 
 void db::commit()
@@ -87,7 +121,8 @@ void db::loadStringToMem(std::string &output, std::fstream &file)
             while (buf != '\n')
             {
                 buf = (char)file.get();
-                output += buf;
+                if (buf != '\n')
+                    output += buf;
             }
             return;
         }
@@ -103,7 +138,7 @@ void db::loadIntToMem(int &output, std::fstream &file)
             while (buf != '\n') {
                 buf = (char)file.get();
                 num += buf;
-                output = std::stoi(num, nullptr, 10);
+                output = std::stoi(num);
             }
             return;
         }
@@ -123,6 +158,30 @@ void db::loadCharToMem(char &output, std::fstream &file)
                 output = (char)buf;
                 return;
             }
+        }
+    }
+}
+
+void db::loadArrToMem(std::vector<std::string> &output, std::fstream &file)
+{
+    while (!file.eof())
+    {
+        char buf = (char)file.get();
+        if (buf == ' ')
+        {
+            std::string singleValue;
+            while (buf != '\n')
+            {
+                if (buf == ',')
+                {
+                    output.push_back(singleValue);
+                    singleValue = "";
+                }
+                buf = (char)file.get();
+                if (buf != ',')
+                    singleValue += buf;
+            }
+            return;
         }
     }
 }

@@ -1,4 +1,9 @@
+type: 1
 id: 207055138
-password: abc123$%^
+pass: abc123$%^
+name: Dor
+l_name: Maudi
+phone: 0556688846
 age: 18
 gender: M
+reservations: Abc,Hi,Six
