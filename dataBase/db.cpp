@@ -44,7 +44,6 @@ void db::init()
         std::string name;
         std::string lName;
         std::string phone;
-        int age = 0;
         char gender = 'A';
         std::vector<std::string> vecUser;
 
@@ -54,7 +53,6 @@ void db::init()
         loadStringToMem(name, myFile);
         loadStringToMem(lName, myFile);
         loadStringToMem(phone, myFile);
-        loadIntToMem(age, myFile);
         loadCharToMem(gender, myFile);
         loadArrToMem(vecUser, myFile);
 
@@ -105,10 +103,52 @@ void db::init()
     //system("cls");
 }
 
-void db::commit()
+void db::commitToDisk()
 {
     // save changes to disk.
+    std::string tempId;
+    std::fstream iFile;
+    int userType = 0;
 
+    enum userType {typePlayer = 1, typeManager};
+
+    while (!this->personArr.empty())
+    {
+        auto p = this->personArr.back();
+        tempId = p->getID();
+        if (typeid(p) == typeid(Manager))
+            userType = 2;
+        else
+            userType = 1;
+        iFile.open(this->userPath.c_str(), std::ios::out | std::ios::trunc);
+
+        switch (userType)
+        {
+            case typePlayer:
+            {
+                iFile << "type: " << userType << '\n'
+                        << "id: " << p->getID() << '\n'
+                        << "pass: " << p->getPassword() << '\n'
+                        << "name: " << p->getFirstName() << '\n'
+                        << "l_name: " << p->getLastName() << '\n'
+                        << "phone: " << p->getPhoneNumber() << '\n'
+                        << "gender: " << p->getGender() << '\n'
+                        << "reservations: " << p->getID() << '\n'; // call function here!
+                break;
+            }
+            case typeManager:
+            {
+                iFile << "type: " << userType << '\n'
+                      << "id: " << p->getID() << '\n'
+                      << "id: " << p->getID() << '\n'
+                      << "id: " << p->getID() << '\n'
+                      << "id: " << p->getID() << '\n';
+                break;
+            }
+            default:
+                std::cout << "DB Error!\n";
+        }
+    }
 }
 
 void db::loadStringToMem(std::string &output, std::fstream &file)
