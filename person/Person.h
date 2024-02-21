@@ -18,8 +18,8 @@ protected:
     std::string phoneNumber;
     char gender;
 public:
-    Person(const std::string &ID, const std::string &password, const std::string &firstName, const std::string &lastName,
-           const std::string &phoneNumber, char gender);
+    Person(std::string ID, std::string password, std::string firstName, std::string lastName,
+           std::string phoneNumber, char gender);
     // Get
     std::string getID() const;
     std::string getPassword() const;
