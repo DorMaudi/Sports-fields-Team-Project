@@ -1,6 +1,7 @@
 
 #include "db.h"
 #include "Auth.h"
+#include "ui.h"
 
 int main() {
 

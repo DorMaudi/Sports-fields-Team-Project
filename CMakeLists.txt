@@ -3,7 +3,7 @@ project(Sports_fields_Team_Project)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(dataBase Auth)
+include_directories(dataBase Auth ui)
 
 add_executable(Sports_fields_Team_Project main.cpp
         dataBase/db.cpp
@@ -11,4 +11,6 @@ add_executable(Sports_fields_Team_Project main.cpp
         Auth/Auth.cpp
         Auth/Auth.h
         Auth/date.cpp
-        Auth/date.h)
+        Auth/date.h
+        ui/ui.cpp
+        ui/ui.h)
