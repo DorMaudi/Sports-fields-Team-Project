@@ -14,7 +14,7 @@ private:
     char Gender;
     std::string Password,ID,F_Name,L_Name,B_Date;
 public:
-    bool login (const std::string& ID, const std::string& Password, std::string& Message);
+    static bool login (const std::string ID, const std::string Password, std::string &Message, db datebase);
 
     bool Register ();
 

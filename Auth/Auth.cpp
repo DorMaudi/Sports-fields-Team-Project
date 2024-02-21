@@ -233,4 +233,22 @@ bool Auth::phonenumberAuth(std::string& e, std::string phonenumber) {
     return true;
 }
 
+bool Auth::login(const std::string ID, const std::string Password, std::string &Message, db database){
+    auto personArr = database.getPersonArr();
+    int personArrSize = database.getNumOfUsers();
+    for (int i = 0; i < personArrSize; ++i) {
+        if (personArr[i]->getID() == ID) {
+            if (personArr[i]->getPassword() == Password) {
+                Message = "Successful login";
+                return true; // Found the user, exit the loop
+            } else {
+                Message = "Password is incorrect";
+                return false; // Found the user, exit the loop
+            }
+        }
+    }
+    Message = "User not found";
+    return false;
+}
+
 
