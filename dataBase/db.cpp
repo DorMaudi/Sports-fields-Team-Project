@@ -121,7 +121,8 @@ void db::loadStringToMem(std::string &output, std::fstream &file)
             while (buf != '\n')
             {
                 buf = (char)file.get();
-                output += buf;
+                if (buf != '\n')
+                    output += buf;
             }
             return;
         }
