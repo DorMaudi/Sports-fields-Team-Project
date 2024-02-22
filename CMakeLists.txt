@@ -17,4 +17,6 @@ add_executable(Sports_fields_Team_Project main.cpp
                 person/Manager.cpp
                 person/Manager.h
                 person/Person.cpp
+                fields.h
+                fields.cpp
                 person/Person.h fields/fields.cpp fields/fields.h fields/reservation.cpp fields/reservation.h)
