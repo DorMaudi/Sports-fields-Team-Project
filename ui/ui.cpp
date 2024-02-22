@@ -32,10 +32,24 @@ int ui::registration()
    return input;
 }
 
-bool ui::managerRegistration()
+void ui::managerRegistration()
 {
     std::cout << "To register as a manager you need to fill 7 fields:\n";
-    std::cout << "Enter ID (unique, alphanumeric, minimum 9 characters):\n";
+    std::string e;
+    std::string id;
+    Auth a;
+    bool flag = false;
+    while(!flag)
+    {
+        std::cout << "Enter ID (unique, alphanumeric, minimum 9 characters):\n";
+        std::cin >> id;
+        flag = a.idAuth(e,id);
+        if(!flag)
+            std::cout << e <<'\n';
+    }
+
+
+
 
 }
 
@@ -135,4 +149,83 @@ void ui::bookField()
         if(cityOption < 1 || cityOption > 4)
             std::cout << "invalid value\n";
     }
+
+    //הצגת רשימת ממוספרת של המגרשים המתאימים
+    //שחקן צריך לבחור את המגרש שבו הוא מעוניין
+    //הצגת לוח שנה ממוספר של השבוע הקרוב אותו מגרש שנבחר. שעות תפוסות וגם פנויות
+    //שחקן צריך לבחור מתוך לוח שנה זה את הזמן המתאים למשחק
+
+}
+
+void ui::cancelField()
+{
+    std::cout << "Cancel Field:\nMy Reservation:\n";
+
+    //רשימה ממוספרת של כל ההזמנות של השחקן
+
+
+    std::cout << "To cancel field enter his number option:\n";
+
+    //מחיקת הזמנה מרשימת ההזמנות שלי
+
+    std::cout << "The cancellation was successfully.\n";
+
+}
+
+void ui::calendar()
+{
+    std::cout << "Calendar:\nMy Schedule:\n";
+
+    //רשימת\פןרמט לוח שנה של ההזמנות של השחקן עבור השבוע הקרוב בסדר כרונולוגי.
+    //מירקור ההמשחק הקרוב
+}
+
+void ui::editProfile()
+{
+    std::cout << "Edit Your Profile:\n";
+    int editOption = 0;
+
+    while(editOption < 1 || editOption > 4)
+    {
+        std::cout << "To edit your password - enter 1.\nTo edit your first name - enter 2.\n"
+                     "To edit your last name - enter 3.\nTo edit your phone number - enter 4.\nTo edit your gender - enter 5.\n";
+
+        std::cin >> editOption;
+
+        if(editOption < 1 || editOption > 4)
+            std::cout << "invalid value\n";
+    }
+
+    enum editOptions {pass = 1, fName, Lname, phone, gen};
+
+    switch (editOption)
+    {
+        case pass:
+        {
+            break;
+        }
+        case fName:
+        {
+            break;
+        }
+        case Lname:
+        {
+            break;
+        }
+        case phone:
+        {
+            break;
+        }
+        case gen:
+        {
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+
+
+
 }
