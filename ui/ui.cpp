@@ -6,61 +6,229 @@
 
 int ui::welcomeScreen()
 {
+    system("cls");
+    setColor(C_PURPLE);
     std::cout << "Welcome To Sport Fields Reservation System\n";
     int input = 0;
     while(input != 1 && input != 2)
     {
-        std::cout << "Registration \\ Login\nFor registration enter 1.\nFor login enter 2.\n";
+        setColor(C_WHITE);
+        std::cout << "Registration \\ Login\nFor registration ";
+        setColor(C_BLUE);
+        std::cout << "enter 1.\n";
+        setColor(C_WHITE);
+        std::cout << "For login ";
+        setColor(C_BLUE);
+        std::cout << "enter 2.\n";
         std::cin >> input;
         if(input != 1 && input != 2)
+        {
+            setColor(C_RED);
             std::cout << "invalid value\n";
+        }
     }
+    setColor(C_WHITE);
     return input;
 }
 
 int ui::registration()
 {
-   std::cout << "Registration:\n";
+    system("cls");
+    setColor(C_PURPLE);
+    std::cout << "Registration:\n";
    int input = 0;
    while(input != 1 && input != 2)
    {
-       std::cout << "For manager registration enter 1.\nFor player registration enter 2.\n";
+       setColor(C_WHITE);
+       std::cout << "For manager registration ";
+       setColor(C_BLUE);
+       std::cout << "enter 1.\n";
+       setColor(C_WHITE);
+       std::cout << "For player registration ";
+       setColor(C_BLUE);
+       std::cout << "enter 2.\n";
        std::cin >> input;
        if(input != 1 && input != 2)
+       {
+           setColor(C_RED);
            std::cout << "invalid value\n";
+       }
    }
-   return input;
+    setColor(C_WHITE);
+    return input;
 }
 
-void ui::managerRegistration()
+void ui::registrationProcess(int type)
 {
-    std::cout << "To register as a manager you need to fill 7 fields:\n";
+    system("cls");
+    setColor(C_PURPLE);
+    std::cout << "Welcome to the registration process, please enter the following fields to make an account:\n";
     std::string e;
     std::string id;
-    Auth a;
     bool flag = false;
     while(!flag)
     {
-        std::cout << "Enter ID (unique, alphanumeric, minimum 9 characters):\n";
+        setColor(C_WHITE);
+        std::cout << "Enter ID (";
+        setColor(C_BLUE);
+        std::cout <<"unique, alphanumeric, minimum 9 characters";
+        setColor(C_WHITE);
+        std::cout << "):\n";
         std::cin >> id;
-        flag = a.idAuth(e,id);
+        flag = Auth::idAuth(e,id);
         if(!flag)
+        {
+            setColor(C_RED);
             std::cout << e <<'\n';
+        }
     }
 
+    flag = false;
+    std::string password;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter password (";
+        setColor(C_BLUE);
+        std::cout << "minimum 8 characters with no space";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> password;
+        flag = Auth::passwordAuth(e,password);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
 
+    flag = false;
+    std::string fName;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter first name (";
+        setColor(C_BLUE);
+        std::cout << "alphabetical characters only";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> fName;
+        flag = Auth::firstNameAuth(e,fName);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
 
+    flag = false;
+    std::string lName;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter last name (";
+        setColor(C_BLUE);
+        std::cout << "alphabetical characters only";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> lName;
+        flag = Auth::lastNameAuth(e,lName);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
 
-}
+    flag = false;
+    std::string pNumber;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter phone number (";
+        setColor(C_BLUE);
+        std::cout << "valid phone number format 05XXXXXXXX";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> pNumber;
+        flag = Auth::phonenumberAuth(e,pNumber);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
 
-bool ui::playerRegistration()
-{
-    std::cout << "To register as a player you need to fill 6 fields:\n";
-    std::cout << "Enter ID (unique, alphanumeric, minimum 9 characters):\n";
+    flag = false;
+    char gender;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter gender (";
+        setColor(C_BLUE);
+        std::cout << "only one upper case character 'F' or 'M'";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> gender;
+        flag = Auth::genderAuth(e, gender);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
+
+    if(type == 1)
+    {
+        flag = false;
+        int day, month, year;
+        while(!flag)
+        {
+            setColor(C_WHITE);
+            std::cout << "Enter birth day:\nEnter day (";
+            setColor(C_BLUE);
+            std::cout << "1-31";
+            setColor(C_WHITE);
+            std::cout << "):\n";
+            std::cin >> day;
+            std::cout << "Enter month (";
+            setColor(C_BLUE);
+            std::cout << "1-12";
+            setColor(C_WHITE);
+            std::cout << "):\n";
+            std::cin >> month;
+            std::cout << "Enter year (";
+            setColor(C_BLUE);
+            std::cout << "1900 - 2006";
+            setColor(C_WHITE);
+            std::cout << "):\n";
+            flag = Auth::dateAuth(e, day, month, year);
+            if(!flag)
+            {
+                setColor(C_RED);
+                std::cout << e << '\n';
+            }
+        }
+    }
+    system("cls");
+    if(type == 1)
+    {
+        setColor(C_GREEN);
+        std::cout << "Manager created successfully!\n";
+    }
+    else
+    {
+        setColor(C_GREEN);
+        std::cout << "Player created successfully!\n";
+    }
+
+    // לשלוח לפונקציה שדור יכין את נתוני ההרשמה של המשתמש לממסד הנתונים
 }
 
 std::string ui::login()
 {
+    system("cls");
+    setColor(C_PURPLE);
     std::cout << "To login you need to enter ID and password:\n";\
     while(true)
     {
@@ -68,37 +236,62 @@ std::string ui::login()
         std::string pass;
         std::string msg;
 
+        setColor(C_WHITE);
         std::cout << "Enter your ID:\n";
         std::cin >> id;
 
         std::cout << "Enter your password:\n;";
         std::cin >> pass;
 
-        if (!Auth::login(id, pass, msg, db))
-        {
-            std::cout << msg; //bad input.
-            continue;
-        }
-        else
-        {
-            std::cout << msg; //successfully login.
-            return id;
-        }
+//        if (!Auth::login(id, pass, msg, db))
+//        {
+//            setColor(C_RED);
+//            std::cout << msg; //bad input.
+//            continue;
+//        }
+//        else
+//        {
+//            setColor(C_GREEN);
+//            std::cout << msg; //successfully login.
+//            return id;
+//        }
     }
 }
 
 void ui::playerPanel()
 {
+    system("cls");
+    setColor(C_PURPLE);
     std::cout << "WELCOME " << "name\n"; //להוסיף את שם המשתמש מממסד הנתונים
     int option = 0;
     while(option < 1 || option > 4)
     {
-        std::cout << "Menu:\nBook field - enter 1\nCancel field - enter 2\nCalendar - enter 3\nEdit profile - enter 4\n";
+        setColor(C_L_BLUE);
+        std::cout << "Menu:\n";
+        setColor(C_WHITE);
+        std::cout << "Book field -";
+        setColor(C_BLUE);
+        std::cout << "enter 1.\n";
+        setColor(C_WHITE);
+        std::cout << "Cancel field -";
+        setColor(C_BLUE);
+        std::cout << "enter 2.\n";
+        setColor(C_WHITE);
+        std::cout << "Calendar -";
+        setColor(C_BLUE);
+        std::cout << "enter 3.\n";
+        setColor(C_WHITE);
+        std::cout << "Edit profile -";
+        setColor(C_BLUE);
+        std::cout << "enter 4.\n";
         std::cin >> option;
         if(option < 1 || option > 4)
+        {
+            setColor(C_RED);
             std::cout << "invalid value\n";
+        }
     }
-
+    setColor(C_WHITE);
     enum menuOptions {bookF = 1, cancelF, cal, edit};
 
     switch (option)
@@ -129,6 +322,7 @@ void ui::playerPanel()
 // להמשיך מהצגת רשימת המשחקים המתאימים לבחירתי
 void ui::bookField()
 {
+    system("cls");
     std::cout << "Book Field:\n";
     int sportOption = 0;
     while(sportOption < 1 || sportOption > 4)
@@ -159,6 +353,7 @@ void ui::bookField()
 
 void ui::cancelField()
 {
+    system("cls");
     std::cout << "Cancel Field:\nMy Reservation:\n";
 
     //רשימה ממוספרת של כל ההזמנות של השחקן
@@ -174,6 +369,7 @@ void ui::cancelField()
 
 void ui::calendar()
 {
+    system("cls");
     std::cout << "Calendar:\nMy Schedule:\n";
 
     //רשימת\פןרמט לוח שנה של ההזמנות של השחקן עבור השבוע הקרוב בסדר כרונולוגי.
@@ -182,6 +378,7 @@ void ui::calendar()
 
 void ui::editProfile()
 {
+    system("cls");
     std::cout << "Edit Your Profile:\n";
     int editOption = 0;
 
@@ -196,7 +393,7 @@ void ui::editProfile()
             std::cout << "invalid value\n";
     }
 
-    enum editOptions {pass = 1, fName, Lname, phone, gen};
+    enum editOptions {pass = 1, fName, lName, phone, gen};
 
     switch (editOption)
     {
@@ -208,7 +405,7 @@ void ui::editProfile()
         {
             break;
         }
-        case Lname:
+        case lName:
         {
             break;
         }
@@ -225,7 +422,5 @@ void ui::editProfile()
             break;
         }
     }
-
-
 
 }
