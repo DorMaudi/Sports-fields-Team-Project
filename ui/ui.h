@@ -7,14 +7,30 @@
 
 #include <iostream>
 #include <string>
+#include <windows.h>
 #include "Auth.h"
+
+
+#define C_WHITE 15
+#define C_RED 12
+#define C_GREEN 10
+#define C_YELLOW 14
+#define C_BLUE 9
+#define C_PURPLE 13
+#define C_L_BLUE 11
+
+static HANDLE consoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
+
+static void setColor(int color)
+{
+    SetConsoleTextAttribute(consoleColor,color);
+}
 
 class ui {
 public:
     static int welcomeScreen();
     static int registration();
-    static void managerRegistration();
-    static void playerRegistration();
+    static void registrationProcess(int type);
     static std::string login();
     static void playerPanel();
     static void managerPanel();
