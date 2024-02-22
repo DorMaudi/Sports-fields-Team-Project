@@ -13,12 +13,15 @@ class ui {
 public:
     static int welcomeScreen();
     static int registration();
-    static bool managerRegistration();
-    static bool playerRegistration();
+    static void managerRegistration();
+    static void playerRegistration();
     static std::string login();
     static void playerPanel();
     static void managerPanel();
     static void bookField();
+    static void cancelField();
+    static void calendar();
+    static void editProfile();
 
 
 
