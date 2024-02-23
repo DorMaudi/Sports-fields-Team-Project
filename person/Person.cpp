@@ -5,8 +5,8 @@
 #include "Person.h"
 #include <regex>
 
-Person::Person(std::string ID, std::string password, std::string firstName, std::string lastName, std::string phoneNumber, char gender)
-: ID(std::move(ID)) , password(std::move(password)) , f_name(std::move(firstName)) , l_name(std::move(lastName)) , phoneNumber(std::move(phoneNumber)) , gender(gender)
+Person::Person(std::string ID, std::string password, std::string firstName, std::string lastName, int phoneNumber, char gender)
+: ID(std::move(ID)) , password(std::move(password)) , f_name(std::move(firstName)) , l_name(std::move(lastName)) , phoneNumber(phoneNumber) , gender(gender)
 {
     setID(ID);
     setPassword(password);
@@ -32,7 +32,7 @@ std::string Person::getLastName() const {
     return l_name;
 }
 
-std::string Person::getPhoneNumber() const {
+int Person::getPhoneNumber() const {
     return phoneNumber;
 }
 
@@ -43,7 +43,7 @@ char Person::getGender() const {
 void Person::setID(const std::string& ID) {
     if (isValidID(ID)) {
         this->ID = ID;
-    }
+    }//must check maybe need to change it to "int"
 }
 
 void Person::setPassword(const std::string& password) {
@@ -60,7 +60,7 @@ void Person::setLastName(const std::string& lastName) {
     this->l_name = lastName;
 }
 
-void Person::setPhoneNumber(const std::string& phoneNumber) {
+void Person::setPhoneNumber(int& phoneNumber) {
     if (isValidPhoneNumber(phoneNumber)) {
         this->phoneNumber = phoneNumber;
     }
@@ -82,9 +82,12 @@ bool Person::isValidPassword(const std::string& password) {
     return (password.length() >= 8) && (password.find(' ') == std::string::npos);
 }
 
-bool Person::isValidPhoneNumber(const std::string& phoneNumber) {
+bool Person::isValidPhoneNumber(const int& phoneNumber) {
+    // Convert phoneNumber to string for regex matching
+    std::string phoneNumberStr = std::to_string(phoneNumber);
+
     // Check if phone number has valid format 05xxxxxxxxx
-    return std::regex_match(phoneNumber, std::regex("05\\d{9}"));
+    return std::regex_match(phoneNumberStr, std::regex("05\\d{9}"));
 }
 
 bool Person::isValidGender(char gender) {
