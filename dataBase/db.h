@@ -40,7 +40,7 @@ public:
     // getFunctions.
     int getNumOfUsers() const { return this->numOfUserFiles; }
     int getNumOfFields() const { return this->numOfUserFiles; }
-    const std::vector<Person*> getPersonArr() const { return this->personArr; }
+    std::vector<Person*> getPersonArr() const { return this->personArr; }
     // const Field* getFieldArr() const { return this->fieldsArr; }
 
 private:

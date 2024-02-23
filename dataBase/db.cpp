@@ -140,9 +140,11 @@ void db::commitToDisk()
             {
                 iFile << "type: " << userType << '\n'
                       << "id: " << p->getID() << '\n'
-                      << "id: " << p->getID() << '\n'
-                      << "id: " << p->getID() << '\n'
-                      << "id: " << p->getID() << '\n';
+                      << "pass: " << p->getID() << '\n'
+                      << "name: " << p->getID() << '\n'
+                      << "l_name: " << p->getID() << '\n'
+                      << "phone: " << p->getID() << '\n'
+                      << "gender: " << p->getID() << '\n';
                 break;
             }
             default:

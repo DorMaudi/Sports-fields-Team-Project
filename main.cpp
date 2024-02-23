@@ -11,5 +11,4 @@ int main() {
     // load every user and field from the db.
     dataBase.init();
 
-    return 0;
-}
+return 0;
