@@ -8,14 +8,14 @@ db::db()
 : numOfUserFiles(0), numOfFieldFiles(0)
 {
     // using winApi to fetch abs path for each database folder.
-    WCHAR buffer[MAX_PATH];
-    GetFullPathNameW(L"dataBase", MAX_PATH, buffer, nullptr); // set buffer to path.
+    TCHAR buffer[MAX_PATH];
+    GetFullPathNameA("dataBase", MAX_PATH, buffer, nullptr); // set buffer to path.
 
-    std::wstring basePath = buffer;
-    basePath.erase(basePath.find(L"\\Sports-fields-Team-Project\\", 0));
+    std::string basePath = buffer;
+    basePath.erase(basePath.find("\\Sports-fields-Team-Project\\", 0));
 
-    this->userPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\users";
-    this->fieldsPath = basePath + L"\\Sports-fields-Team-Project\\dataBase\\fields";
+    this->userPath = basePath + R"(\Sports-fields-Team-Project\dataBase\users)";
+    this->fieldsPath = basePath + R"(\Sports-fields-Team-Project\dataBase\fields)";
 }
 
 db::~db()
@@ -63,12 +63,12 @@ void db::init()
         {
             case PlayerType:
             {
-                this->personArr.push_back(new Players(id, password, name, lName, phone, gender));
+                this->personArr.push_back(new Player(id, password, name, lName, phone, gender));
                 break;
             }
             case ManagerType:
             {
-                this->personArr.push_back(new Manager(id, password, name, lName, phone, gender));
+                //this->personArr.push_back(new Manager(id, password, name, lName, phone, gender)); #####################################
                 break;
             }
             default:
@@ -228,19 +228,57 @@ void db::loadArrToMem(std::vector<std::string> &output, std::fstream &file)
     }
 }
 
-bool db::dbMakeUser() // add Player& newUser
+bool db::dbMakeUser(int type, std::string &id, std::string &password, std::string &firstName, std::string &lastName, std::string &phoneNumber, char gender, int day, int month, int year)
 {
     // creating a new user on file.
-    std::wstring newUser = this->userPath;
-    const wchar_t* wtNewUser = newUser.c_str();
-    //newUser.append("\\" + getUserID + ".txt"); //
+    std::string newUserPath = this->userPath;
+    newUserPath += ("\\" + id + ".txt");
     std::fstream newUserData;
+    newUserData.open(newUserPath, std::ios::out);
 
-    if (!newUserData.bad())
+    // create user on disk & on mem.
+    switch (type)
     {
-        newUserData.open(wtNewUser, std::ios::out);
-        //newUserData << "id: " + this->userId + '\n' + "pass: " + this->password + '\n' + "age: 18\n" + "gender: " + this->gender + '\n';
-        newUserData.close();
+        case DB_USER_TYPE_PLAYER:
+        {
+            if (!newUserData.bad())
+            {
+                newUserData << "type: " << type << '\n'
+                            << "id: " + id + '\n'
+                            << "pass: " + password + '\n'
+                            << "name: " + firstName + '\n'
+                            << "l_name: " + lastName + '\n'
+                            << "phone: " + phoneNumber + '\n'
+                            << "gender: " << gender << '\n';
+                newUserData.close();
+            }
+            this->personArr.push_back(new Player(id, password, firstName, lastName, phoneNumber, gender));
+            this->numOfUserFiles += 1;
+            break;
+        }
+        case DB_USER_TYPE_MANGER:
+        {
+            if (!newUserData.bad())
+            {
+                newUserData << "type: " << type << '\n'
+                            << "id: " + id + '\n'
+                            << "pass: " + password + '\n'
+                            << "name: " + firstName + '\n'
+                            << "l_name: " + lastName + '\n'
+                            << "phone: " + phoneNumber + '\n'
+                            << "gender: " << gender << '\n'
+                            << "b_day: " << day << '/' << month << '/' << year << '\n';
+                newUserData.close();
+            }
+            //this->personArr.push_back(new Manager(id, password, firstName, lastName, phoneNumber, gender)); #######################
+            this->numOfUserFiles += 1;
+            break;
+        }
+        default:
+        {
+            std::cerr << "bad user type input!!!\n";
+            return false;
+        }
     }
     return true;
 }

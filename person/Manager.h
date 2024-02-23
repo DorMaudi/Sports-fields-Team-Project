@@ -4,25 +4,27 @@
 
 #ifndef SPORTS_FIELDS_TEAM_PROJECT_MANAGER_H
 #define SPORTS_FIELDS_TEAM_PROJECT_MANAGER_H
+
 #include "Person.h"
-#include "vector" // make its in arr
+#include <vector> // make its in arr
+#include "date.h"
 
 class Manager : public Person {
 private:
-    std::string B_date; // להוסיף מימוש ליום הולדת
+    date* B_date;
 
     //std::vector<std::vector<std::string>> orders; // Array of orders (pitches with player names by date-time)
 
 public:
-    Manager(const std::string &id, const std::string &password, const std::string &firstName, const std::string &lastName,
-            const std::string &phoneNumber, char gender,const std::string B_date);
+    Manager(std::string &id, std::string &password, std::string &firstName, std::string &lastName, std::string &phoneNumber, char gender, date* B_date);
+    ~Manager() { delete B_date; }
 
-    void setBirthday(std::string _birthday);
+    void setBirthday(int day, int month, int year) { this->B_date = new date(day, month, year); }
 
-    std::string getBirthday();
-/*void addOrder(const std::vector<std::string> &feildOrder);  //Look at the format string may be change to feilds and time
+    date getBirthday() { return *B_date; }
+/*void addOrder(const std::vector<std::string> &feildOrder);  //Look at the format string may be changed to fields and time
     void displayOrders();*/
-    /*void addOrder(const std::vector<std::string> &feildOrder);  //Look at the format string may be change to feilds and time
+    /*void addOrder(const std::vector<std::string> &feildOrder);  //Look at the format string may be changed to fields and time
     void displayOrders();*/
 };
 

@@ -12,11 +12,12 @@ add_executable(Sports_fields_Team_Project main.cpp
         Auth/Auth.h
         Auth/date.cpp
         Auth/date.h
-        person/Players.cpp
-        person/Players.h
         person/Manager.cpp
         person/Manager.h
+        ui/ui.cpp
+        ui/ui.h
+        person/Player.cpp
+        person/Player.h
         person/Person.cpp
         person/Person.h
-        ui/ui.cpp
-        ui/ui.h)
+)
