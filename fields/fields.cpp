@@ -5,7 +5,6 @@
 #include "fields.h"
 
 
-
 fields::fields(std::string name, std::string city, std::string sportType,
                std::string description, reservation *res, std::string *reviews, bool accessible, int counter)
         : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), description(std::move(description)), res(res), reviews(reviews),
