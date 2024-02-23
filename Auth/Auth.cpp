@@ -209,7 +209,7 @@ bool Auth::dateAuth(std::string &e, int day, int month, int year) {
     return true;
 }
 
-bool Auth::phonenumberAuth(std::string& e, std::string phonenumber) {
+bool Auth::phoneNumberAuth(std::string& e, std::string phonenumber) {
     // Check if phone number starts with '05'
     if (phonenumber[0] != '0' || phonenumber[1] != '5') {
         e = "Phone number should start with '05'";
