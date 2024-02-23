@@ -5,10 +5,19 @@
 #ifndef SPORTS_FIELDS_TEAM_PROJECT_DATE_H
 #define SPORTS_FIELDS_TEAM_PROJECT_DATE_H
 
+#include <string>
 
 class date {
+private:
+    int day;
+    int month;
+    int year;
+
 public:
-    static bool dateAuth (int day, int month, int year);
+
+    date(int day, int month, int year);
+
+    static bool dateAuth (int day, int month, int year, std::string& e);
 };
 
 

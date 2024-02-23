@@ -12,8 +12,12 @@
 #include <iostream>
 #include <fileapi.h>
 #include <vector>
+#include "Person.h"
+#include "Player.h"
 #include "Manager.h"
-#include "Players.h"
+
+#define DB_USER_TYPE_PLAYER 1
+#define DB_USER_TYPE_MANGER 2
 
 class db {
 
@@ -30,7 +34,10 @@ public:
     void commitToDisk(); // commits all from mem into disk.
 
     // create user / field on db.
-    bool dbMakeUser(); // get Player& here.
+    // take player args and makes a new player on mem & on disk.
+    bool dbMakeUser(int type, std::string &id, std::string &password, std::string &firstName,
+                    std::string &lastName, std::string &phoneNumber, char gender,
+                    int day = 0, int month = 0, int year = 0);
     bool dbMakeField();
 
     // delete user / field on db.
@@ -46,8 +53,8 @@ public:
 private:
 
     // set here the path to db folders.
-    std::wstring userPath;
-    std::wstring fieldsPath;
+    std::string userPath;
+    std::string fieldsPath;
     std::vector<Person*> personArr;
     //std::vector<Fields*> fieldArr;
     int numOfUserFiles;
