@@ -20,6 +20,7 @@ public:
 
     void bookPitch(const std::string &feildName, const std::string &dateTime); //maybe need to change "date &dateTime" instead of string
     void displayBookings();
+    void deleteOrder(); //להוסיף מימוש של מחיקת הזמנה ממערך ההזמנות וסידור של המערך מחדש
 };
 
 
