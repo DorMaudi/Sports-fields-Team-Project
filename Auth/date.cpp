@@ -6,7 +6,7 @@
 
 bool date::dateAuth(int day, int month, int year) {
     // Basic validation for month and year (assuming Gregorian calendar)
-    if (year < 0) {
+    if (year < 1900) {
         // Invalid year
         return false;
     }
