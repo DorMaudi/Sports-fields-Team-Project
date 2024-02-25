@@ -18,6 +18,10 @@ public:
     date(int day, int month, int year);
 
     static bool dateAuth (int day, int month, int year, std::string& e);
+
+    int getDay() const { return day; }
+    int getMonth() const { return month; }
+    int getYear() const { return year; }
 };
 
 

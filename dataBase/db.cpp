@@ -11,12 +11,17 @@ db::db()
     TCHAR buffer[MAX_PATH];
     GetFullPathNameA("dataBase", MAX_PATH, buffer, nullptr); // set buffer to path.
 
-    std::string basePath = buffer;
+    this->basePath = buffer;
     basePath.erase(basePath.find("\\Sports-fields-Team-Project\\", 0));
 
     this->userPath = basePath + R"(\Sports-fields-Team-Project\dataBase\users)";
     this->fieldsPath = basePath + R"(\Sports-fields-Team-Project\dataBase\fields)";
     this->reservationsPath = basePath + R"(\Sports-fields-Team-Project\dataBase\reservations)";
+
+    std::fstream iFile;
+    iFile.open(basePath + R"(\Sports-fields-Team-Project\dataBase\reservation_tracker.txt)", std::ios::in);
+    loadIntToMem(reservationIdTracker, iFile);
+    iFile.close();
 }
 
 db::~db()
@@ -27,6 +32,24 @@ db::~db()
         delete this->personArr.back();
         this->personArr.pop_back();
     }
+
+    while (!this->fieldsArr.empty())
+    {
+        delete this->fieldsArr.back();
+        this->fieldsArr.pop_back();
+    }
+
+    while (!this->reservationArr.empty())
+    {
+        delete this->reservationArr.back();
+        this->reservationArr.pop_back();
+    }
+
+    std::fstream iFile;
+    iFile.open(basePath + R"(\Sports-fields-Team-Project\dataBase\reservation_tracker.txt)", std::ios::out | std::ios::trunc);
+    iFile << "id: " << this->reservationIdTracker << '\n';
+    iFile.close();
+
 }
 
 void db::init()
@@ -48,7 +71,6 @@ void db::init()
         std::string lName;
         std::string phone;
         char gender = 'A';
-        //std::vector<std::string> vecUser;
 
         // args for manager.
         int day, month, year;
@@ -60,7 +82,7 @@ void db::init()
         loadStringToMem(lName, myFile);
         loadStringToMem(phone, myFile);
         loadCharToMem(gender, myFile);
-        //loadArrToMem(vecUser, myFile);
+
         loadIntToMem(day, myFile);
         loadIntToMem(month, myFile);
         loadIntToMem(year, myFile);
@@ -96,14 +118,26 @@ void db::init()
         myFile.open(curFile.path());
 
         // set fields into here.
-        //std::string name;
-        //std::string city;
+        std::string name;
+        std::string city;
+        std::string sportType;
+        std::string ownerId;
+        std::string description;
+        std::string reviews;
+        int accessible;
+        int reservationCounter;
 
-        //loadStringToMem(name, myFile);
-        //loadStringToMem(name, myFile);
+        loadStringToMem(name, myFile);
+        loadStringToMem(city, myFile);
+        loadStringToMem(sportType, myFile);
+        loadStringToMem(ownerId, myFile);
+        loadStringToMem(description, myFile);
+        loadStringToMem(reviews, myFile);
+        loadIntToMem(accessible, myFile);
+        loadIntToMem(reservationCounter, myFile);
 
-        // call fields ctor here.
-
+        // call fields ctor and add into fields vector.
+        this->fieldsArr.push_back(new fields(name, city, sportType, ownerId, description, reviews, accessible, reservationCounter));
 
         ++this->numOfFieldFiles;
         myFile.close();
@@ -116,19 +150,27 @@ void db::init()
         myFile.open(curFile.path());
 
         // set fields into here.
-        //std::string name;
-        //std::string city;
+        std::string id;
+        std::string userId;
+        std::string fieldName;
+        int day, month, year;
+        std::string time;
 
-        //loadStringToMem(name, myFile);
-        //loadStringToMem(name, myFile);
+        loadStringToMem(id, myFile);
+        loadStringToMem(userId, myFile);
+        loadStringToMem(fieldName, myFile);
+        loadIntToMem(day, myFile);
+        loadIntToMem(month, myFile);
+        loadIntToMem(year, myFile);
 
         // call fields ctor here.
-
+        this->reservationArr.push_back(new reservation(id, userId, fieldName, time, day, month, year));
 
         ++this->numOfReservations;
         myFile.close();
     }
     std::cout << "Loaded " << this->numOfReservations << " reservations into mem" << '\n';
+    std::cout << "Id Tracker " << this->reservationIdTracker << '\n';
     //system("cls");
 }
 
@@ -136,20 +178,22 @@ void db::commitToDisk()
 {
     // save changes to disk.
     std::string tempId;
+    std::string tempName;
     std::fstream iFile;
     int userType = 0;
 
     enum userType {typePlayer = 1, typeManager};
 
-    while (!this->personArr.empty())
+    for (int i = 0; i < this->numOfUserFiles; ++i)
     {
+
         auto p = this->personArr.back();
         tempId = p->getID();
         if (typeid(p) == typeid(Manager))
-            userType = 2;
+            userType = DB_USER_TYPE_MANGER;
         else
-            userType = 1;
-        iFile.open(this->userPath.c_str(), std::ios::out | std::ios::trunc);
+            userType = DB_USER_TYPE_PLAYER;
+        iFile.open(this->userPath + "\\" + tempId + ".txt", std::ios::out | std::ios::trunc);
 
         switch (userType)
         {
@@ -161,24 +205,63 @@ void db::commitToDisk()
                         << "name: " << p->getFirstName() << '\n'
                         << "l_name: " << p->getLastName() << '\n'
                         << "phone: " << p->getPhoneNumber() << '\n'
-                        << "gender: " << p->getGender() << '\n'
-                        << "reservations: " << p->getID() << '\n'; // call function here!
+                        << "gender: " << p->getGender() << '\n';
                 break;
             }
             case typeManager:
             {
+                auto pManager = (Manager*)p;
                 iFile << "type: " << userType << '\n'
                       << "id: " << p->getID() << '\n'
-                      << "pass: " << p->getID() << '\n'
-                      << "name: " << p->getID() << '\n'
-                      << "l_name: " << p->getID() << '\n'
-                      << "phone: " << p->getID() << '\n'
-                      << "gender: " << p->getID() << '\n';
+                      << "pass: " << p->getPassword() << '\n'
+                      << "name: " << p->getFirstName() << '\n'
+                      << "l_name: " << p->getLastName() << '\n'
+                      << "phone: " << p->getPhoneNumber() << '\n'
+                      << "gender: " << p->getGender() << '\n'
+                      << "day: " << pManager->getBirthday()->getDay() << '\n'
+                      << "month: " << pManager->getBirthday()->getMonth() << '\n'
+                      << "year: " << pManager->getBirthday()->getYear() << '\n';
                 break;
             }
             default:
                 std::cout << "DB Error!\n";
         }
+        iFile.close();
+    }
+
+    for (int i = 0; i < this->numOfFieldFiles; ++i)
+    {
+
+        auto p = this->fieldsArr.back();
+        tempName = p->getName();
+        iFile.open(this->fieldsPath + "\\" + tempName + ".txt", std::ios::out | std::ios::trunc);
+
+        iFile << "name: " << p->getName() << '\n'
+              << "city: " << p->getCity() << '\n'
+              << "sportType: " << p->getSportType() << '\n'
+              << "ownerId: " << p->getOwnerId() << '\n'
+              << "description: " << p->getDescription() << '\n' // add description parser.
+              << "reviews: " << p->getReviews() << '\n' // add reviews parser.
+              << "accessible: " << p->isAccessible() << '\n'
+              << "resCounter: " << p->getReservationCounter() << '\n';
+
+        iFile.close();
+    }
+
+    for (int i = 0; i < this->numOfReservations; ++i) {
+
+        auto p = this->reservationArr.back();
+        tempId = p->getId();
+        iFile.open(this->reservationsPath + "\\" + tempId + ".txt", std::ios::out | std::ios::trunc);
+
+        iFile << "resId: " << p->getId() << '\n'
+              << "userId: " << p->getIdPlayer() << '\n'
+              << "fieldName: " << p->getFieldName() << '\n'
+              << "day: " << p->getDate().getDay() << '\n'
+              << "month: " << p->getDate().getMonth() << '\n' // add description parser.
+              << "year: " << p->getDate().getYear() << '\n' // add reviews parser.
+              << "time: " << p->getTime() << '\n';
+        iFile.close();
     }
 }
 
