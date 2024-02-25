@@ -33,7 +33,7 @@ public:
     static void registrationProcess(int type, db& db);
     static std::string login(db& db);
     static void playerPanel(db& db, std::string& id);
-    static void managerPanel();
+    static void managerPanel(db& db, std::string& id);
     static void bookField();
     static void cancelField();
     static void calendar();
