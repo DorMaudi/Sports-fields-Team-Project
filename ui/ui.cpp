@@ -58,7 +58,7 @@ int ui::registration()
     return input;
 }
 
-void ui::registrationProcess(int type)
+void ui::registrationProcess(int type, db& db)
 {
     system("cls");
     setColor(C_PURPLE);
@@ -151,7 +151,7 @@ void ui::registrationProcess(int type)
         setColor(C_WHITE);
         std::cout << "):\n";
         std::cin >> pNumber;
-        flag = Auth::phoneNumberAuth(e,pNumber);
+        flag = Auth::phonenumberAuth(e,pNumber);
         if(!flag)
         {
             setColor(C_RED);
@@ -178,10 +178,10 @@ void ui::registrationProcess(int type)
         }
     }
 
+    int day, month, year;
     if(type == 1)
     {
         flag = false;
-        int day, month, year;
         while(!flag)
         {
             setColor(C_WHITE);
@@ -213,19 +213,19 @@ void ui::registrationProcess(int type)
     system("cls");
     if(type == 1)
     {
+        db.dbMakeUser(DB_USER_TYPE_MANGER, id, password, fName, lName, pNumber, gender, day, month, year);
         setColor(C_GREEN);
         std::cout << "Manager created successfully!\n";
     }
     else
     {
+        db.dbMakeUser(DB_USER_TYPE_PLAYER, id, password, fName, lName, pNumber, gender);
         setColor(C_GREEN);
         std::cout << "Player created successfully!\n";
     }
-
-    // לשלוח לפונקציה שדור יכין את נתוני ההרשמה של המשתמש לממסד הנתונים
 }
 
-std::string ui::login()
+std::string ui::login(db& db)
 {
     system("cls");
     setColor(C_PURPLE);
@@ -243,56 +243,61 @@ std::string ui::login()
         std::cout << "Enter your password:\n;";
         std::cin >> pass;
 
-//        if (!Auth::login(id, pass, msg, db))
-//        {
-//            setColor(C_RED);
-//            std::cout << msg; //bad input.
-//            continue;
-//        }
-//        else
-//        {
-//            setColor(C_GREEN);
-//            std::cout << msg; //successfully login.
-//            return id;
-//        }
+        if (!Auth::login(id, pass, msg, db))
+        {
+            setColor(C_RED);
+            std::cout << msg; //bad input.
+            continue;
+        }
+        else
+        {
+            setColor(C_GREEN);
+            std::cout << msg; //successfully login.
+            return id;
+        }
     }
 }
 
-void ui::playerPanel()
+void ui::playerPanel(db& db, std::string& id)
 {
     system("cls");
     setColor(C_PURPLE);
-    std::cout << "WELCOME " << "name\n"; //להוסיף את שם המשתמש מממסד הנתונים
+    std::cout << "WELCOME " << "name\n"; ///////////////////////////////////////////////////////להוסיף את שם המשתמש מממסד הנתונים
     int option = 0;
-    while(option < 1 || option > 4)
+    while(option < 1 || option > 5)
     {
         setColor(C_L_BLUE);
         std::cout << "Menu:\n";
         setColor(C_WHITE);
-        std::cout << "Book field -";
+        std::cout << "Book field - ";
         setColor(C_BLUE);
         std::cout << "enter 1.\n";
         setColor(C_WHITE);
-        std::cout << "Cancel field -";
+        std::cout << "Cancel field - ";
         setColor(C_BLUE);
         std::cout << "enter 2.\n";
         setColor(C_WHITE);
-        std::cout << "Calendar -";
+        std::cout << "Calendar - ";
         setColor(C_BLUE);
         std::cout << "enter 3.\n";
         setColor(C_WHITE);
-        std::cout << "Edit profile -";
+        std::cout << "Edit profile - ";
         setColor(C_BLUE);
         std::cout << "enter 4.\n";
+        setColor(C_WHITE);
+        std::cout << "EXIT - ";
+        setColor(C_BLUE);
+        std::cout << "enter 5.\n";
         std::cin >> option;
-        if(option < 1 || option > 4)
+
+        if(option < 1 || option > 5)
         {
             setColor(C_RED);
             std::cout << "invalid value\n";
         }
     }
     setColor(C_WHITE);
-    enum menuOptions {bookFieldOption = 1, cancelFieldOption, calendarOption, editProfileOption};
+    enum menuOptions {bookFieldOption = 1, cancelFieldOption, calendarOption, editProfileOption, exitProgram};
 
     switch (option)
     {
@@ -306,11 +311,17 @@ void ui::playerPanel()
         }
         case calendarOption:
         {
+            //////////////////////////////////////////////////////////////////////////////////////////////////////
             break;
         }
         case editProfileOption:
         {
             editProfile();
+            break;
+        }
+        case exitProgram:
+        {
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////
             break;
         }
     }
@@ -449,7 +460,7 @@ void ui::editProfile()
         std::cout << "enter 5.\n";
         std::cin >> editOption;
 
-        if(editOption < 1 || editOption > 4)
+        if(editOption < 1 || editOption > 5)
         {
             setColor(C_RED);
             std::cout << "invalid value\n";
@@ -540,7 +551,7 @@ void ui::editProfile()
                 setColor(C_WHITE);
                 std::cout << "):\n";
                 std::cin >> pNumber;
-                flag = Auth::phoneNumberAuth(e,pNumber);
+                flag = Auth::phonenumberAuth(e,pNumber);
                 if(!flag)
                 {
                     setColor(C_RED);
@@ -572,4 +583,9 @@ void ui::editProfile()
             break;
         }
     }
+}
+
+void ui::managerPanel()
+{
+
 }
