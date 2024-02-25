@@ -74,8 +74,8 @@ bool Auth::genderAuth(std::string &e, char gender) {
 }
 
 bool Auth::dateAuth(std::string &e, int day, int month, int year) {
-    // Check if the provided birth date is valid
-    if (!date::dateAuth(day, month, year)) {
+    // Check if the provided birthdate is valid
+    if (!date::dateAuth(day, month, year, e)) {
         e = "Your birth date is invalid.";
         return false;
     }
@@ -83,7 +83,7 @@ bool Auth::dateAuth(std::string &e, int day, int month, int year) {
 }
 
 bool Auth::phonenumberAuth(std::string& e, std::string phonenumber) {
-    // Check if phone number starts with '05'
+    // Check if phone number starts with "05"
     if (phonenumber[0] != '0' || phonenumber[1] != '5') {
         e = "Phone number should start with '05'";
         return false;
