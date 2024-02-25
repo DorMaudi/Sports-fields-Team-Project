@@ -20,7 +20,7 @@ public:
   
     // Validates the ID and Passowrd
 
-    static bool idAuth(std::string &e, std::string ID);
+    static bool idAuth(std::string &e, std::string ID, db &database);
     // Validates the format of an ID, ensuring it has exactly 9 digits and contains only numeric characters.
 
     static bool passwordAuth(std::string& e, std::string password);
@@ -38,7 +38,7 @@ public:
     static bool dateAuth(std::string& e, int day, int month, int year);
     // Validates the format of a date input, ensuring it represents a valid date.
 
-    static bool phonenumberAuth(std::string& e, std::string phonenumber);
+    static bool phoneNumberAuth(std::string& e, std::string phonenumber);
     
     // Validates the format of a phone number, ensuring it starts with '05' and consists only of digits.
 
