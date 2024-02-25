@@ -1,0 +1,8 @@
+name: 
+city: 
+sportType: 
+ownerId: 
+description: 
+reviews: 
+accessible: 9
+resCounter: 0
