@@ -31,7 +31,7 @@ public:
     void setDate(const std::string &date);
     void setTime(const std::string &time);
 
-    bool validateDate(const std::string& dateStr);
+
 
 };
 

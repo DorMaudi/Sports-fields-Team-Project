@@ -5,7 +5,7 @@
 #include "fields.h"
 
 
-fields::fields(std::string name, std::string city, std::string sportType,
+fields::fields(std::string name, std::string city, std::string sportType, std::string ID_manager
                std::string description, reservation *res, std::string *reviews, bool accessible, int counter)
         : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), description(std::move(description)), res(res), reviews(reviews),
           reviews_counter=0,accessible(accessible), counter(counter) {}
@@ -20,6 +20,10 @@ const std::string &fields::getCity() const {
 
 const std::string &fields::getSportType() const {
     return sportType;
+}
+
+const std::string &fields::getID_manager() const {
+    return ID_manager;
 }
 
 const std::string &fields::getDescription() const {
