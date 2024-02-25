@@ -77,7 +77,7 @@ void ui::registrationProcess(int type, db& db)
         setColor(C_WHITE);
         std::cout << "):\n";
         std::cin >> id;
-        flag = Auth::idAuth(e,id);
+        flag = Auth::idAuth(e,id,db);
         if(!flag)
         {
             setColor(C_RED);
@@ -153,7 +153,7 @@ void ui::registrationProcess(int type, db& db)
         setColor(C_WHITE);
         std::cout << "):\n";
         std::cin >> pNumber;
-        flag = Auth::phonenumberAuth(e,pNumber);
+        flag = Auth::phoneNumberAuth(e,pNumber);
         if(!flag)
         {
             setColor(C_RED);
@@ -553,7 +553,7 @@ void ui::editProfile()
                 setColor(C_WHITE);
                 std::cout << "):\n";
                 std::cin >> pNumber;
-                flag = Auth::phonenumberAuth(e,pNumber);
+                flag = Auth::phoneNumberAuth(e,pNumber);
                 if(!flag)
                 {
                     setColor(C_RED);
