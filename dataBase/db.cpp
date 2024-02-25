@@ -5,7 +5,7 @@
 #include "db.h"
 
 db::db()
-: numOfUserFiles(0), numOfFieldFiles(0)
+: numOfUserFiles(0), numOfFieldFiles(0), numOfReservations(0)
 {
     // using winApi to fetch abs path for each database folder.
     TCHAR buffer[MAX_PATH];
@@ -16,6 +16,7 @@ db::db()
 
     this->userPath = basePath + R"(\Sports-fields-Team-Project\dataBase\users)";
     this->fieldsPath = basePath + R"(\Sports-fields-Team-Project\dataBase\fields)";
+    this->reservationsPath = basePath + R"(\Sports-fields-Team-Project\dataBase\reservations)";
 }
 
 db::~db()
@@ -39,13 +40,18 @@ void db::init()
         myFile.open(curFile.path(), std::ios::in);
 
         int type = 0;
+
+        // args for player.
         std::string id;
         std::string password;
         std::string name;
         std::string lName;
         std::string phone;
         char gender = 'A';
-        std::vector<std::string> vecUser;
+        //std::vector<std::string> vecUser;
+
+        // args for manager.
+        int day, month, year;
 
         loadIntToMem(type, myFile);
         loadStringToMem(id, myFile);
@@ -54,7 +60,10 @@ void db::init()
         loadStringToMem(lName, myFile);
         loadStringToMem(phone, myFile);
         loadCharToMem(gender, myFile);
-        loadArrToMem(vecUser, myFile);
+        //loadArrToMem(vecUser, myFile);
+        loadIntToMem(day, myFile);
+        loadIntToMem(month, myFile);
+        loadIntToMem(year, myFile);
 
         // use user ctor here.
         enum userType {PlayerType = 1, ManagerType};
@@ -68,7 +77,7 @@ void db::init()
             }
             case ManagerType:
             {
-                //this->personArr.push_back(new Manager(id, password, name, lName, phone, gender)); #####################################
+                this->personArr.push_back(new Manager(id, password, name, lName, phone, gender, new date(day, month, year)));
                 break;
             }
             default:
@@ -100,6 +109,26 @@ void db::init()
         myFile.close();
     }
     std::cout << "Loaded " << this->numOfFieldFiles << " fields into mem" << '\n';
+
+    // create reservations using reservationCtor.
+    for (const auto& curFile : std::filesystem::directory_iterator(this->reservationsPath))
+    {
+        myFile.open(curFile.path());
+
+        // set fields into here.
+        //std::string name;
+        //std::string city;
+
+        //loadStringToMem(name, myFile);
+        //loadStringToMem(name, myFile);
+
+        // call fields ctor here.
+
+
+        ++this->numOfReservations;
+        myFile.close();
+    }
+    std::cout << "Loaded " << this->numOfReservations << " reservations into mem" << '\n';
     //system("cls");
 }
 

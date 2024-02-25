@@ -5,8 +5,9 @@
 #include "reservation.h"
 
 reservation::reservation(const std::string& ID_player_, const std::string& fieldName_, const std::string& reservationDate,
-                         const std::string& reservationTime) {
-}
+                         const std::string& reservationTime, int day, int month, int year)
+                         : date(day, month, year)
+                         {}
 
 const std::string &reservation::getIdPlayer() const {
     return ID_player;

@@ -20,7 +20,7 @@ private:
 
 public:
     reservation(const std::string& ID_player_, const std::string& fieldName_, const std::string& reservationDate,
-                const std::string& reservationTime);
+                const std::string& reservationTime, int day, int month, int year);
 
     const std::string &getIdPlayer() const;
     const std::string &getFieldName() const;
