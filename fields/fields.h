@@ -5,12 +5,11 @@
 #ifndef SPORTS_FIELDS_TEAM_PROJECT_FIELDS_H
 #define SPORTS_FIELDS_TEAM_PROJECT_FIELDS_H
 
-#include <string>
+#include "stringh"
 #include "reservation.h"
 
 class fields {
 private:
-
     std::string name;
     std::string city;
     std::string sportType;
@@ -23,31 +22,32 @@ private:
     int fieldsCounter;
 
 public:
-    fields(std::string name, std::string city, std::string sportType, std::string ID_manager,
-           std::string description, reservation *res, std::string *reviews, int reviews_counter, bool accessible, int fieldsCounter);
+    fields(std::string name, std::string city, std::string sportType, std::string ID_manager
+           std::string description, reservation *res, std::string *reviews, bool accessible, int counter);
 
     const std::string &getName() const;
     const std::string &getCity() const;
     const std::string &getSportType() const;
-    const std::string &getIdManager() const;
+    const std::string &ID_manager() const;
     const std::string &getDescription() const;
     reservation *getRes() const;
     std::string *getReviews() const;
-    int getReviewsCounter() const;
+    int getReviewsCounter(); const
     bool isAccessible() const;
     int getFieldsCounter() const;
+
+
 
     void setName(const std::string &name);
     void setCity(const std::string &city);
     void setSportType(const std::string &sportType);
-    void setIdManager(const std::string &idManager);
     void setDescription(const std::string &description);
     void setRes(reservation *res);
     void setReviews(std::string *reviews);
-    void setReviewsCounter(int reviewsCounter);
     void setAccessible(bool accessible);
-    void setFieldsCounter(int fieldsCounter);
+    void setCounter(int counter);
 
+    void addReviews(std::string rev);
 
 
 };
