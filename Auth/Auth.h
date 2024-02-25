@@ -7,36 +7,34 @@
 #include "date.h"
 #include <iostream>
 #include <cctype>
+#include <vector>
 
 class Auth {
 private:
-    int PhoneNumber;
-    char Gender;
-    std::string Password,ID,F_Name,L_Name,B_Date;
+    //std::vector<Person*> personArr; unused
 public:
-    static bool login (const std::string ID, const std::string Password, std::string &Message, db datebase);
+    static bool login (const std::string ID, const std::string Password, std::string &Message, db &dataBase);
+    // Validates the ID and Passowrd
 
-    bool Register ();
-
-    bool idAuth(std::string &e, std::string ID);
+    static bool idAuth(std::string &e, std::string ID);
     // Validates the format of an ID, ensuring it has exactly 9 digits and contains only numeric characters.
 
-    bool passwordAuth(std::string& e, std::string password);
+    static bool passwordAuth(std::string& e, std::string password);
     // Validates the length of a password, ensuring it meets the required length criteria.
 
-    bool firstNameAuth(std::string& e, std::string name);
+    static bool firstNameAuth(std::string& e, std::string name);
     // Validates the format of a first name, ensuring it contains only alphabetic characters.
 
-    bool lastNameAuth(std::string& e, std::string name);
+    static bool lastNameAuth(std::string& e, std::string name);
     // Validates the format of a last name, ensuring it contains only alphabetic characters.
 
-    bool genderAuth(std::string& e, char gender);
+    static bool genderAuth(std::string& e, char gender);
     // Validates the format of a gender input, ensuring it is either 'M' for male or 'F' for female.
 
-    bool dateAuth(std::string& e, int day, int month, int year);
+    static bool dateAuth(std::string& e, int day, int month, int year);
     // Validates the format of a date input, ensuring it represents a valid date.
 
-    bool phonenumberAuth(std::string& e, std::string phonenumber);
+    static bool phonenumberAuth(std::string& e, std::string phonenumber);
     // Validates the format of a phone number, ensuring it starts with '05' and consists only of digits.
 
 };
