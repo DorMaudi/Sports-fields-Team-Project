@@ -151,7 +151,7 @@ void ui::registrationProcess(int type)
         setColor(C_WHITE);
         std::cout << "):\n";
         std::cin >> pNumber;
-        flag = Auth::phoneNumberAuth(e,pNumber);
+        flag = Auth::phonenumberAuth(e,pNumber);
         if(!flag)
         {
             setColor(C_RED);
@@ -540,7 +540,7 @@ void ui::editProfile()
                 setColor(C_WHITE);
                 std::cout << "):\n";
                 std::cin >> pNumber;
-                flag = Auth::phoneNumberAuth(e,pNumber);
+                flag = Auth::phonenumberAuth(e,pNumber);
                 if(!flag)
                 {
                     setColor(C_RED);

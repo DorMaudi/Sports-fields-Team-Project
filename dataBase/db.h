@@ -52,11 +52,13 @@ public:
     std::vector<Person*> getPersonArr() const { return this->personArr; }
     std::vector<fields*> getFieldArr() const { return this->fieldsArr; }
     std::vector<reservation*> getReservationArr() const { return this->reservationArr; }
+    int getCurResId() const { return this->reservationIdTracker; }
 
 private:
 
     // set here the path to db folders.
     // paths to each db folder.
+    std::string basePath;
     std::string userPath;
     std::string fieldsPath;
     std::string reservationsPath;
@@ -70,6 +72,7 @@ private:
     int numOfUserFiles;
     int numOfFieldFiles;
     int numOfReservations;
+    int reservationIdTracker;
 
     // memory management static functions.
     static void loadStringToMem(std::string& output, std::fstream& file);

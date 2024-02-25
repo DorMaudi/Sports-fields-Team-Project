@@ -21,7 +21,7 @@ public:
 
     void setBirthday(int day, int month, int year) { this->B_date = new date(day, month, year); }
 
-    date getBirthday() { return *B_date; }
+    date* getBirthday() const { return B_date; }
 /*void addOrder(const std::vector<std::string> &feildOrder);  //Look at the format string may be changed to fields and time
     void displayOrders();*/
     /*void addOrder(const std::vector<std::string> &feildOrder);  //Look at the format string may be changed to fields and time
