@@ -12,5 +12,4 @@ int main() {
     dataBase.init();
 
     return 0;
-
 }
