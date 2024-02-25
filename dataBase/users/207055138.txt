@@ -5,4 +5,3 @@ name: Dor
 l_name: Maudi
 phone: 0556688846
 gender: M
-reservations: Abc,Hi,Six
