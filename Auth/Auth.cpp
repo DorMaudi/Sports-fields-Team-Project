@@ -23,7 +23,7 @@ bool Auth::idAuth(std::string &e, std::string ID, db &database) {
     int personArrSize = database.getNumOfUsers();
     for (int i = 0; i < personArrSize; ++i) {
         if (personArr[i]->getID() == ID) {
-            e = 'ID already exists';
+            e = "ID already exists";
             return false;
         }
     }
