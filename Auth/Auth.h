@@ -2,12 +2,12 @@
 #ifndef SPORTS_FIELDS_TEAM_PROJECT_AUTH_H
 #define SPORTS_FIELDS_TEAM_PROJECT_AUTH_H
 
-#include "db.h"
 #include <string>
-#include "date.h"
 #include <iostream>
 #include <cctype>
 #include <vector>
+#include "db.h"
+#include "date.h"
 
 class Auth {
 private:
@@ -35,6 +35,7 @@ public:
     // Validates the format of a date input, ensuring it represents a valid date.
 
     static bool phonenumberAuth(std::string& e, std::string phonenumber);
+    
     // Validates the format of a phone number, ensuring it starts with '05' and consists only of digits.
 
 };

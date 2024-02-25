@@ -4,15 +4,17 @@
 
 #include "date.h"
 
-bool date::dateAuth(int day, int month, int year) {
+bool date::dateAuth(int day, int month, int year, std::string& e) {
     // Basic validation for month and year (assuming Gregorian calendar)
-    if (year < 0) {
+    if (year < 1900) {
         // Invalid year
+        e = "invalid year.";
         return false;
     }
 
     if (month < 1 || month > 12) {
         // Invalid month
+        e = "invalid month.";
         return false;
     }
 
@@ -28,9 +30,14 @@ bool date::dateAuth(int day, int month, int year) {
     // Validate the day based on the number of days in the given month
     if (day < 1 || day > daysInMonth[month - 1]) {
         // Invalid day
+        e = "invalid day.";
         return false;
     }
 
     // Date is considered valid if it passes all validation checks
     return true;
 }
+
+date::date(int day, int month, int year)
+: day(day), month(month), year(year)
+{}

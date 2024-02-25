@@ -1,6 +1,7 @@
+
 #include "db.h"
 #include "Auth.h"
-#include <iostream> // Include for std::cout
+#include "ui.h"
 
 int main() {
 
