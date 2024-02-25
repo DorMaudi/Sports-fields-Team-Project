@@ -13,18 +13,21 @@
 class reservation {
 
 private:
+    std::string resId;
     std::string ID_player;
     std::string fieldName;
-    date date;
+    date resDate;
     std::string time;
 
 public:
-    reservation(const std::string& ID_player_, const std::string& fieldName_, const std::string& reservationDate,
-                const std::string& reservationTime);
+    reservation(const std::string id, const std::string& ID_player_, const std::string& fieldName_,
+                const std::string& reservationTime, int day, int month, int year);
 
+    const std::string &getId() const { return this->resId; }
     const std::string &getIdPlayer() const;
     const std::string &getFieldName() const;
     const std::string &getTime() const;
+    const date &getDate() const { return this->resDate; }
 
     void setIdPlayer(const std::string &idPlayer);
     void setFieldName(const std::string &fieldName);

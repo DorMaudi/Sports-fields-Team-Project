@@ -4,10 +4,9 @@
 
 #include "fields.h"
 
-fields::fields(std::string name, std::string city, std::string sportType, std::string ID_manager,
-               std::string description, reservation *res, std::string *reviews, int reviews_counter, bool accessible,
-               int fieldsCounter) {
-}
+fields::fields(std::string name, std::string city, std::string sportType, std::string ownerId, std::string description,
+               std::string reviews, bool accessible, int counter)
+               {}
 
 const std::string &fields::getName() const {
     return name;
@@ -21,32 +20,25 @@ const std::string &fields::getSportType() const {
     return sportType;
 }
 
-const std::string &fields::getIdManager() const {
-    return ID_manager;
+const std::string &fields::getOwnerId() const {
+    return ownerId;
 }
 
 const std::string &fields::getDescription() const {
     return description;
 }
 
-reservation *fields::getRes() const {
-    return res;
-}
-
-std::string *fields::getReviews() const {
+std::string fields::getReviews() const {
     return reviews;
 }
 
-int fields::getReviewsCounter() const {
-    return reviews_counter;
-}
 
 bool fields::isAccessible() const {
-    return accessible;
+    return this->accessible;
 }
 
-int fields::getFieldsCounter() const {
-    return fieldsCounter;
+int fields::getReservationCounter() const {
+    return reservationCounter;
 }
 
 void fields::setName(const std::string &name) {
@@ -65,30 +57,14 @@ void fields::setSportType(const std::string &sportType) {
     }
 }
 
-void fields::setDescription(const std::string &description) {
-    fields::description = description;
+void fields::setDescription(const std::string &descriptionEdit) {
+    this->description = descriptionEdit;
 }
 
-void fields::setRes(reservation *res) {
-    fields::res = res;
+void fields::setAccessible(bool accessibleSet) {
+    this->accessible = accessibleSet;
 }
 
-void fields::setReviews(std::string *reviews) {
-    this->reviews = reviews;
-}
-
-void fields::setReviewsCounter(int reviewsCounter) {
-    this->reviews_counter=reviewsCounter;
-}
-
-void fields::setAccessible(bool accessible) {
-    fields::accessible = accessible;
-}
-
-void fields::setFieldsCounter(int fieldsCounter) {
-    fields::fieldsCounter = fieldsCounter;
-}
-
-void fields::setIdManager(const std::string &idManager) {
-    ID_manager = idManager;
+void fields::setCounter(int counter) {
+    this->reservationCounter = counter;
 }

@@ -5,4 +5,3 @@ name: jacob
 l_name: Maudi
 phone: 0572233367
 gender: F
-reservations: Abc,Hi,Six

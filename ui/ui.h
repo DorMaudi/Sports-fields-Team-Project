@@ -30,15 +30,14 @@ class ui {
 public:
     static int welcomeScreen();
     static int registration();
-    static void registrationProcess(int type);
-    static std::string login();
-    static void playerPanel();
+    static void registrationProcess(int type, db& db);
+    static std::string login(db& db);
+    static void playerPanel(db& db, std::string& id);
     static void managerPanel();
     static void bookField();
     static void cancelField();
     static void calendar();
     static void editProfile();
-
 
 
 private:

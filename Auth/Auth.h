@@ -13,7 +13,11 @@ class Auth {
 private:
     //std::vector<Person*> personArr; unused
 public:
-    static bool login (std::string &e,const std::string ID, const std::string Password, db &database);
+
+    static bool login (const std::string ID, const std::string Password, std::string &Message, db& datebase);
+
+    bool Register ();
+  
     // Validates the ID and Passowrd
 
     static bool idAuth(std::string &e, std::string ID, db &database);
