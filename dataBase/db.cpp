@@ -382,7 +382,7 @@ bool db::dbMakeUser(int type, std::string &id, std::string &password, std::strin
                             << "b_day: " << day << '/' << month << '/' << year << '\n';
                 newUserData.close();
             }
-            //this->personArr.push_back(new Manager(id, password, firstName, lastName, phoneNumber, gender)); #######################
+            this->personArr.push_back(new Manager(id, password, firstName, lastName, phoneNumber, gender, new date(day, month, year)));
             this->numOfUserFiles += 1;
             break;
         }
