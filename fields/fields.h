@@ -5,7 +5,7 @@
 #ifndef SPORTS_FIELDS_TEAM_PROJECT_FIELDS_H
 #define SPORTS_FIELDS_TEAM_PROJECT_FIELDS_H
 
-#include "stringh"
+#include <string>
 #include "reservation.h"
 
 class fields {
@@ -22,17 +22,17 @@ private:
     int fieldsCounter;
 
 public:
-    fields(std::string name, std::string city, std::string sportType, std::string ID_manager
+    fields(std::string name, std::string city, std::string sportType, std::string ID_manager,
            std::string description, reservation *res, std::string *reviews, bool accessible, int counter);
 
     const std::string &getName() const;
     const std::string &getCity() const;
     const std::string &getSportType() const;
-    const std::string &ID_manager() const;
+    const std::string &getIdManager() const;
     const std::string &getDescription() const;
     reservation *getRes() const;
     std::string *getReviews() const;
-    int getReviewsCounter(); const
+    int getReviewsCounter() const;
     bool isAccessible() const;
     int getFieldsCounter() const;
 
