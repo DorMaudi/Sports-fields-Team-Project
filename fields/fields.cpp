@@ -5,9 +5,8 @@
 #include "fields.h"
 
 fields::fields(std::string name, std::string city, std::string sportType, std::string ID_manager,
-               std::string description, reservation *res, std::string *reviews, int reviews_counter, bool accessible,
-               int fieldsCounter) {
-}
+               std::string description, reservation *res, std::string *reviews, bool accessible, int counter)
+               {}
 
 const std::string &fields::getName() const {
     return name;
@@ -37,12 +36,9 @@ std::string *fields::getReviews() const {
     return reviews;
 }
 
-int fields::getReviewsCounter() const {
-    return reviews_counter;
-}
 
 bool fields::isAccessible() const {
-    return accessible;
+    return this->accessible;
 }
 
 int fields::getFieldsCounter() const {
@@ -77,18 +73,7 @@ void fields::setReviews(std::string *reviews) {
     this->reviews = reviews;
 }
 
-void fields::setReviewsCounter(int reviewsCounter) {
-    this->reviews_counter=reviewsCounter;
-}
 
 void fields::setAccessible(bool accessible) {
     fields::accessible = accessible;
-}
-
-void fields::setFieldsCounter(int fieldsCounter) {
-    fields::fieldsCounter = fieldsCounter;
-}
-
-void fields::setIdManager(const std::string &idManager) {
-    ID_manager = idManager;
 }

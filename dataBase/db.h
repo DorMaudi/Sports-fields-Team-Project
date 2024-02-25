@@ -15,6 +15,8 @@
 #include "Person.h"
 #include "Player.h"
 #include "Manager.h"
+#include "fields.h"
+#include "reservation.h"
 
 #define DB_USER_TYPE_PLAYER 1
 #define DB_USER_TYPE_MANGER 2
@@ -48,17 +50,26 @@ public:
     int getNumOfUsers() const { return this->numOfUserFiles; }
     int getNumOfFields() const { return this->numOfUserFiles; }
     std::vector<Person*> getPersonArr() const { return this->personArr; }
-    // const Field* getFieldArr() const { return this->fieldsArr; }
+    std::vector<fields*> getFieldArr() const { return this->fieldsArr; }
+    std::vector<reservation*> getReservationArr() const { return this->reservationArr; }
 
 private:
 
     // set here the path to db folders.
+    // paths to each db folder.
     std::string userPath;
     std::string fieldsPath;
+    std::string reservationsPath;
+
+    // vectors to hold each db on memory.
     std::vector<Person*> personArr;
-    //std::vector<Fields*> fieldArr;
+    std::vector<fields*> fieldsArr;
+    std::vector<reservation*> reservationArr;
+
+    // counters that counts the amount of each db size.
     int numOfUserFiles;
     int numOfFieldFiles;
+    int numOfReservations;
 
     // memory management static functions.
     static void loadStringToMem(std::string& output, std::fstream& file);
