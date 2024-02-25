@@ -13,41 +13,33 @@ private:
     std::string name;
     std::string city;
     std::string sportType;
-    std::string ID_manager;
+    std::string ownerId;
     std::string description;
-    reservation* res;
-    std::string* reviews;
-    int reviews_counter;
+    std::string reviews;
     bool accessible;
-    int fieldsCounter;
+    int reservationCounter;
 
 public:
-    fields(std::string name, std::string city, std::string sportType, std::string ID_manager,
-           std::string description, reservation *res, std::string *reviews, bool accessible, int counter);
+    fields(std::string name, std::string city, std::string sportType, std::string ownerId,
+           std::string description, std::string reviews, bool accessible, int counter);
 
     const std::string &getName() const;
     const std::string &getCity() const;
     const std::string &getSportType() const;
-    const std::string &getIdManager() const;
+    const std::string &getOwnerId() const;
     const std::string &getDescription() const;
-    reservation *getRes() const;
-    std::string *getReviews() const;
-    int getReviewsCounter() const;
+    std::string getReviews() const;
     bool isAccessible() const;
-    int getFieldsCounter() const;
+    int getReservationCounter() const;
 
 
 
     void setName(const std::string &name);
     void setCity(const std::string &city);
     void setSportType(const std::string &sportType);
-    void setDescription(const std::string &description);
-    void setRes(reservation *res);
-    void setReviews(std::string *reviews);
+    void setDescription(const std::string &descriptionEdit);
     void setAccessible(bool accessible);
     void setCounter(int counter);
-
-    void addReviews(std::string rev);
 
 
 };

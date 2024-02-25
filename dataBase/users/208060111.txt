@@ -1,10 +1,7 @@
-type: 2
+type: 1
 id: 208060111
 pass: abc123789
 name: jacob
 l_name: Maudi
 phone: 0572233367
 gender: F
-day: 12
-mon: 5
-year: 1995

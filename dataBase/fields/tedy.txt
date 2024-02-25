@@ -1,8 +1,8 @@
 name: tedy
-city: tel-aviv
-sport-type: 2
-description: tedy_is_the_best.
-reservations: 7
-reviews: david:_this_is_a_cool_place.
+city: Ashdod
+sportType: Tennis
+ownerId: 208060111
+description: best_field_ever!
+reviews: David_:_i_like_this_place!/Josh_:_shitty_place_u_got_there!/
 accessible: 1
-total-orders: 87
+resCounter: 78
