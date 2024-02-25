@@ -12,19 +12,21 @@ int ui::welcomeScreen()
     int input = 0;
     while(input != 1 && input != 2)
     {
+        setColor(C_L_BLUE);
+        std::cout << "Registration \\ Login\n";
         setColor(C_WHITE);
-        std::cout << "Registration \\ Login\nFor registration ";
+        std::cout << "For registration - ";
         setColor(C_BLUE);
         std::cout << "enter 1.\n";
         setColor(C_WHITE);
-        std::cout << "For login ";
+        std::cout << "For login - ";
         setColor(C_BLUE);
         std::cout << "enter 2.\n";
         std::cin >> input;
         if(input != 1 && input != 2)
         {
             setColor(C_RED);
-            std::cout << "invalid value\n";
+            std::cout << "invalid value!\n";
         }
     }
     setColor(C_WHITE);
@@ -40,18 +42,18 @@ int ui::registration()
    while(input != 1 && input != 2)
    {
        setColor(C_WHITE);
-       std::cout << "For manager registration ";
+       std::cout << "For manager registration - ";
        setColor(C_BLUE);
        std::cout << "enter 1.\n";
        setColor(C_WHITE);
-       std::cout << "For player registration ";
+       std::cout << "For player registration - ";
        setColor(C_BLUE);
        std::cout << "enter 2.\n";
        std::cin >> input;
        if(input != 1 && input != 2)
        {
            setColor(C_RED);
-           std::cout << "invalid value\n";
+           std::cout << "invalid value!\n";
        }
    }
     setColor(C_WHITE);
@@ -267,7 +269,7 @@ void ui::playerPanel(db& db, std::string& id)
     while(option < 1 || option > 5)
     {
         setColor(C_L_BLUE);
-        std::cout << "Menu:\n";
+        std::cout << "Player Menu:\n";
         setColor(C_WHITE);
         std::cout << "Book field - ";
         setColor(C_BLUE);
@@ -321,7 +323,7 @@ void ui::playerPanel(db& db, std::string& id)
         }
         case exitProgram:
         {
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////לוודא שאחרי שהמשתמש בוחר לצאת הוא חוזר לפונקציית ההתחלהwelcome screen
             break;
         }
     }
@@ -585,7 +587,80 @@ void ui::editProfile()
     }
 }
 
-void ui::managerPanel()
+void ui::managerPanel(db& db, std::string& id)
 {
+    system("cls");
+    setColor(C_PURPLE);
+    std::cout << "WELCOME " << "name\n"; ///////////////////////////////////////////////////////להוסיף את שם המשתמש מממסד הנתונים
+    int option = 0;
+    while(option < 1 || option > 6)
+    {
+        setColor(C_L_BLUE);
+        std::cout << "Manager Menu:\n";
+        setColor(C_WHITE);
+        std::cout << "List of scheduled games - ";
+        setColor(C_BLUE);
+        std::cout << "enter 1.\n";
+        setColor(C_WHITE);
+        std::cout << "Mark dates as unavailable - ";
+        setColor(C_BLUE);
+        std::cout << "enter 2.\n";
+        setColor(C_WHITE);
+        std::cout << "Add field - ";
+        setColor(C_BLUE);
+        std::cout << "enter 3.\n";
+        setColor(C_WHITE);
+        std::cout << "Delete field - ";
+        setColor(C_BLUE);
+        std::cout << "enter 4.\n";
+        setColor(C_WHITE);
+        std::cout << "Edit profile - ";
+        setColor(C_BLUE);
+        std::cout << "enter 5.\n";
+        setColor(C_WHITE);
+        std::cout << "EXIT - ";
+        setColor(C_BLUE);
+        std::cout << "enter 6.";
+        std::cin >> option;
 
+        if(option < 1 || option > 6)
+        {
+            setColor(C_RED);
+            std::cout << "invalid value\n";
+        }
+    }
+    setColor(C_WHITE);
+    enum menuOptions {listOfScheduledGames = 1, markDatesAsUnavailable, addField, deleteField, editProfileOption, exitProgram};
+
+    switch (option)
+    {
+        case listOfScheduledGames:
+        {
+
+            break;
+        }
+        case markDatesAsUnavailable:
+        {
+            break;
+        }
+        case addField:
+        {
+
+            break;
+        }
+        case deleteField:
+        {
+            break;
+        }
+        case editProfileOption:
+        {
+            editProfile();
+            break;
+        }
+        case exitProgram:
+        {
+            ///////////////////////////////////////////////////////////לוודא שאחרי שהמשתמש בוחר לצאת הוא חוזר לפונקציית ההתחלהwelcome screen
+            break;
+        }
+    }
 }

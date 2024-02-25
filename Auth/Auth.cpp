@@ -109,7 +109,8 @@ bool Auth::phoneNumberAuth(std::string& e, std::string phonenumber) {
     return true;
 }
 
-bool Auth::login(std::string &e,const std::string ID, const std::string Password, db &database){
+bool Auth::login(const std::string ID, const std::string Password, std::string &Message, db &database){
+
     auto personArr = database.getPersonArr();
     int personArrSize = database.getNumOfUsers();
     for (int i = 0; i < personArrSize; ++i) {
