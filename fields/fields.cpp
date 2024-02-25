@@ -4,11 +4,10 @@
 
 #include "fields.h"
 
-
-fields::fields(std::string name, std::string city, std::string sportType,
-               std::string description, reservation *res, std::string *reviews, bool accessible, int counter)
-        : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), description(std::move(description)), res(res), reviews(reviews),
-          reviews_counter=0,accessible(accessible), counter(counter) {}
+fields::fields(std::string name, std::string city, std::string sportType, std::string ID_manager,
+               std::string description, reservation *res, std::string *reviews, int reviews_counter, bool accessible,
+               int fieldsCounter) {
+}
 
 const std::string &fields::getName() const {
     return name;
@@ -20,6 +19,10 @@ const std::string &fields::getCity() const {
 
 const std::string &fields::getSportType() const {
     return sportType;
+}
+
+const std::string &fields::getIdManager() const {
+    return ID_manager;
 }
 
 const std::string &fields::getDescription() const {
@@ -47,39 +50,45 @@ int fields::getFieldsCounter() const {
 }
 
 void fields::setName(const std::string &name) {
-    this->name=name;
+    fields::name = name;
 }
 
 void fields::setCity(const std::string &city) {
-    if (city=="Ashdod", city=="Tel-Aviv", city=="Jerusalem", city=="Eilat", city=="Ashkelon")
-    this->city = city;
+    if (city == "Ashdod" || city == "Tel-Aviv" || city == "Jerusalem" || city == "Eilat" || city == "Ashkelon") {
+        this->city = city;
+    }
 }
 
 void fields::setSportType(const std::string &sportType) {
-    if (sportType=="Soccer", sportType=="Basketball", sportType==Tennis, sportType=="Football",){
+    if (sportType == "Soccer" || sportType == "Basketball" || sportType == "Tennis" || sportType == "Football") {
         fields::sportType = sportType;
     }
 }
 
 void fields::setDescription(const std::string &description) {
-    if (description.size() <= 250) {
-        fields::description = description;
-    }
+    fields::description = description;
 }
 
 void fields::setRes(reservation *res) {
-//    fields::res = res;
+    fields::res = res;
+}
+
+void fields::setReviews(std::string *reviews) {
+    this->reviews = reviews;
+}
+
+void fields::setReviewsCounter(int reviewsCounter) {
+    this->reviews_counter=reviewsCounter;
 }
 
 void fields::setAccessible(bool accessible) {
     fields::accessible = accessible;
 }
 
-void fields::setCounter(int counter) {
-    fields::counter = counter;
+void fields::setFieldsCounter(int fieldsCounter) {
+    fields::fieldsCounter = fieldsCounter;
 }
 
-void fields::addReviews(std::string rev){
-    this->reviews[reviews_counter]==rev;
-    this->reviews_counter++;
+void fields::setIdManager(const std::string &idManager) {
+    ID_manager = idManager;
 }
