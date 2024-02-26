@@ -8,6 +8,10 @@ fields::fields(std::string name, std::string city, std::string sportType, std::s
                std::string reviews, bool accessible, int counter)
                {}
 
+fields::fields(const fields &original) {
+
+}
+
 const std::string &fields::getName() const {
     return name;
 }

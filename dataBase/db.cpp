@@ -401,6 +401,30 @@ bool db::dbMakeField()
     return false;
 }
 
+bool db::dbMakeReservation(std::string& id, std::string& fieldName, int day, int month, int year, std::string& time)
+{
+    // creating a new reservation on file.
+    std::string newReservationPath = this->reservationsPath;
+    newReservationPath += ("\\" + std::to_string(this->reservationIdTracker) + ".txt");
+    std::fstream newReservationData;
+    newReservationData.open(newReservationPath, std::ios::out);
+
+    newReservationData << "resId: " << std::to_string(this->reservationIdTracker) << '\n'
+                        << "userId: " << id << '\n'
+                        << "fieldName: " << fieldName << '\n'
+                        << "day: " << std::to_string(day) << '\n'
+                        << "month: " << std::to_string(month) << '\n'
+                        << "year: " << std::to_string(year) << '\n'
+                        << "time: " << time << '\n';
+
+    this->reservationArr.push_back(new reservation(std::to_string(this->reservationIdTracker), id, fieldName, time, day, month, year));
+    ++this->reservationIdTracker;
+
+    newReservationData.close();
+
+    return false;
+}
+
 bool db::dbDelUser()
 {
 
@@ -420,4 +444,17 @@ Person *db::startSession(std::string &id) const
         if (this->personArr[i]->getID() == id)
             return this->personArr[i];
     }
+}
+
+std::vector<fields*>* db::fetchGameAndSport(std::string& game, std::string& city) const
+{
+    auto vec = new std::vector<fields*>;
+    for (int i = 0; i < this->numOfFieldFiles; ++i)
+    {
+        if (this->fieldsArr[i]->getCity() == city && this->fieldsArr[i]->getSportType() == game)
+        {
+            vec->push_back(new fields(*this->fieldsArr[i]));
+        }
+    }
+    return vec;
 }
