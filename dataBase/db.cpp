@@ -412,3 +412,12 @@ bool db::dbDelField()
 
     return false;
 }
+
+Person *db::startSession(std::string &id) const
+{
+    for (int i = 0; i < this->numOfUserFiles; ++i)
+    {
+        if (this->personArr[i]->getID() == id)
+            return this->personArr[i];
+    }
+}
