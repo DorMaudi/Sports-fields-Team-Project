@@ -41,10 +41,12 @@ public:
                     std::string &lastName, std::string &phoneNumber, char gender,
                     int day = 0, int month = 0, int year = 0);
     bool dbMakeField();
+    bool dbMakeReservation(std::string& id, std::string& fieldName, int day, int month, int year, std::string& time);
 
     // delete user / field on db.
     bool dbDelUser();
     bool dbDelField();
+    bool dbDelReservation;
 
     // getFunctions.
     int getNumOfUsers() const { return this->numOfUserFiles; }
@@ -56,6 +58,7 @@ public:
 
     // query functions on vectors.
     Person* startSession(std::string& id) const;
+    std::vector<fields*>* fetchGameAndSport(std::string& game, std::string& city) const;
 
 private:
 
