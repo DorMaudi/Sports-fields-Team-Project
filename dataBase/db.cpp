@@ -445,16 +445,3 @@ Person *db::startSession(std::string &id) const
             return this->personArr[i];
     }
 }
-
-std::vector<fields*>* db::fetchGameAndSport(std::string& game, std::string& city) const
-{
-    auto vec = new std::vector<fields*>;
-    for (int i = 0; i < this->numOfFieldFiles; ++i)
-    {
-        if (this->fieldsArr[i]->getCity() == city && this->fieldsArr[i]->getSportType() == game)
-        {
-            vec->push_back(new fields(*this->fieldsArr[i]));
-        }
-    }
-    return vec;
-}

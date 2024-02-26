@@ -58,8 +58,7 @@ public:
 
     // query functions on vectors.
     Person* startSession(std::string& id) const;
-    std::vector<fields*>* fetchGameAndSport(std::string& game, std::string& city) const;
-
+    
 private:
 
     // set here the path to db folders.
