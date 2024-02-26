@@ -54,6 +54,9 @@ public:
     std::vector<reservation*> getReservationArr() const { return this->reservationArr; }
     int getCurResId() const { return this->reservationIdTracker; }
 
+    // query functions on vectors.
+    Person* startSession(std::string& id) const;
+
 private:
 
     // set here the path to db folders.
