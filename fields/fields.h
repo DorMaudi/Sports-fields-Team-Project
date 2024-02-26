@@ -22,6 +22,7 @@ private:
 public:
     fields(std::string name, std::string city, std::string sportType, std::string ownerId,
            std::string description, std::string reviews, bool accessible, int counter);
+    fields(const fields& original);
 
     const std::string &getName() const;
     const std::string &getCity() const;
