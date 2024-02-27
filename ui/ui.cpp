@@ -483,23 +483,30 @@ void ui::bookField(db& db, std::string& id)
         flag = true;
     }
 
-
+    //להציג i-1 בהדפסה
     //הצגת לוח שנה ממוספר של השבוע הקרוב אותו מגרש שנבחר. שעות תפוסות וגם פנויות
     //שחקן צריך לבחור מתוך לוח שנה זה את הזמן המתאים למשחק
 
 }
 
-void ui::cancelField(db& db, std::string& id)
+void ui::cancelReservation(db& db, std::string& id)
 {
     system("cls");
     setColor(C_PURPLE);
     std::cout << "Cancel Field:\n";
     setColor(C_L_BLUE);
-    std::cout << "My Reservation:\n";
+    std::cout << "My Reservations:\n";
     setColor(C_WHITE);
 
-    //רשימה ממוספרת של כל ההזמנות של השחקן
+    std::vector<int> possibleIndex;
+    for(int i)
+    {
+        if (db.getReservationArr()[i]->getIdPlayer() == id)
+        {
 
+            std::cout <<
+        }
+    }
 
     std::cout << "To cancel field enter his number option:\n";
 

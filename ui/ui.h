@@ -35,7 +35,7 @@ public:
     static void playerPanel(db& db, std::string& id);
     static void managerPanel(db& db, std::string& id);
     static void bookField(db& db, std::string& id);
-    static void cancelField(db& db, std::string& id);
+    static void cancelReservation(db& db, std::string& id);
     static void calendar();
     static void editProfile(db& db, std::string& id);
 
