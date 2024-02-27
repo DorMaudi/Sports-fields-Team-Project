@@ -321,7 +321,7 @@ void ui::playerPanel(db& db, std::string& id)
         }
         case editProfileOption:
         {
-            editProfile();
+            editProfile(db, id);
             break;
         }
         case exitProgram:
@@ -332,8 +332,7 @@ void ui::playerPanel(db& db, std::string& id)
     }
 }
 
-// להמשיך מהצגת רשימת המשחקים המתאימים לבחירתי
-void ui::bookField(db& db)
+void ui::bookField(db& db, std::string& id)
 {
     system("cls");
     setColor(C_PURPLE);
@@ -445,17 +444,52 @@ void ui::bookField(db& db)
         }
     }
     setColor(C_WHITE);
-    
+
+    std::vector<int> possibleIndex;
+
+    for (int i = 0; i < db.getNumOfFields(); ++i) {
+        if (db.getFieldArr()[i]->getCity() == citySelector && db.getFieldArr()[i]->getSportType() == gameSelector)
+        {
+            possibleIndex.push_back(i+1);
+            setColor(C_WHITE);
+            std::cout <<"For " << db.getFieldArr()[i]->getName() << "- ";
+            setColor(C_BLUE);
+            std::cout << "enter " << i + 1 << '.' << '\n';
+        }
+    }
+    setColor(C_WHITE);
+    int selectedOption = 0;
+    bool validValue = true;
+    bool flag = false;
+    while(!flag)
+    {
+        std::cin >> selectedOption;
+
+        for (int i : possibleIndex)
+        {
+            if(possibleIndex[i] != selectedOption)
+            {
+                setColor(C_RED);
+                std::cout << "invalid value\n";
+                validValue = false;
+                break;
+            }
+        }
+        if (!validValue)
+        {
+            std::cout << "Select a valid value: \n";
+            continue;
+        }
+        flag = true;
+    }
 
 
-
-    //שחקן צריך לבחור את המגרש שבו הוא מעוניין
     //הצגת לוח שנה ממוספר של השבוע הקרוב אותו מגרש שנבחר. שעות תפוסות וגם פנויות
     //שחקן צריך לבחור מתוך לוח שנה זה את הזמן המתאים למשחק
 
 }
 
-void ui::cancelField()
+void ui::cancelField(db& db, std::string& id)
 {
     system("cls");
     setColor(C_PURPLE);
@@ -488,7 +522,7 @@ void ui::calendar()
     //מירקור ההמשחק הקרוב
 }
 
-void ui::editProfile()
+void ui::editProfile(db& db, std::string& id)
 {
     system("cls");
     setColor(C_PURPLE);
@@ -642,6 +676,7 @@ void ui::editProfile()
             break;
         }
     }
+
 }
 
 void ui::managerPanel(db& db, std::string& id)
@@ -711,7 +746,7 @@ void ui::managerPanel(db& db, std::string& id)
         }
         case editProfileOption:
         {
-            editProfile();
+            editProfile(db,id);
             break;
         }
         case exitProgram:
