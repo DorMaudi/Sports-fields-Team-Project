@@ -55,6 +55,7 @@ public:
     std::vector<fields*> getFieldArr() const { return this->fieldsArr; }
     std::vector<reservation*> getReservationArr() const { return this->reservationArr; }
     int getCurResId() const { return this->reservationIdTracker; }
+    int getNumOfReservations() const { return this->numOfReservations; }
 
     // query functions on vectors.
     Person* startSession(std::string& id) const;
