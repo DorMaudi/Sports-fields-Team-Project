@@ -37,16 +37,16 @@ public:
 
     // create user / field on db.
     // take player args and makes a new player on mem & on disk.
-    bool dbMakeUser(int type, std::string &id, std::string &password, std::string &firstName,
+    void dbMakeUser(int type, std::string &id, std::string &password, std::string &firstName,
                     std::string &lastName, std::string &phoneNumber, char gender,
                     int day = 0, int month = 0, int year = 0);
-    bool dbMakeField();
-    bool dbMakeReservation(std::string& id, std::string& fieldName, int day, int month, int year, std::string& time);
+    void dbMakeField(std::string& name, std::string& city, std::string& sportType, std::string& ownerId, std::string& description, std::string& reviews, bool accessible, int reservationCounter);
+    void dbMakeReservation(std::string& id, std::string& fieldName, int day, int month, int year, std::string& time);
 
-    // delete user / field on db.
-    bool dbDelUser();
-    bool dbDelField();
-    bool dbDelReservation;
+    // delete user / field / res on db.
+    void dbDelUser(std::string& id);
+    void dbDelField(std::string& nameOfField);
+    void dbDelReservation(std::string& id, std::string& fieldName, std::string& hour);
 
     // getFunctions.
     int getNumOfUsers() const { return this->numOfUserFiles; }
@@ -61,7 +61,6 @@ public:
     
 private:
 
-    // set here the path to db folders.
     // paths to each db folder.
     std::string basePath;
     std::string userPath;
