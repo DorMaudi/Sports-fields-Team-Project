@@ -162,6 +162,7 @@ void db::init()
         loadIntToMem(day, myFile);
         loadIntToMem(month, myFile);
         loadIntToMem(year, myFile);
+        loadStringToMem(time, myFile);
 
         // call fields ctor here.
         this->reservationArr.push_back(new reservation(id, userId, fieldName, time, day, month, year));

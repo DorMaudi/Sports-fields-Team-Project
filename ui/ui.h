@@ -38,6 +38,7 @@ public:
     static void cancelReservation(db& db, std::string& id);
     static void calendar();
     static void editProfile(db& db, std::string& id);
+    static void listOfScheduledGames(db& db, std::string& id);
 
 
 private:

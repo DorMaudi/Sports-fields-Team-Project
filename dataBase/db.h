@@ -50,7 +50,7 @@ public:
 
     // getFunctions.
     int getNumOfUsers() const { return this->numOfUserFiles; }
-    int getNumOfFields() const { return this->numOfUserFiles; }
+    int getNumOfFields() const { return this->numOfFieldFiles; }
     std::vector<Person*> getPersonArr() const { return this->personArr; }
     std::vector<fields*> getFieldArr() const { return this->fieldsArr; }
     std::vector<reservation*> getReservationArr() const { return this->reservationArr; }
