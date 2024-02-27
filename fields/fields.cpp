@@ -6,6 +6,7 @@
 
 fields::fields(std::string name, std::string city, std::string sportType, std::string ownerId, std::string description,
                std::string reviews, bool accessible, int counter)
+               : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), ownerId(std::move(ownerId))
                {}
 
 const std::string &fields::getName() const {
