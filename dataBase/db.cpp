@@ -340,7 +340,7 @@ void db::loadArrToMem(std::vector<std::string> &output, std::fstream &file)
     }
 }
 
-bool db::dbMakeUser(int type, std::string &id, std::string &password, std::string &firstName, std::string &lastName, std::string &phoneNumber, char gender, int day, int month, int year)
+void db::dbMakeUser(int type, std::string &id, std::string &password, std::string &firstName, std::string &lastName, std::string &phoneNumber, char gender, int day, int month, int year)
 {
     // creating a new user on file.
     std::string newUserPath = this->userPath;
@@ -389,21 +389,39 @@ bool db::dbMakeUser(int type, std::string &id, std::string &password, std::strin
         default:
         {
             std::cerr << "bad user type input!!!\n";
-            return false;
         }
     }
-    return true;
 }
 
-bool db::dbMakeField()
+void db::dbMakeField(std::string& name, std::string& city, std::string& sportType, std::string& ownerId, std::string& description, std::string& reviews, bool accessible, int reservationCounter)
 {
+    // creating a new field on file.
+    std::string newFieldPath = this->fieldsPath;
+    newFieldPath += ("\\" + name + ".txt");
+    std::fstream newFieldData;
+    newFieldData.open(newFieldPath, std::ios::out);
 
-    return false;
+    std::string stringifyBool;
+    if (accessible)
+        stringifyBool = "1";
+    else
+        stringifyBool = "0";
+
+    newFieldData << "name: " << name << '\n'
+                    << "city: " << city << '\n'
+                    << "sportType: " << sportType << '\n'
+                    << "ownerId: " << ownerId << '\n'
+                    << "description: " << description << '\n' // call parse function here.
+                    << "reviews: " << reviews << '\n' // same here.
+                    << "accessible: " << stringifyBool << '\n'
+                    << "resCounter: " << std::to_string(reservationCounter) << '\n';
+    ++this->numOfFieldFiles;
 }
 
-bool db::dbMakeReservation(std::string& id, std::string& fieldName, int day, int month, int year, std::string& time)
+void db::dbMakeReservation(std::string& id, std::string& fieldName, int day, int month, int year, std::string& time)
 {
     // creating a new reservation on file.
+    ++this->reservationIdTracker;
     std::string newReservationPath = this->reservationsPath;
     newReservationPath += ("\\" + std::to_string(this->reservationIdTracker) + ".txt");
     std::fstream newReservationData;
@@ -418,23 +436,65 @@ bool db::dbMakeReservation(std::string& id, std::string& fieldName, int day, int
                         << "time: " << time << '\n';
 
     this->reservationArr.push_back(new reservation(std::to_string(this->reservationIdTracker), id, fieldName, time, day, month, year));
-    ++this->reservationIdTracker;
-
+    ++this->numOfReservations;
     newReservationData.close();
-
-    return false;
 }
 
-bool db::dbDelUser()
+void db::dbDelUser(std::string& id)
 {
+    // delete file on disk.
+    std::string pathToUser = this->userPath + "\\" + id + ".txt";
+    std::remove(pathToUser.c_str());
+    int counter = 0;
 
-    return false;
+    for (auto i : this->personArr)
+    {
+        if (i->getID() == id)
+        {
+            this->personArr.erase(this->personArr.begin() + counter);
+            break;
+        }
+        ++counter;
+    }
+    --this->numOfUserFiles;
 }
 
-bool db::dbDelField()
+void db::dbDelField(std::string& nameOfField)
 {
+    // delete file on disk.
+    std::string pathToField = this->userPath + "\\" + nameOfField + ".txt";
+    std::remove(pathToField.c_str());
+    int counter = 0;
 
-    return false;
+    for (auto i : this->fieldsArr)
+    {
+        if (i->getName() == nameOfField)
+        {
+            this->fieldsArr.erase(this->fieldsArr.begin() + counter);
+            break;
+        }
+        ++counter;
+    }
+    --this->numOfFieldFiles;
+}
+
+void db::dbDelReservation(std::string& id, std::string& fieldName, std::string& hour)
+{
+    // delete file on disk.
+    int counter = 0;
+
+    for (auto i : this->reservationArr)
+    {
+        if (i->getIdPlayer() == id && i->getFieldName() == fieldName && i->getTime() == hour)
+        {
+            std::string pathToRes = this->reservationsPath + "\\" + i->getId() + ".txt";
+            std::remove(pathToRes.c_str());
+            this->fieldsArr.erase(this->fieldsArr.begin() + counter);
+            break;
+        }
+        ++counter;
+    }
+    --this->numOfReservations;
 }
 
 Person *db::startSession(std::string &id) const
@@ -444,17 +504,4 @@ Person *db::startSession(std::string &id) const
         if (this->personArr[i]->getID() == id)
             return this->personArr[i];
     }
-}
-
-std::vector<fields*>* db::fetchGameAndSport(std::string& game, std::string& city) const
-{
-    auto vec = new std::vector<fields*>;
-    for (int i = 0; i < this->numOfFieldFiles; ++i)
-    {
-        if (this->fieldsArr[i]->getCity() == city && this->fieldsArr[i]->getSportType() == game)
-        {
-            vec->push_back(new fields(*this->fieldsArr[i]));
-        }
-    }
-    return vec;
 }
