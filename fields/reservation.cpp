@@ -4,10 +4,12 @@
 
 #include "reservation.h"
 
-reservation::reservation(const std::string id, const std::string &ID_player_, const std::string &fieldName_,
-                         const std::string &reservationTime, int day, int month, int year)
-                         : resDate(day, month, year)
-                         {}
+#include <utility>
+
+reservation::reservation(std::string resId, std::string idPlayer, std::string fieldName,
+                         const date &resDate, std::string time) : resId(std::move(resId)), ID_player(std::move(idPlayer)),
+                                                                  fieldName(std::move(fieldName)), resDate(resDate),
+                                                                  time(std::move(time)) {}
 
 const std::string &reservation::getIdPlayer() const {
     return ID_player;
@@ -34,4 +36,6 @@ void reservation::setFieldName(const std::string &fieldName) {
 void reservation::setTime(const std::string &time) {
     reservation::time = time;
 }
+
+
 

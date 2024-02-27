@@ -4,13 +4,13 @@
 
 #include "fields.h"
 
-fields::fields(std::string name, std::string city, std::string sportType, std::string ownerId, std::string description,
-               std::string reviews, bool accessible, int counter)
-               {}
+#include <utility>
 
-fields::fields(const fields &original) {
-
-}
+fields::fields(std::string name, std::string city, std::string sportType,
+               std::string ownerId, std::string description, std::string reviews, bool accessible, reservation res_,
+               int reservationCounter) : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), ownerId(std::move(ownerId)),
+                                         description(std::move(description)), reviews(std::move(reviews)), accessible(accessible), res (std::move(res_)),
+                                         reservationCounter(reservationCounter) {}
 
 const std::string &fields::getName() const {
     return name;
@@ -72,3 +72,11 @@ void fields::setAccessible(bool accessibleSet) {
 void fields::setCounter(int counter) {
     this->reservationCounter = counter;
 }
+
+
+
+
+
+
+
+

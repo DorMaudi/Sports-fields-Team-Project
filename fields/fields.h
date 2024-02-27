@@ -16,12 +16,14 @@ private:
     std::string ownerId;
     std::string description;
     std::string reviews;
+    reservation res;
     bool accessible;
     int reservationCounter;
 
 public:
+
     fields(std::string name, std::string city, std::string sportType, std::string ownerId,
-           std::string description, std::string reviews, bool accessible, int counter);
+           std::string description, std::string reviews, bool accessible, reservation res_ ,int reservationCounter);
 
     const std::string &getName() const;
     const std::string &getCity() const;

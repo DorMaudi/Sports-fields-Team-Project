@@ -15,6 +15,7 @@ private:
 
 public:
 
+    date(){}
     date(int day, int month, int year);
 
     static bool dateAuth (int day, int month, int year, std::string& e);

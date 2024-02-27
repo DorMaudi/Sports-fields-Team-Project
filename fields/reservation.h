@@ -20,8 +20,9 @@ private:
     std::string time;
 
 public:
-    reservation(const std::string id, const std::string& ID_player_, const std::string& fieldName_,
-                const std::string& reservationTime, int day, int month, int year);
+    reservation(){}
+    reservation(std::string resId, std::string idPlayer, std::string fieldName,
+                const date &resDate, std::string time);
 
     const std::string &getId() const { return this->resId; }
     const std::string &getIdPlayer() const;
