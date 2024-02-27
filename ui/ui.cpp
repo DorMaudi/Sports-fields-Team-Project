@@ -262,9 +262,12 @@ std::string ui::login(db& db)
 
 void ui::playerPanel(db& db, std::string& id)
 {
+    auto user = db.startSession(id);
     system("cls");
+    setColor(C_WHITE);
+    std::cout << "WELCOME ";
     setColor(C_PURPLE);
-    std::cout << "WELCOME " << "name\n"; ///////////////////////////////////////////////////////להוסיף את שם המשתמש מממסד הנתונים
+    std::cout << user->getFirstName() << '\n';
     int option = 0;
     while(option < 1 || option > 5)
     {
@@ -275,7 +278,7 @@ void ui::playerPanel(db& db, std::string& id)
         setColor(C_BLUE);
         std::cout << "enter 1.\n";
         setColor(C_WHITE);
-        std::cout << "Cancel field - ";
+        std::cout << "Cancel reservation - ";
         setColor(C_BLUE);
         std::cout << "enter 2.\n";
         setColor(C_WHITE);
@@ -299,7 +302,7 @@ void ui::playerPanel(db& db, std::string& id)
         }
     }
     setColor(C_WHITE);
-    enum menuOptions {bookFieldOption = 1, cancelFieldOption, calendarOption, editProfileOption, exitProgram};
+    enum menuOptions {bookFieldOption = 1, cancelReservationOption, calendarOption, editProfileOption, exitProgram};
 
     switch (option)
     {
@@ -307,7 +310,7 @@ void ui::playerPanel(db& db, std::string& id)
         {
             break;
         }
-        case cancelFieldOption:
+        case cancelReservationOption:
         {
             break;
         }
@@ -330,11 +333,13 @@ void ui::playerPanel(db& db, std::string& id)
 }
 
 // להמשיך מהצגת רשימת המשחקים המתאימים לבחירתי
-void ui::bookField()
+void ui::bookField(db& db)
 {
     system("cls");
     setColor(C_PURPLE);
     std::cout << "Book Field:\n";
+    std::string citySelector;
+    std::string gameSelector;
     int sportOption = 0;
     while(sportOption < 1 || sportOption > 4)
     {
@@ -359,6 +364,31 @@ void ui::bookField()
         {
             setColor(C_RED);
             std::cout << "invalid value\n";
+        }
+
+        enum sports {soccer = 1,basketBall , tennis, footBall};
+        switch (sportOption)
+        {
+            case soccer:
+            {
+                gameSelector = "Soccer";
+                break;
+            }
+            case basketBall:
+            {
+                gameSelector = "BasketBall";
+                break;
+            }
+            case tennis:
+            {
+                gameSelector = "Tennis";
+                break;
+            }
+            case footBall:
+            {
+                gameSelector = "FootBall";
+                break;
+            }
         }
     }
 
@@ -388,10 +418,37 @@ void ui::bookField()
             setColor(C_RED);
             std::cout << "invalid value\n";
         }
+
+        enum cities {Ashdod = 1,TelAviv , Jerusalem, Eilat};
+        switch (sportOption)
+        {
+            case Ashdod:
+            {
+                gameSelector = "Ashdod";
+                break;
+            }
+            case TelAviv:
+            {
+                gameSelector = "TelAviv";
+                break;
+            }
+            case Jerusalem:
+            {
+                gameSelector = "Jerusalem";
+                break;
+            }
+            case Eilat:
+            {
+                gameSelector = "Eilat";
+                break;
+            }
+        }
     }
     setColor(C_WHITE);
+    
 
-    //הצגת רשימת ממוספרת של המגרשים המתאימים
+
+
     //שחקן צריך לבחור את המגרש שבו הוא מעוניין
     //הצגת לוח שנה ממוספר של השבוע הקרוב אותו מגרש שנבחר. שעות תפוסות וגם פנויות
     //שחקן צריך לבחור מתוך לוח שנה זה את הזמן המתאים למשחק
