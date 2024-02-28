@@ -1139,3 +1139,28 @@ void ui::deleteField(db &db, std::string &id)
     std::string delThisField = db.getFieldArr()[vec[indexOption - 1]]->getName();
     db.dbDelField(delThisField);
 }
+
+void ui::makeCalender(std::vector<date>& arr)
+{
+    SYSTEMTIME time;
+    GetSystemTime(&time);
+    auto firstDay = date(time.wDay, time.wMonth, time.wYear);
+    arr.push_back(firstDay);
+
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    for (int i = 0; i < DAYS_OF_WEEK; ++i) // change to switch case.
+    {
+        if (firstDay.getDay() + 6 <= daysInMonth[firstDay.getMonth()-1]) // if entire week is on the same month.
+        {
+            for (int j = 0; j < DAYS_OF_WEEK; ++j)
+            {
+                date newDay = date(firstDay.getDay()+j+1, firstDay.getMonth(), firstDay.getYear());
+                arr.push_back(newDay);
+            }
+            return;
+        }
+
+    }
+
+}

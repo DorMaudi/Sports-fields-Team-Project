@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
+#include <sysinfoapi.h>
 #include "Auth.h"
 
 
@@ -18,6 +19,7 @@
 #define C_BLUE 9
 #define C_PURPLE 13
 #define C_L_BLUE 11
+#define DAYS_OF_WEEK 6
 
 static HANDLE consoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -41,6 +43,7 @@ public:
     static void listOfScheduledGames(db& db, std::string& id);
     static void addField(db& db, std::string& id);
     static void deleteField(db& db, std::string& id);
+    static void makeCalender(std::vector<date>& arr);
 
 private:
 
