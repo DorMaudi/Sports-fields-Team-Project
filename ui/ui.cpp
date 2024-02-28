@@ -991,3 +991,8 @@ void ui::listOfScheduledGames(db &db, std::string &id)
         }
     }
 }
+
+void ui::addField(db &db, std::string &id)
+{
+    
+}

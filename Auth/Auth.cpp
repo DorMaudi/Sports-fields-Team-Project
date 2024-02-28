@@ -128,4 +128,43 @@ bool Auth::login(const std::string ID, const std::string Password, std::string &
     return false;
 }
 
+bool Auth::ownerAuth(std::string &e, std::string ID, std::string fieldName,db &database , fields Fields) {
+    auto personArr = database.getFieldArr();
+    auto fieldArr = database.getFieldArr();
+    int personArrSize = database.getNumOfUsers();
+    int fieldArrSize = database.getNumOfFields();
+    for (int i = 0; i < personArrSize; ++i) {
+        if (personArr[i]->getOwnerId()==ID){
+            for (int j = 0; j < fieldArrSize; ++j) {
+                if (fieldArr[j]->getName()==fieldName)
+                    return true;
+            }
+        }
+    }
+    e = "You dont own any field by that name.";
+    return false;
+}
+
+bool Auth::cityAuth(std::string& e, std::string city) {
+    if (city == "Ashdod" || city == "Tel-Aviv" || city == "Jerusalem" || city == "Eilat" || city == "Ashkelon"){
+        return true;
+    }
+    e = "We dont have that city.";
+}
+
+bool Auth::sportTypeAuth(std::string &e, std::string sportType) {
+    if (sportType == "Soccer" || sportType == "Basketball" || sportType == "Tennis" || sportType == "Football")
+        return true;
+    e = "We dont have a field for that sport type.";
+}
+
+bool Auth::fieldNameAuth(std::string &e, std::string fieldnName) {
+    for (char c : fieldnName) {
+        if (!isalpha(c)||c == ' ') {
+            e = "Field name should only contain letters.";
+            return false;
+        }
+    }
+    return true;
+}
 

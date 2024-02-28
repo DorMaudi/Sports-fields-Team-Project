@@ -47,15 +47,11 @@ void fields::setName(const std::string &name) {
 }
 
 void fields::setCity(const std::string &city) {
-    if (city == "Ashdod" || city == "Tel-Aviv" || city == "Jerusalem" || city == "Eilat" || city == "Ashkelon") {
         this->city = city;
-    }
 }
 
 void fields::setSportType(const std::string &sportType) {
-    if (sportType == "Soccer" || sportType == "Basketball" || sportType == "Tennis" || sportType == "Football") {
         fields::sportType = sportType;
-    }
 }
 
 void fields::setDescription(const std::string &descriptionEdit) {

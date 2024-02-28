@@ -8,6 +8,8 @@
 #include <vector>
 #include "db.h"
 #include "date.h"
+#include "fields.h"
+#include "reservation.h"
 
 class Auth {
 private:
@@ -38,6 +40,17 @@ public:
     
     // Validates the format of a phone number, ensuring it starts with '05' and consists only of digits.
 
+    static bool ownerAuth(std::string &e, std::string ID, std::string fieldName,db &database , fields Fields);
+
+    static bool cityAuth(std::string& e, std::string city);
+
+    static bool sportTypeAuth (std::string&e , std::string sportType);
+
+    static bool fieldNameAuth (std::string& e, std::string fieldnName);
+
+    static bool fieldAuth (std::string& e, std::string fieldName ,std::string city, fields fields);
+
+    static bool reservationAuth (std::string&e ,db& database,  );
 };
 
 
