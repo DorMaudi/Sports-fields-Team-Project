@@ -131,8 +131,8 @@ void db::init()
         loadStringToMem(city, myFile);
         loadStringToMem(sportType, myFile);
         loadStringToMem(ownerId, myFile);
-        loadStringToMem(description, myFile);
-        loadStringToMem(reviews, myFile);
+        loadArrToMem(description, myFile);
+        loadArrToMem(reviews, myFile);
         loadIntToMem(accessible, myFile);
         loadIntToMem(reservationCounter, myFile);
 
@@ -317,24 +317,28 @@ void db::loadCharToMem(char &output, std::fstream &file)
     }
 }
 
-void db::loadArrToMem(std::vector<std::string> &output, std::fstream &file)
+void db::loadArrToMem(std::string &output, std::fstream &file)
 {
     while (!file.eof())
     {
         char buf = (char)file.get();
         if (buf == ' ')
         {
-            std::string singleValue;
             while (buf != '\n')
             {
-                if (buf == ',')
-                {
-                    output.push_back(singleValue);
-                    singleValue = "";
-                }
                 buf = (char)file.get();
-                if (buf != ',')
-                    singleValue += buf;
+                if (buf == '_')
+                {
+                    output += ' ';
+                    continue;
+                }
+                if (buf == '/')
+                {
+                    output += '\n';
+                    continue;
+                }
+                if (buf != '\n')
+                    output += buf;
             }
             return;
         }
@@ -408,12 +412,15 @@ void db::dbMakeField(std::string& name, std::string& city, std::string& sportTyp
     else
         stringifyBool = "0";
 
+    transToDisk(description);
+    transToDisk(reviews);
+
     newFieldData << "name: " << name << '\n'
                     << "city: " << city << '\n'
                     << "sportType: " << sportType << '\n'
                     << "ownerId: " << ownerId << '\n'
-                    << "description: " << description << '\n' // call parse function here.
-                    << "reviews: " << reviews << '\n' // same here.
+                    << "description: " << description << '\n'
+                    << "reviews: " << reviews << '\n'
                     << "accessible: " << stringifyBool << '\n'
                     << "resCounter: " << std::to_string(reservationCounter) << '\n';
     ++this->numOfFieldFiles;
@@ -463,6 +470,8 @@ void db::dbDelUser(std::string& id)
 void db::dbDelField(std::string& nameOfField)
 {
     // delete file on disk.
+    dbDelReservationByField(nameOfField);
+
     std::string pathToField = this->userPath + "\\" + nameOfField + ".txt";
     std::remove(pathToField.c_str());
     int counter = 0;
@@ -498,11 +507,47 @@ void db::dbDelReservation(std::string& id, std::string& fieldName, std::string& 
     --this->numOfReservations;
 }
 
+void db::dbDelReservationByField(std::string &fieldName)
+{
+    // delete file on disk.
+    int counter = 0;
+
+    for (auto i : this->reservationArr)
+    {
+        if (i->getFieldName() == fieldName)
+        {
+            std::string pathToRes = this->reservationsPath + "\\" + i->getId() + ".txt";
+            std::remove(pathToRes.c_str());
+            this->fieldsArr.erase(this->fieldsArr.begin() + counter);
+            break;
+        }
+        ++counter;
+    }
+    --this->numOfReservations;
+}
+
 Person *db::startSession(std::string &id) const
 {
     for (int i = 0; i < this->numOfUserFiles; ++i)
     {
         if (this->personArr[i]->getID() == id)
             return this->personArr[i];
+    }
+}
+
+void db::transToDisk(std::string &text)
+{
+    for (auto i : text)
+    {
+        if (i == '_')
+        {
+            i = ' ';
+            continue;
+        }
+        if (i == '/')
+        {
+            i = '\n';
+            continue;
+        }
     }
 }

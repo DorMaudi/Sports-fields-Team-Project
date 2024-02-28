@@ -47,6 +47,7 @@ public:
     void dbDelUser(std::string& id);
     void dbDelField(std::string& nameOfField);
     void dbDelReservation(std::string& id, std::string& fieldName, std::string& hour);
+    void dbDelReservationByField(std::string& fieldName);
 
     // getFunctions.
     int getNumOfUsers() const { return this->numOfUserFiles; }
@@ -83,7 +84,10 @@ private:
     static void loadStringToMem(std::string& output, std::fstream& file);
     static void loadIntToMem(int& output, std::fstream& file);
     static void loadCharToMem(char& output, std::fstream& file);
-    static void loadArrToMem(std::vector<std::string>& output, std::fstream& file);
+    static void loadArrToMem(std::string& output, std::fstream& file);
+
+    // parsing functions to disk.
+    static void transToDisk(std::string& text);
 
 };
 
