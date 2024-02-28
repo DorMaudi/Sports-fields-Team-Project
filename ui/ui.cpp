@@ -485,6 +485,8 @@ void ui::bookField(db& db, std::string& id)
         flag = true;
     }
 
+
+
     //להציג i-1 בהדפסה
     //הצגת לוח שנה ממוספר של השבוע הקרוב אותו מגרש שנבחר. שעות תפוסות וגם פנויות
     //שחקן צריך לבחור מתוך לוח שנה זה את הזמן המתאים למשחק
@@ -994,5 +996,39 @@ void ui::listOfScheduledGames(db &db, std::string &id)
 
 void ui::addField(db &db, std::string &id)
 {
-    
+
+}
+
+void ui::deleteField(db &db, std::string &id)
+{
+    setColor(C_PURPLE);
+    std::cout << "Delete Field:\n";
+    std::vector<int> vec;
+    int indexOption = 0;
+    int k = 0;
+    for(int i = 0; i < db.getNumOfFields(); ++i)
+    {
+        if(db.getFieldArr()[i]->getOwnerId() == id)
+        {
+            vec.push_back(i);
+            std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName();
+            ++k;
+        }
+    }
+
+    while(indexOption < 1 || indexOption > k + 1)
+    {
+        setColor(C_WHITE);
+        std::cout << "enter a number option from the list to cancel the specific field:\n";
+        std::cin >> indexOption;
+
+        if(indexOption < 1 || indexOption > k + 1)
+        {
+            setColor(C_RED);
+            std::cout << "invalid value\n";
+        }
+    }
+
+    std::string delThisField = db.getFieldArr()[vec[indexOption - 1]]->getName();
+    db.dbDelField(delThisField);
 }
