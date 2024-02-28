@@ -128,20 +128,24 @@ bool Auth::login(const std::string ID, const std::string Password, std::string &
     return false;
 }
 
-bool Auth::ownerAuth(std::string &e, std::string ID, std::string fieldName,db &database , fields Fields) {
-    auto personArr = database.getFieldArr();
+bool Auth::ownerAuth(std::string &e, std::string ID, std::string fieldName, db &database, fields Fields) {
+    auto personArr = database.getPersonArr();
     auto fieldArr = database.getFieldArr();
     int personArrSize = database.getNumOfUsers();
     int fieldArrSize = database.getNumOfFields();
     for (int i = 0; i < personArrSize; ++i) {
-        if (personArr[i]->getOwnerId()==ID){
+        if (personArr[i]->getID() == ID) {
             for (int j = 0; j < fieldArrSize; ++j) {
-                if (fieldArr[j]->getName()==fieldName)
+                if (fieldArr[j]->getName() == fieldName && fieldArr[j]->getOwnerId() == ID) {
                     return true;
+                }
             }
+            e = "You don't own any field with the name '" + fieldName + "'.";
+            return false;
         }
     }
-    e = "You dont own any field by that name.";
+    // If the loop completes without finding the user, set error message
+    e = "User with ID '" + ID + "' not found.";
     return false;
 }
 
@@ -167,4 +171,22 @@ bool Auth::fieldNameAuth(std::string &e, std::string fieldName) {
     }
     return true;
 }
+bool Auth::fieldAuth(std::string& e, std::string fieldName ,std::string sportType ,std::string city, db &database) {
+    if (cityAuth(e,city)){
+        if (sportTypeAuth(e,sportType)){
+            auto fieldArr = database.getFieldArr();
+            int fieldArrsize = database.getNumOfFields();
+            for (int i = 0; i < fieldArrsize; ++i) {
+                if (fieldArr[i]->getName()==fieldName)
+                    return true;
+                else{
+                    e = "The field at that city doesnt exist";
+                    return false;
+                }
+            }
+        }
+    }
+}
+//bool Auth::reservationAuth(std::string&e ,std::string sportType, std::string city, std::string fieldName, int day,int month, int year, db& database) {
 
+//}
