@@ -162,8 +162,8 @@ bool Auth::sportTypeAuth(std::string &e, std::string sportType) {
     e = "We dont have a field for that sport type.";
 }
 
-bool Auth::fieldNameAuth(std::string &e, std::string fieldnName) {
-    for (char c : fieldnName) {
+bool Auth::fieldNameAuth(std::string &e, std::string fieldName) {
+    for (char c : fieldName) {
         if (!isalpha(c)||c == ' ') {
             e = "Field name should only contain letters.";
             return false;

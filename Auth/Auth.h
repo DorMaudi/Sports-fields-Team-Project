@@ -46,7 +46,7 @@ public:
 
     static bool sportTypeAuth (std::string&e , std::string sportType);
 
-    static bool fieldNameAuth (std::string& e, std::string fieldnName);
+    static bool fieldNameAuth (std::string& e, std::string fieldName);
 
     static bool fieldAuth (std::string& e, std::string fieldName ,std::string sportType ,std::string city, db& database);
 
