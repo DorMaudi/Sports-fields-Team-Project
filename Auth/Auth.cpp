@@ -171,21 +171,37 @@ bool Auth::fieldNameAuth(std::string &e, std::string fieldName) {
     }
     return true;
 }
-bool Auth::fieldAuth(std::string& e, std::string fieldName ,std::string sportType ,std::string city, db &database) {
-    if (cityAuth(e,city)){
-        if (sportTypeAuth(e,sportType)){
-            auto fieldArr = database.getFieldArr();
-            int fieldArrsize = database.getNumOfFields();
-            for (int i = 0; i < fieldArrsize; ++i) {
-                if (fieldArr[i]->getName()==fieldName)
-                    return true;
-                else{
-                    e = "The field at that city doesnt exist";
-                    return false;
-                }
-            }
+bool Auth::fieldAuth(std::string& e, std::string fieldName, db& db)
+{
+    for (auto i : db.getFieldArr())
+    {
+        if (i->getName() == fieldName)
+        {
+            e = "There is a fields with this name already.";
+            return false;
         }
     }
+    return true;
+}
+
+bool Auth::fieldDescription(std::string &e, std::string desc)
+{
+    if (desc.length() > 250)
+    {
+       e = "Description is longer than 250 characters.";
+       return false;
+    }
+     return true;
+}
+
+bool Auth::accessibleField(std::string &e, bool acces)
+{
+    if (acces != 0 && acces != 1)
+    {
+        e = "incorrect value";
+        return false;
+    }
+    return true;
 }
 //bool Auth::reservationAuth(std::string&e ,std::string sportType, std::string city, std::string fieldName, int day,int month, int year, db& database) {
 

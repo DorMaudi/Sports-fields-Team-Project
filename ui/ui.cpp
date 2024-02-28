@@ -1083,19 +1083,46 @@ void ui::addField(db &db, std::string &id)
     while(!flag)
     {
         setColor(C_WHITE);
-        std::cout << "Enter your id (";
+        std::cout << "Enter description (";
         setColor(C_BLUE);
-        std::cout << "unique, alphanumeric, minimum 9 characters";
+        std::cout << "max 250 characters";
         setColor(C_WHITE);
         std::cout << "):\n";
-        std::cin >> ownerId;
-        flag = Auth::idAuth(e, ownerId, db);
+        std::cin >> description;
+        flag = Auth::fieldDescription(e, ownerId);
         if(!flag)
         {
             setColor(C_RED);
             std::cout << e << '\n';
         }
     }
+
+    std::string reviews;
+
+
+    bool accessible;
+    flag = false;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter 1 - for accessible field. Enter 2 - for not accessible field (";
+        setColor(C_BLUE);
+        std::cout << "0 or 1";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> accessible;
+        flag = Auth::accessibleField(e,accessible);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
+
+    int counter = 0;
+
+    
+
 
 
 

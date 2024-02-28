@@ -48,7 +48,11 @@ public:
 
     static bool fieldNameAuth (std::string& e, std::string fieldnName);
 
-    static bool fieldAuth (std::string& e, std::string fieldName ,std::string sportType ,std::string city, db& database);
+    static bool fieldAuth (std::string& e, std::string fieldName, db& db);
+
+    static bool fieldDescription (std::string& e, std::string desc);
+
+    static bool accessibleField(std::string& e, bool acces);
 
     //static bool reservationAuth (std::string&e ,std::string sportType, std::string city, std::string fieldName, int day,int month, int year, db& database);
 };
