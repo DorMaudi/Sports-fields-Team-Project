@@ -55,6 +55,7 @@ public:
     static bool accessibleField(std::string& e, bool acces);
 
     //static bool reservationAuth (std::string&e ,std::string sportType, std::string city, std::string fieldName, int day,int month, int year, db& database);
+
 };
 
 

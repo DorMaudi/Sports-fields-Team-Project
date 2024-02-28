@@ -65,3 +65,8 @@ void fields::setAccessible(bool accessibleSet) {
 void fields::setCounter(int counter) {
     this->reservationCounter = counter;
 }
+
+void fields::appReview(std::string &rev)
+{
+    this->reviews += rev += '\n';
+}
