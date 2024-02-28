@@ -60,6 +60,11 @@ public:
 
     // query functions on vectors.
     Person* startSession(std::string& id) const;
+
+    // set & append functions.
+    void setDescForField(std::string& fieldName, std::string& desc);
+    void addReviewToField(std::string& fieldName, std::string& review);
+
     
 private:
 
