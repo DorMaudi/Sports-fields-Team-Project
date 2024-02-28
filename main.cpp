@@ -12,6 +12,6 @@ int main() {
     dataBase.init();
 
     // save all to disk.
-    dataBase.commitToDisk(); // asdassad
+    dataBase.commitToDisk();
     return 0;
 }
