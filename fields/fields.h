@@ -40,6 +40,7 @@ public:
     void setDescription(const std::string &descriptionEdit);
     void setAccessible(bool accessible);
     void setCounter(int counter);
+    void appReview(std::string& rev);
 
 
 };

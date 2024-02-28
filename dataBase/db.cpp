@@ -551,3 +551,27 @@ void db::transToDisk(std::string &text)
         }
     }
 }
+
+void db::setDescForField(std::string& fieldName, std::string &desc)
+{
+    for (auto i : fieldsArr)
+    {
+        if (i->getName() == fieldName)
+        {
+            i->setDescription(desc);
+            return;
+        }
+    }
+}
+
+void db::addReviewToField(std::string &fieldName, std::string &review)
+{
+    for (auto i : this->fieldsArr)
+    {
+        if (i->getName() == fieldName)
+        {
+            i->appReview(review);
+            return;
+        }
+    }
+}
