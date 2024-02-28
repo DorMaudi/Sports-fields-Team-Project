@@ -129,12 +129,12 @@ bool Auth::login(const std::string ID, const std::string Password, std::string &
 }
 
 bool Auth::ownerAuth(std::string &e, std::string ID, std::string fieldName,db &database , fields Fields) {
-    auto personArr = database.getPersonArr();
+    auto personArr = database.getFieldArr();
     auto fieldArr = database.getFieldArr();
     int personArrSize = database.getNumOfUsers();
     int fieldArrSize = database.getNumOfFields();
     for (int i = 0; i < personArrSize; ++i) {
-        if (personArr[i]->getID()==ID){
+        if (personArr[i]->getOwnerId()==ID){
             for (int j = 0; j < fieldArrSize; ++j) {
                 if (fieldArr[j]->getName()==fieldName)
                     return true;

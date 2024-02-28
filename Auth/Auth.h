@@ -9,6 +9,7 @@
 #include "db.h"
 #include "date.h"
 #include "fields.h"
+#include "reservation.h"
 
 class Auth {
 private:
@@ -49,7 +50,7 @@ public:
 
     static bool fieldAuth (std::string& e, std::string fieldName ,std::string city, fields fields);
 
-    static bool reservationAuth ();
+    static bool reservationAuth (std::string&e ,db& database,  );
 };
 
 
