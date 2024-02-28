@@ -6,7 +6,7 @@
 
 fields::fields(std::string name, std::string city, std::string sportType, std::string ownerId, std::string description,
                std::string reviews, bool accessible, int counter)
-               : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), ownerId(std::move(ownerId))
+               : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), ownerId(std::move(ownerId)), description(std::move(description)), reviews(std::move(reviews))
                {}
 
 const std::string &fields::getName() const {
@@ -47,15 +47,11 @@ void fields::setName(const std::string &name) {
 }
 
 void fields::setCity(const std::string &city) {
-    if (city == "Ashdod" || city == "Tel-Aviv" || city == "Jerusalem" || city == "Eilat" || city == "Ashkelon") {
         this->city = city;
-    }
 }
 
 void fields::setSportType(const std::string &sportType) {
-    if (sportType == "Soccer" || sportType == "Basketball" || sportType == "Tennis" || sportType == "Football") {
         fields::sportType = sportType;
-    }
 }
 
 void fields::setDescription(const std::string &descriptionEdit) {
