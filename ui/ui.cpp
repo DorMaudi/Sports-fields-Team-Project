@@ -377,7 +377,7 @@ void ui::bookField(db& db, std::string& id)
             }
             case basketBall:
             {
-                gameSelector = "BasketBall";
+                gameSelector = "Basketball";
                 break;
             }
             case tennis:
@@ -387,7 +387,7 @@ void ui::bookField(db& db, std::string& id)
             }
             case footBall:
             {
-                gameSelector = "FootBall";
+                gameSelector = "Football";
                 break;
             }
         }
@@ -402,7 +402,7 @@ void ui::bookField(db& db, std::string& id)
         setColor(C_BLUE);
         std::cout << "enter 1.\n";
         setColor(C_WHITE);
-        std::cout << "For Tel Aviv - ";
+        std::cout << "For Tel-Aviv - ";
         setColor(C_BLUE);
         std::cout << "enter 2.\n";
         setColor(C_WHITE);
@@ -425,22 +425,22 @@ void ui::bookField(db& db, std::string& id)
         {
             case Ashdod:
             {
-                gameSelector = "Ashdod";
+                citySelector = "Ashdod";
                 break;
             }
             case TelAviv:
             {
-                gameSelector = "TelAviv";
+                citySelector = "Tel-Aviv";
                 break;
             }
             case Jerusalem:
             {
-                gameSelector = "Jerusalem";
+                citySelector = "Jerusalem";
                 break;
             }
             case Eilat:
             {
-                gameSelector = "Eilat";
+                citySelector = "Eilat";
                 break;
             }
         }
@@ -484,6 +484,9 @@ void ui::bookField(db& db, std::string& id)
         }
         flag = true;
     }
+
+
+
 
     //להציג i-1 בהדפסה
     //הצגת לוח שנה ממוספר של השבוע הקרוב אותו מגרש שנבחר. שעות תפוסות וגם פנויות
@@ -781,7 +784,7 @@ void ui::managerPanel(db& db, std::string& id)
         }
     }
     setColor(C_WHITE);
-    enum menuOptions {ScheduledGames = 1, markDatesAsUnavailable, addField, deleteField, editProfileOption, exitProgram};
+    enum menuOptions {ScheduledGames = 1, markDatesAsUnavailable, addFieldOption, deleteFieldOption, editProfileOption, exitProgram};
     int selectedOption = 0;
     int indexOption = 0;
     switch (option)
@@ -795,12 +798,13 @@ void ui::managerPanel(db& db, std::string& id)
         {
             break;
         }
-        case addField:
+        case addFieldOption:
         {
             break;
         }
-        case deleteField:
+        case deleteFieldOption:
         {
+            deleteField(db, id);
             break;
         }
         case editProfileOption:
@@ -994,5 +998,139 @@ void ui::listOfScheduledGames(db &db, std::string &id)
 
 void ui::addField(db &db, std::string &id)
 {
-    
+    system("cls");
+    setColor(C_PURPLE);
+    std::cout << "Add Field:\n";
+    std::string e;
+    std::string name;
+    bool flag = false;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter field name (";
+        setColor(C_BLUE);
+        std::cout <<"letters only without space";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> name;
+        flag = Auth::fieldNameAuth(e,name);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e <<'\n';
+        }
+    }
+
+    flag = false;
+    std::string city;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter city name (";
+        setColor(C_BLUE);
+        std::cout << "from this options - Ashdod, Tel-Aviv, Jerusalem, Eilat, Ashkelon";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> city;
+        flag = Auth::cityAuth(e, city);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
+
+    flag = false;
+    std::string sportType;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter sport type (";
+        setColor(C_BLUE);
+        std::cout << "from this options - Soccer, Basketball, Tennis, Football";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> sportType;
+        flag = Auth::sportTypeAuth(e, sportType);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
+
+    flag = false;
+    std::string ownerId;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter your id (";
+        setColor(C_BLUE);
+        std::cout << "unique, alphanumeric, minimum 9 characters";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> ownerId;
+        flag = Auth::idAuth(e, ownerId, db);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
+
+    flag = false;
+    std::string description;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter your id (";
+        setColor(C_BLUE);
+        std::cout << "unique, alphanumeric, minimum 9 characters";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> ownerId;
+        flag = Auth::idAuth(e, ownerId, db);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
+
+
+
+}
+
+void ui::deleteField(db &db, std::string &id)
+{
+    setColor(C_PURPLE);
+    std::cout << "Delete Field:\n";
+    std::vector<int> vec;
+    int indexOption = 0;
+    int k = 0;
+    for(int i = 0; i < db.getNumOfFields(); ++i)
+    {
+        if(db.getFieldArr()[i]->getOwnerId() == id)
+        {
+            vec.push_back(i);
+            std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName();
+            ++k;
+        }
+    }
+
+    while(indexOption < 1 || indexOption > k + 1)
+    {
+        setColor(C_WHITE);
+        std::cout << "enter a number option from the list to cancel the specific field:\n";
+        std::cin >> indexOption;
+
+        if(indexOption < 1 || indexOption > k + 1)
+        {
+            setColor(C_RED);
+            std::cout << "invalid value\n";
+        }
+    }
+
+    std::string delThisField = db.getFieldArr()[vec[indexOption - 1]]->getName();
+    db.dbDelField(delThisField);
 }

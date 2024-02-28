@@ -40,6 +40,7 @@ public:
     static void editProfile(db& db, std::string& id);
     static void listOfScheduledGames(db& db, std::string& id);
     static void addField(db& db, std::string& id);
+    static void deleteField(db& db, std::string& id);
 
 private:
 
