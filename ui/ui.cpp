@@ -800,6 +800,7 @@ void ui::managerPanel(db& db, std::string& id)
         }
         case addFieldOption:
         {
+            addField(db, id);
             break;
         }
         case deleteFieldOption:
@@ -1060,25 +1061,6 @@ void ui::addField(db &db, std::string &id)
     }
 
     flag = false;
-    std::string ownerId;
-    while(!flag)
-    {
-        setColor(C_WHITE);
-        std::cout << "Enter your id (";
-        setColor(C_BLUE);
-        std::cout << "unique, alphanumeric, minimum 9 characters";
-        setColor(C_WHITE);
-        std::cout << "):\n";
-        std::cin >> ownerId;
-        flag = Auth::idAuth(e, ownerId, db);
-        if(!flag)
-        {
-            setColor(C_RED);
-            std::cout << e << '\n';
-        }
-    }
-
-    flag = false;
     std::string description;
     while(!flag)
     {
@@ -1089,7 +1071,7 @@ void ui::addField(db &db, std::string &id)
         setColor(C_WHITE);
         std::cout << "):\n";
         std::cin >> description;
-        flag = Auth::fieldDescription(e, ownerId);
+        flag = Auth::fieldDescription(e, id);
         if(!flag)
         {
             setColor(C_RED);
@@ -1121,11 +1103,7 @@ void ui::addField(db &db, std::string &id)
 
     int counter = 0;
 
-    
-
-
-
-
+    db.dbMakeField(name, city, sportType, id, description, reviews, accessible, counter);
 }
 
 void ui::deleteField(db &db, std::string &id)
