@@ -1,6 +1,6 @@
 type: 1
 id: 207055138
-pass: abc123$%^
+pass: 123
 name: Dor
 l_name: Maudi
 phone: 0556688846

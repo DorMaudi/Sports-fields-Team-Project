@@ -2,7 +2,7 @@ name: tedy
 city: Ashdod
 sportType: Tennis
 ownerId: 208060111
-description: best_field_ever!
-reviews: David_:_i_like_this_place!/Josh_:_shitty_place_u_got_there!/
-accessible: 1
-resCounter: 78
+description: 0
+reviews: 0
+accessible: 9
+resCounter: 0

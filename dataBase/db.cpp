@@ -172,7 +172,7 @@ void db::init()
     }
     std::cout << "Loaded " << this->numOfReservations << " reservations into mem" << '\n';
     std::cout << "Id Tracker " << this->reservationIdTracker << '\n';
-    //system("cls");
+    //system("CLS");
 }
 
 void db::commitToDisk()
