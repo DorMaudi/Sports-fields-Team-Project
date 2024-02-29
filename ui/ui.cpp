@@ -800,6 +800,7 @@ void ui::managerPanel(db& db, std::string& id)
         }
         case addFieldOption:
         {
+            addField(db, id);
             break;
         }
         case deleteFieldOption:
@@ -1060,36 +1061,17 @@ void ui::addField(db &db, std::string &id)
     }
 
     flag = false;
-    std::string ownerId;
-    while(!flag)
-    {
-        setColor(C_WHITE);
-        std::cout << "Enter your id (";
-        setColor(C_BLUE);
-        std::cout << "unique, alphanumeric, minimum 9 characters";
-        setColor(C_WHITE);
-        std::cout << "):\n";
-        std::cin >> ownerId;
-        flag = Auth::idAuth(e, ownerId, db);
-        if(!flag)
-        {
-            setColor(C_RED);
-            std::cout << e << '\n';
-        }
-    }
-
-    flag = false;
     std::string description;
     while(!flag)
     {
         setColor(C_WHITE);
-        std::cout << "Enter your id (";
+        std::cout << "Enter description (";
         setColor(C_BLUE);
-        std::cout << "unique, alphanumeric, minimum 9 characters";
+        std::cout << "max 250 characters";
         setColor(C_WHITE);
         std::cout << "):\n";
-        std::cin >> ownerId;
-        flag = Auth::idAuth(e, ownerId, db);
+        std::cin >> description;
+        flag = Auth::fieldDescription(e, id);
         if(!flag)
         {
             setColor(C_RED);
@@ -1097,8 +1079,31 @@ void ui::addField(db &db, std::string &id)
         }
     }
 
+    std::string reviews;
 
 
+    bool accessible;
+    flag = false;
+    while(!flag)
+    {
+        setColor(C_WHITE);
+        std::cout << "Enter 1 - for accessible field. Enter 2 - for not accessible field (";
+        setColor(C_BLUE);
+        std::cout << "0 or 1";
+        setColor(C_WHITE);
+        std::cout << "):\n";
+        std::cin >> accessible;
+        flag = Auth::accessibleField(e,accessible);
+        if(!flag)
+        {
+            setColor(C_RED);
+            std::cout << e << '\n';
+        }
+    }
+
+    int counter = 0;
+
+    db.dbMakeField(name, city, sportType, id, description, reviews, accessible, counter);
 }
 
 void ui::deleteField(db &db, std::string &id)
