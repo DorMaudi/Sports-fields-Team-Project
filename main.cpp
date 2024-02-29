@@ -1,27 +1,20 @@
 
 #include "db.h"
-#include "Auth.h"
 #include "ui.h"
 
 int main() {
 
     // make a new database.
-    //db dataBase;
+    db dataBase;
 
     // load every user and field from the db.
-    //dataBase.init();
+    dataBase.init();
+
+    // call main function.
+    ui::mainFunction(dataBase);
 
     // save all to disk.
-    //dataBase.commitToDisk();
-
-
-    std::vector<date> x;
-    ui::makeCalender(x);
-
-    for (auto i : x)
-    {
-        std::cout << i.getDay() << '/' << i.getMonth() << '/' << i.getYear() << '\n';
-    }
+    dataBase.commitToDisk();
 
     return 0;
 }

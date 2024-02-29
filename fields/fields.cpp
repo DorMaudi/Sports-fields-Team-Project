@@ -9,8 +9,10 @@ fields::fields(std::string name, std::string city, std::string sportType, std::s
                : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), ownerId(std::move(ownerId)), description(std::move(description)), reviews(std::move(reviews))
                {}
 
-const std::string &fields::getName() const {
-    return name;
+
+const std::string &fields::getName() const
+{
+    return this->name;
 }
 
 const std::string &fields::getCity() const {

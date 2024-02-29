@@ -6,7 +6,7 @@
 
 int ui::welcomeScreen()
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "Welcome To Sport Fields Reservation System\n";
     int input = 0;
@@ -35,7 +35,7 @@ int ui::welcomeScreen()
 
 int ui::registration()
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "Registration:\n";
    int input = 0;
@@ -62,7 +62,7 @@ int ui::registration()
 
 void ui::registrationProcess(int type, db& db)
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "Welcome to the registration process, please enter the following fields to make an account:\n";
     std::string e;
@@ -212,7 +212,7 @@ void ui::registrationProcess(int type, db& db)
             }
         }
     }
-    system("cls");
+    //system("cls");
     if(type == 1)
     {
         db.dbMakeUser(DB_USER_TYPE_MANGER, id, password, fName, lName, pNumber, gender, day, month, year);
@@ -229,7 +229,7 @@ void ui::registrationProcess(int type, db& db)
 
 std::string ui::login(db& db)
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "To login you need to enter ID and password:\n";\
     while(true)
@@ -263,7 +263,7 @@ std::string ui::login(db& db)
 void ui::playerPanel(db& db, std::string& id)
 {
     auto user = db.startSession(id);
-    system("cls");
+    //system("cls");
     setColor(C_WHITE);
     std::cout << "WELCOME ";
     setColor(C_PURPLE);
@@ -318,7 +318,10 @@ void ui::playerPanel(db& db, std::string& id)
         }
         case calendarOption:
         {
-            //////////////////////////////////////////////////////////////////////////////////////////////////////
+//            std::vector<date> cal;
+//            makeCalender(cal);
+//            displayCalenderPlayer(cal, db, id);
+            calendar(db, id);
             break;
         }
         case editProfileOption:
@@ -336,7 +339,7 @@ void ui::playerPanel(db& db, std::string& id)
 
 void ui::bookField(db& db, std::string& id)
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "Book Field:\n";
     std::string citySelector;
@@ -421,7 +424,7 @@ void ui::bookField(db& db, std::string& id)
         }
 
         enum cities {Ashdod = 1,TelAviv , Jerusalem, Eilat};
-        switch (sportOption)
+        switch (cityOption)
         {
             case Ashdod:
             {
@@ -454,22 +457,23 @@ void ui::bookField(db& db, std::string& id)
         {
             possibleIndex.push_back(i+1);
             setColor(C_WHITE);
-            std::cout <<"For " << db.getFieldArr()[i]->getName() << "- ";
+            std::cout <<"For " << db.getFieldArr()[i]->getName() << " - ";
             setColor(C_BLUE);
             std::cout << "enter " << i + 1 << '.' << '\n';
         }
     }
     setColor(C_WHITE);
+    std::string nameOfFieldSelected;
     int selectedOption = 0;
     bool validValue = true;
     bool flag = false;
     while(!flag)
     {
         std::cin >> selectedOption;
-
+        nameOfFieldSelected = db.getFieldArr()[selectedOption]->getName();
         for (int i : possibleIndex)
         {
-            if(possibleIndex[i] != selectedOption)
+            if(i != selectedOption)
             {
                 setColor(C_RED);
                 std::cout << "invalid value\n";
@@ -485,18 +489,95 @@ void ui::bookField(db& db, std::string& id)
         flag = true;
     }
 
+    std::vector<date> cal;
+    makeCalender(cal);
+    std::string selectedName = db.getFieldArr()[possibleIndex[selectedOption-1]]->getName();
+    displayCalenderField(cal, db, selectedName);
 
 
+    bool validBook = false;
+    int hh = 0;
+    int dd = 0;
+    int mm = 0;
+    int yr = 0;
+    while (!validBook)
+    {
 
-    //להציג i-1 בהדפסה
-    //הצגת לוח שנה ממוספר של השבוע הקרוב אותו מגרש שנבחר. שעות תפוסות וגם פנויות
-    //שחקן צריך לבחור מתוך לוח שנה זה את הזמן המתאים למשחק
+        bool validDD = false;
+        while (!validDD) {
+            setColor(C_WHITE);
+            std::cout << "\nPlease select a date to schedule (";
+            setColor(C_BLUE);
+            std::cout << "Just pick the [dd] of the date for ex: to pick 23/4/2025 just enter 23";
+            setColor(C_WHITE);
+            std::cout << ").\n";
+            std::cin >> dd;
+
+            for (auto z: cal) {
+                if (dd == z.getDay())
+                {
+                    mm = z.getMonth();
+                    yr = z.getYear();
+                    validDD = true;
+                    break;
+                }
+            }
+            setColor(C_RED);
+            std::cout << "Bad input! try again.\n";
+            setColor(C_WHITE);
+        }
+
+
+        bool validHH = false;
+        while (!validHH) {
+            setColor(C_WHITE);
+            std::cout << "\nPlease select an hour to schedule (";
+            setColor(C_BLUE);
+            std::cout
+                    << "Just pick the [hh] of the date for ex: to pick 12:00 just enter 12 or to pick 8:00 just enter 8";
+            setColor(C_WHITE);
+            std::cout << ").\n";
+            std::cin >> hh;
+
+            for (int i = 8; i < 21; ++i) {
+                if (hh == i) {
+                    validHH = true;
+                    break;
+                }
+            }
+            setColor(C_RED);
+            std::cout << "Bad input! try again.\n";
+            setColor(C_WHITE);
+        }
+
+        for (auto g: db.getReservationArr())
+        {
+            if (validDD != g->getDate().getDay() && validHH != std::stoi(g->getTime()) && nameOfFieldSelected == g->getFieldName())
+            {
+                validBook = true;
+            }
+            else
+            {
+                setColor(C_RED);
+                std::cout << "This date and time is unavailable\n";
+                setColor(C_WHITE);
+                validBook = false;
+            }
+        }
+    }
+
+    std::string stringHH = std::to_string(hh);
+    db.dbMakeReservation(id, nameOfFieldSelected, dd, mm, yr, stringHH);
+
+    setColor(C_GREEN);
+    std::cout << "You have booked " << dd << '/' << mm << '/' << yr << "at: " << stringHH << '\n';
+    setColor(C_WHITE);
 
 }
 
 void ui::cancelReservation(db& db, std::string& id)
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "Cancel Field:\n";
     setColor(C_L_BLUE);
@@ -561,22 +642,24 @@ void ui::cancelReservation(db& db, std::string& id)
     std::cout << "The cancellation was successfully.\n";
 }
 
-void ui::calendar()
+void ui::calendar(db& db, std::string& id)
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "Calendar:\n";
     setColor(C_L_BLUE);
     std::cout << "My Schedule:\n";
 
     setColor(C_WHITE);
-    //רשימת\פןרמט לוח שנה של ההזמנות של השחקן עבור השבוע הקרוב בסדר כרונולוגי.
-    //מירקור ההמשחק הקרוב
+
+    std::vector<date> cal;
+    makeCalender(cal);
+    displayCalenderPlayer(cal, db, id);
 }
 
 void ui::editProfile(db& db, std::string& id)
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "Edit Your Profile:\n";
     int editOption = 0;
@@ -741,7 +824,7 @@ void ui::editProfile(db& db, std::string& id)
 void ui::managerPanel(db& db, std::string& id)
 {
     auto manager = db.startSession(id);
-    system("cls");
+    //system("cls");
     setColor(C_WHITE);
     std::cout << "WELCOME ";
     setColor(C_PURPLE);
@@ -796,6 +879,7 @@ void ui::managerPanel(db& db, std::string& id)
         }
         case markDatesAsUnavailable:
         {
+            markDateAsUnavailable(db, id);
             break;
         }
         case addFieldOption:
@@ -999,7 +1083,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
 
 void ui::addField(db &db, std::string &id)
 {
-    system("cls");
+    //system("cls");
     setColor(C_PURPLE);
     std::cout << "Add Field:\n";
     std::string e;
@@ -1147,20 +1231,304 @@ void ui::makeCalender(std::vector<date>& arr)
     auto firstDay = date(time.wDay, time.wMonth, time.wYear);
     arr.push_back(firstDay);
 
-    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int daysInMonth[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    for (int i = 0; i < DAYS_OF_WEEK; ++i) // change to switch case.
+    int weekOption = 0;
+    enum weekCase {freeWeek=1, jumpMonth, jumpYear};
+
+    if (firstDay.getDay() + 6 <= daysInMonth[firstDay.getMonth()-1]) // if entire week is on the same month.
+        weekOption = 1;
+    else if (firstDay.getDay() + 6 > daysInMonth[firstDay.getMonth()-1] && firstDay.getMonth() != 12)
+        weekOption = 2;
+    else
+        weekOption = 3;
+
+
+    switch (weekOption)
     {
-        if (firstDay.getDay() + 6 <= daysInMonth[firstDay.getMonth()-1]) // if entire week is on the same month.
+        case freeWeek:
         {
-            for (int j = 0; j < DAYS_OF_WEEK; ++j)
+            for (int j = 0; j < DAYS_OF_WEEK; ++j) // if entire week is on the same month.
             {
                 date newDay = date(firstDay.getDay()+j+1, firstDay.getMonth(), firstDay.getYear());
                 arr.push_back(newDay);
             }
             return;
         }
+        case jumpMonth:
+        {
+            for (int i = 0; i < DAYS_OF_WEEK; ++i) // day is out of range of current month.
+            {
+                if (firstDay.getDay()+i+1 <= daysInMonth[firstDay.getMonth()-1])
+                {
+                    date newDay = date(firstDay.getDay()+i+1, firstDay.getMonth(), firstDay.getYear());
+                    arr.push_back(newDay);
+                }
+                else
+                {
+                    date newDay = date(firstDay.getDay()+i+1-daysInMonth[firstDay.getMonth()-1], firstDay.getMonth()+1, firstDay.getYear());
+                    arr.push_back(newDay);
+                }
+            }
+            return;
+        }
+        case jumpYear:
+        {
+            for (int i = 0; i < DAYS_OF_WEEK; ++i) // month is out of range in current year.
+            {
+                if (firstDay.getDay()+i+1 <= daysInMonth[firstDay.getMonth()-1])
+                {
+                    date newDay = date(firstDay.getDay()+i+1, firstDay.getMonth(), firstDay.getYear());
+                    arr.push_back(newDay);
+                }
+                else
+                {
+                    date newDay = date(firstDay.getDay()+i+1-daysInMonth[firstDay.getMonth()-1], 1, firstDay.getYear()+1);
+                    arr.push_back(newDay);
+                }
+            }
+            return;
+        }
+        default:
+            break;
+    }
+}
 
+void ui::displayCalenderPlayer(std::vector<date> &dateArr, db &db, std::string &id)
+{
+    std::vector<int> vec;
+
+    int k = 0;
+    for(auto i : db.getReservationArr())
+    {
+        if(i->getIdPlayer() == id)
+        {
+            vec.push_back(k);
+            ++k;
+        }
     }
 
+    int i, j;
+    int n = (int)vec.size();
+    bool swapped;
+    for (i = 0; i < n - 1; i++)
+    {
+        swapped = false;
+        for (j = 0; j < n - i - 1; j++)
+        {
+            if (db.getReservationArr()[vec[j]]->getDate().getYear() >= db.getReservationArr()[vec[j+1]]->getDate().getYear())
+                if (db.getReservationArr()[vec[j]]->getDate().getMonth() >= db.getReservationArr()[vec[j+1]]->getDate().getMonth())
+                    if (db.getReservationArr()[vec[j]]->getDate().getDay() >= db.getReservationArr()[vec[j+1]]->getDate().getDay())
+                        if (std::stoi(db.getReservationArr()[vec[j]]->getTime()) > std::stoi(db.getReservationArr()[vec[j+1]]->getTime()))
+                        {
+                            std::swap(vec[j], vec[j + 1]);
+                            swapped = true;
+                        }
+        }
+        // If no two elements were swapped
+        // by inner loop, then break
+        if (swapped == false)
+            break;
+    }
+
+    setColor(C_WHITE);
+    bool fistRes = true;
+    for (auto z : dateArr)
+    {
+        setColor(C_WHITE);
+        std::cout << std::to_string(z.getDay()) << '/' << std::to_string(z.getMonth()) << '/' << std::to_string(z.getYear()) << ": ";
+        for (auto y : vec)
+        {
+            if (z == db.getReservationArr()[y]->getDate() && db.getReservationArr()[y]->getIdPlayer() == id)
+            {
+                if (fistRes)
+                {
+                    setColor(C_BLUE);
+                    fistRes = false;
+                }
+                else
+                    setColor(C_WHITE);
+                std::cout << '['<<db.getReservationArr()[y]->getFieldName() << " " << db.getReservationArr()[y]->getTime() << ":00]";
+            }
+        }
+        std::cout << '\n';
+    }
+}
+
+void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &fieldName)
+{
+    //system("cls");
+    setColor(C_WHITE);
+
+    std::cout << "This is the calender for ";
+    setColor(C_BLUE);
+    std::cout << fieldName;
+    setColor(C_WHITE);
+    std::cout << ".\nThe color - ";
+    setColor(C_GREEN);
+    std::cout << "Green ";
+    setColor(C_WHITE);
+    std::cout << "marks an empty hour that you can schedule.\n";
+    std::cout << "The color - ";
+    setColor(C_RED);
+    std::cout << "Red ";
+    setColor(C_WHITE);
+    std::cout << "marks a taken hour that you can't schedule.\n";
+    std::cout << "The color - ";
+    setColor(C_PURPLE);
+    std::cout << "Purple ";
+    setColor(C_WHITE);
+    std::cout << "marks a closed field for this day (you can't make a reservation).\n\n";
+
+    for (auto q : dateArr)
+    {
+        std::cout << std::to_string(q.getDay()) << '/' << std::to_string(q.getMonth()) << '/' << std::to_string(q.getYear()) << ": ";
+        bool foundReservation = false;
+        for (int l = 8; l < 21; ++l) {
+            bool reservationFoundForHour = false;
+            for (auto b : db.getReservationArr())
+            {
+                if (b->getDate() == q && b->getFieldName() == fieldName && std::stoi(b->getTime()) == l)
+                {
+                    foundReservation = true;
+                    reservationFoundForHour = true;
+                    if (b->getIdPlayer() != "0") {
+                        setColor(C_RED);
+                    } else {
+                        setColor(C_PURPLE);
+                    }
+                    std::cout << l << ":00 ";
+                }
+            }
+            if (!reservationFoundForHour) {
+                setColor(C_GREEN);
+                std::cout << l << ":00 ";
+            }
+        }
+        setColor(C_WHITE);
+        std::cout << '\n';
+    }
+
+}
+
+void ui::markDateAsUnavailable(db &db, std::string& id)
+{
+    std::vector<date> cal;
+    makeCalender(cal);
+
+    std::vector<int> managerFields;
+    std::string fieldName;
+    int index = 0;
+    for (auto i : db.getFieldArr())
+    {
+        if (i->getOwnerId() == id)
+        {
+            managerFields.push_back(index);
+        }
+        ++index;
+    }
+
+    bool validIndex = false;
+    int indexA = 0;
+    while (!validIndex)
+    {
+        for (auto i : managerFields)
+        {
+            std::cout << "For " << db.getFieldArr()[i]->getName() << "Enter " << i+1 << '\n';
+        }
+        std::cin >> indexA;
+        for (auto i : managerFields)
+        {
+            if (indexA == i)
+                validIndex = true;
+        }
+        setColor(C_RED);
+        std::cout << "Invalid index, try again!\n";
+        setColor(C_WHITE);
+    }
+
+    std::cout << "Enter a day to make unavailable (for ex: [dd] for 25/6/2026 just enter 25).\n";
+
+    bool validDay = false;
+    int dd = 0;
+    int mm = 0;
+    int year = 0;
+    while (!validDay)
+    {
+        std::cin >> dd;
+        for (auto i : cal)
+        {
+            if (i.getDay() == dd)
+            {
+                validDay = true;
+                mm = i.getMonth();
+                year = i.getYear();
+                break;
+            }
+        }
+        setColor(C_RED);
+        std::cout << "Invalid day, try again!\n";
+    }
+
+    for (auto i : db.getReservationArr())
+    {
+        if (i->getFieldName() == db.getFieldArr()[indexA-1]->getName() && i->getDate().getDay() == dd)
+        {
+            db.dbDelReservation(i->getIdPlayer(), db.getFieldArr()[indexA-1]->getName(), i->getTime());
+        }
+    }
+
+    for (int i = 8; i < 21; ++i)
+    {
+        std::string zero = "0";
+        std::string hr = std::to_string(i);
+        std::string arrName = db.getFieldArr()[indexA-1]->getName();
+        db.dbMakeReservation(zero, arrName, dd, mm, year, hr);
+    }
+
+    setColor(C_GREEN);
+    std::cout << "The date selected will be unavailable\n";
+}
+
+void ui::mainFunction(db& db)
+{
+    while (true)
+    {
+        int selector = welcomeScreen();
+        if (selector == 1) // want to register.
+        {
+            selector = registration();
+            if (selector == 1) // register as manager.
+            {
+                registrationProcess(selector, db);
+                continue;
+            }
+            else // register as player.
+            {
+                registrationProcess(selector, db);
+                continue;
+            }
+        }
+        else // want to log in.
+        {
+            std::string id = login(db);
+            int type = 0;
+            for (auto i : db.getPersonArr())
+            {
+                if (i->getID() == id)
+                {
+                    if (typeid(i) == typeid(Manager))
+                    {
+                        managerPanel(db, id);
+                        break;
+                    }
+                    else
+                    {
+                        playerPanel(db, id);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

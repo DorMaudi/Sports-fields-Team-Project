@@ -41,3 +41,11 @@ bool date::dateAuth(int day, int month, int year, std::string& e) {
 date::date(int day, int month, int year)
 : day(day), month(month), year(year)
 {}
+
+bool date::operator==(const date &other) const
+{
+    if (this->day == other.getDay() && this->month == other.getMonth() && this->year == other.getYear())
+        return true;
+    else
+        return false;
+}

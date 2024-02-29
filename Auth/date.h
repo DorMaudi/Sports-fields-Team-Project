@@ -22,6 +22,8 @@ public:
     int getDay() const { return day; }
     int getMonth() const { return month; }
     int getYear() const { return year; }
+
+    bool operator==(const date& other) const;
 };
 
 
