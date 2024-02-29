@@ -10,7 +10,7 @@ int ui::welcomeScreen()
     setColor(C_PURPLE);
     std::cout << "Welcome To Sport Fields Reservation System\n";
     int input = 0;
-    while(input != 1 && input != 2)
+    while(input != 1 && input != 2 && input != 3)
     {
         setColor(C_L_BLUE);
         std::cout << "Registration \\ Login\n";
@@ -22,8 +22,12 @@ int ui::welcomeScreen()
         std::cout << "For login - ";
         setColor(C_BLUE);
         std::cout << "enter 2.\n";
+        setColor(C_WHITE);
+        std::cout << "For Exit - ";
+        setColor(C_BLUE);
+        std::cout << "enter 3.\n";
         std::cin >> input;
-        if(input != 1 && input != 2)
+        if(input != 1 && input != 2 && input != 3)
         {
             setColor(C_RED);
             std::cout << "invalid value!\n";
@@ -204,6 +208,7 @@ void ui::registrationProcess(int type, db& db)
             std::cout << "1900 - 2006";
             setColor(C_WHITE);
             std::cout << "):\n";
+            std::cin >> year;
             flag = Auth::dateAuth(e, day, month, year);
             if(!flag)
             {
@@ -242,19 +247,19 @@ std::string ui::login(db& db)
         std::cout << "Enter your ID:\n";
         std::cin >> id;
 
-        std::cout << "Enter your password:\n;";
+        std::cout << "Enter your password:\n";
         std::cin >> pass;
 
         if (!Auth::login(id, pass, msg, db))
         {
             setColor(C_RED);
-            std::cout << msg; //bad input.
+            std::cout << msg << '\n'; //bad input.
             continue;
         }
         else
         {
             setColor(C_GREEN);
-            std::cout << msg; //successfully login.
+            std::cout << msg << '\n'; //successfully login.
             return id;
         }
     }
@@ -295,44 +300,44 @@ void ui::playerPanel(db& db, std::string& id)
         std::cout << "enter 5.\n";
         std::cin >> option;
 
-        if(option < 1 || option > 5)
-        {
+        if (option < 1 || option > 5) {
             setColor(C_RED);
             std::cout << "invalid value\n";
         }
-    }
-    setColor(C_WHITE);
-    enum menuOptions {bookFieldOption = 1, cancelReservationOption, calendarOption, editProfileOption, exitProgram};
 
-    switch (option)
-    {
-        case bookFieldOption:
-        {
-            bookField(db, id);
-            break;
-        }
-        case cancelReservationOption:
-        {
-            cancelReservation(db, id);
-            break;
-        }
-        case calendarOption:
-        {
+        setColor(C_WHITE);
+        enum menuOptions {
+            bookFieldOption = 1, cancelReservationOption, calendarOption, editProfileOption, exitProgram
+        };
+
+        switch (option) {
+            case bookFieldOption: {
+                bookField(db, id);
+                option = 0;
+                continue;
+            }
+            case cancelReservationOption: {
+                cancelReservation(db, id);
+                option = 0;
+                continue;
+            }
+            case calendarOption: {
 //            std::vector<date> cal;
 //            makeCalender(cal);
 //            displayCalenderPlayer(cal, db, id);
-            calendar(db, id);
-            break;
-        }
-        case editProfileOption:
-        {
-            editProfile(db, id);
-            break;
-        }
-        case exitProgram:
-        {
-            ///////////////////////////////////////////////////////////לוודא שאחרי שהמשתמש בוחר לצאת הוא חוזר לפונקציית ההתחלהwelcome screen
-            break;
+                calendar(db, id);
+                option = 0;
+                continue;
+            }
+            case editProfileOption: {
+                editProfile(db, id);
+                option = 0;
+                continue;
+            }
+            case exitProgram: {
+                ///////////////////////////////////////////////////////////לוודא שאחרי שהמשתמש בוחר לצאת הוא חוזר לפונקציית ההתחלהwelcome screen
+                break;
+            }
         }
     }
 }
@@ -455,7 +460,7 @@ void ui::bookField(db& db, std::string& id)
     for (int i = 0; i < db.getNumOfFields(); ++i) {
         if (db.getFieldArr()[i]->getCity() == citySelector && db.getFieldArr()[i]->getSportType() == gameSelector)
         {
-            possibleIndex.push_back(i+1);
+            possibleIndex.push_back(i);
             setColor(C_WHITE);
             std::cout <<"For " << db.getFieldArr()[i]->getName() << " - ";
             setColor(C_BLUE);
@@ -470,10 +475,10 @@ void ui::bookField(db& db, std::string& id)
     while(!flag)
     {
         std::cin >> selectedOption;
-        nameOfFieldSelected = db.getFieldArr()[selectedOption]->getName();
+        nameOfFieldSelected = db.getFieldArr()[possibleIndex[selectedOption-1]]->getName();
         for (int i : possibleIndex)
         {
-            if(i != selectedOption)
+            if(possibleIndex[selectedOption-1] != selectedOption-1)
             {
                 setColor(C_RED);
                 std::cout << "invalid value\n";
@@ -513,7 +518,8 @@ void ui::bookField(db& db, std::string& id)
             std::cout << ").\n";
             std::cin >> dd;
 
-            for (auto z: cal) {
+            for (auto z: cal)
+            {
                 if (dd == z.getDay())
                 {
                     mm = z.getMonth();
@@ -522,9 +528,12 @@ void ui::bookField(db& db, std::string& id)
                     break;
                 }
             }
-            setColor(C_RED);
-            std::cout << "Bad input! try again.\n";
-            setColor(C_WHITE);
+            if (!validDD)
+            {
+                setColor(C_RED);
+                std::cout << "Bad input! try again.\n";
+                setColor(C_WHITE);
+            }
         }
 
 
@@ -545,9 +554,12 @@ void ui::bookField(db& db, std::string& id)
                     break;
                 }
             }
-            setColor(C_RED);
-            std::cout << "Bad input! try again.\n";
-            setColor(C_WHITE);
+            if (!validHH)
+            {
+                setColor(C_RED);
+                std::cout << "Bad input! try again.\n";
+                setColor(C_WHITE);
+            }
         }
 
         for (auto g: db.getReservationArr())
@@ -570,7 +582,7 @@ void ui::bookField(db& db, std::string& id)
     db.dbMakeReservation(id, nameOfFieldSelected, dd, mm, yr, stringHH);
 
     setColor(C_GREEN);
-    std::cout << "You have booked " << dd << '/' << mm << '/' << yr << "at: " << stringHH << '\n';
+    std::cout << "You have booked " << dd << '/' << mm << '/' << yr << " at: " << stringHH << '\n';
     setColor(C_WHITE);
 
 }
@@ -591,7 +603,7 @@ void ui::cancelReservation(db& db, std::string& id)
         if (db.getReservationArr()[i]->getIdPlayer() == id)
         {
             ++zIndex;
-            possibleIndex.push_back(i + 1);
+            possibleIndex.push_back(i);
             std::cout << zIndex <<". Field name: ";
             setColor(C_YELLOW);
             std::cout << db.getReservationArr()[i]->getFieldName();
@@ -618,7 +630,7 @@ void ui::cancelReservation(db& db, std::string& id)
 
         for (int i : possibleIndex)
         {
-            if(possibleIndex[i] != userOption)
+            if(possibleIndex[userOption-1] != userOption-1)
             {
                 setColor(C_RED);
                 std::cout << "invalid value\n";
@@ -1509,7 +1521,7 @@ void ui::mainFunction(db& db)
                 continue;
             }
         }
-        else // want to log in.
+        else if (selector == 2) // want to log in.
         {
             std::string id = login(db);
             int type = 0;
@@ -1529,6 +1541,11 @@ void ui::mainFunction(db& db)
                     }
                 }
             }
+        }
+        else
+        {
+            std::cout << "Good Bye!\n";
+            break;
         }
     }
 }
