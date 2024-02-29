@@ -125,7 +125,7 @@ void db::init()
         std::string description;
         std::string reviews;
         int accessible;
-        int reservationCounter;
+        int reservationCounter = 0;
 
         loadStringToMem(name, myFile);
         loadStringToMem(city, myFile);
@@ -443,7 +443,8 @@ void db::dbMakeReservation(std::string& id, std::string& fieldName, int day, int
                         << "year: " << std::to_string(year) << '\n'
                         << "time: " << time << '\n';
 
-    this->reservationArr.push_back(new reservation(std::to_string(this->reservationIdTracker), id, fieldName, time, day, month, year));
+    std::string idTracker = std::to_string(this->reservationIdTracker);
+    this->reservationArr.push_back(new reservation(idTracker, id, fieldName, time, day, month, year));
     ++this->numOfReservations;
     newReservationData.close();
 }
@@ -488,7 +489,7 @@ void db::dbDelField(std::string& nameOfField)
     --this->numOfFieldFiles;
 }
 
-void db::dbDelReservation(std::string& id, std::string& fieldName, std::string& hour)
+void db::dbDelReservation(const std::string& id, const std::string& fieldName, const std::string& hour)
 {
     // delete file on disk.
     int counter = 0;

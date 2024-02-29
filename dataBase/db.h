@@ -5,7 +5,7 @@
 #ifndef SPORTS_FIELDS_TEAM_PROJECT_DB_H
 #define SPORTS_FIELDS_TEAM_PROJECT_DB_H
 
-
+#include <Windows.h>
 #include <string>
 #include <fstream>
 #include <filesystem>
@@ -46,7 +46,7 @@ public:
     // delete user / field / res on db.
     void dbDelUser(std::string& id);
     void dbDelField(std::string& nameOfField);
-    void dbDelReservation(std::string& id, std::string& fieldName, std::string& hour);
+    void dbDelReservation(const std::string& id, const std::string& fieldName, const std::string& hour);
     void dbDelReservationByField(std::string& fieldName);
 
     // getFunctions.
