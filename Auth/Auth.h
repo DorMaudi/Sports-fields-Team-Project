@@ -56,6 +56,8 @@ public:
 
     static bool isDigit (std::string& e, std::string Num);
 
+    static bool idAuth_ (std::string &e, std::string ID);
+
     //static bool reservationAuth (std::string&e ,std::string sportType, std::string city, std::string fieldName, int day,int month, int year, db& database);
 
 };
