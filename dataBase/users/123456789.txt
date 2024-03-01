@@ -1,0 +1,10 @@
+type: 2
+id: 123456789
+pass: abc12345
+name: bobber
+l_name: kurwa
+phone: 0505891102
+gender: M
+b_day: 2
+b_mon: 4
+b_yr: 1996
