@@ -1,7 +1,10 @@
-type: 1
+type: 2
 id: 322378068
 pass: sapir123
 name: sapir
 l_name: natanov
 phone: 0527989430
 gender: F
+b_day: 24
+b_mon: 4
+b_yr: 2001
