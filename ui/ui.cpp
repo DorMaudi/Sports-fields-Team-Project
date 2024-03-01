@@ -39,7 +39,7 @@ int ui::welcomeScreen()
         else
         {
             flag = true;
-            input = std::stoi(option); // Convert string to integer
+            input = std::stoi(option);
         }
     } while (!flag);
 
