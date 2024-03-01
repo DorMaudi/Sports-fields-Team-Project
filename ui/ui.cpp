@@ -588,7 +588,7 @@ void ui::bookField(db& db, std::string& id)
 
         for (auto g: db.getReservationArr())
         {
-            if (validDD != g->getDate().getDay() && validHH != std::stoi(g->getTime()) && nameOfFieldSelected == g->getFieldName())
+            if ((dd != g->getDate().getDay() || hh != std::stoi(g->getTime())) && nameOfFieldSelected == g->getFieldName())
             {
                 validBook = true;
             }
@@ -974,6 +974,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
     }
 
     std::vector<int> vec;
+    fields* getCurField;
     if(selectedOption == 1)
     {
         int k = 0;
@@ -982,7 +983,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
             if(db.getFieldArr()[i]->getOwnerId() == id)
             {
                 vec.push_back(i);
-                std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName();
+                std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName() << "\n";
                 ++k;
             }
         }
@@ -1006,6 +1007,8 @@ void ui::listOfScheduledGames(db &db, std::string &id)
                 std::cout << "invalid value\n";
             }
         }
+
+
 
         int i, j;
         int n = (int)vec.size();
@@ -1031,6 +1034,23 @@ void ui::listOfScheduledGames(db &db, std::string &id)
         }
 
         std::string selectedField = db.getFieldArr()[vec[indexOption-1]]->getName();
+
+        bool noReservations = true;
+        for (auto g : db.getReservationArr())
+        {
+            if(g->getFieldName() == selectedField)
+            {
+                noReservations = false;
+            }
+        }
+
+        if (noReservations)
+        {
+            setColor(C_RED);
+            std::cout << "No reservation for this field.\n";
+            setColor(C_WHITE);
+            return;
+        }
 
         for(auto u : vec)
         {

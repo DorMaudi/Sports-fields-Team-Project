@@ -1,8 +1,0 @@
-name: malachi
-city: Ashdod
-sportType: Football
-ownerId: 322378068
-description: the
-reviews: 
-accessible: 0
-resCounter: 0
