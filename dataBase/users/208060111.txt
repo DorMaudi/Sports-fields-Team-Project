@@ -1,7 +1,7 @@
-type: 2
+type: 1
 id: 208060111
-pass: abc123789
+pass: abc12345
 name: jacob
-l_name: Maudi
+l_name: Shtefan
 phone: 0572233367
 gender: F
