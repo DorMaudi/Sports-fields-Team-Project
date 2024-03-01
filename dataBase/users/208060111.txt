@@ -1,7 +1,0 @@
-type: 1
-id: 208060111
-pass: abc12345
-name: jacob
-l_name: Shtefan
-phone: 0572233367
-gender: F

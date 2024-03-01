@@ -1,7 +1,7 @@
 type: 1
 id: 207055138
-pass: 123
-name: Dor
-l_name: Maudi
-phone: 0556688846
+pass: sapir123
+name: dor
+l_name: maudi
+phone: 0526211604
 gender: M

@@ -13,6 +13,7 @@ private:
     std::vector<std::string> bookings;
 public:
     Player(std::string &id, std::string &password, std::string &firstName, std::string &lastName, std::string &phoneNumber, char gender);
+    virtual int getType() const { return 1; }
 };
 
 

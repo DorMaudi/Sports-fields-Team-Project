@@ -1,8 +1,0 @@
-name: tedy
-city: Ashdod
-sportType: Tennis
-ownerId: 208060111
-description: 0
-reviews: 0
-accessible: 1
-resCounter: 25

@@ -6,4 +6,6 @@
 
 Manager::Manager(std::string &id, std::string &password, std::string &firstName, std::string &lastName, std::string &phoneNumber, char gender, date* B_date)
 : Person(id, password, firstName, lastName, phoneNumber, gender)
-{}
+{
+    setBirthday(B_date->getDay(), B_date->getMonth(), B_date->getYear());
+}
