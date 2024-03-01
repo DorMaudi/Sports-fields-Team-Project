@@ -1,4 +1,4 @@
-type: 2
+type: 1
 id: 208060111
 pass: abc123789
 name: jacob

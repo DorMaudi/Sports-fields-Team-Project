@@ -6,7 +6,7 @@
 
 fields::fields(std::string name, std::string city, std::string sportType, std::string ownerId, std::string description,
                std::string reviews, bool accessible, int counter)
-               : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), ownerId(std::move(ownerId)), description(std::move(description)), reviews(std::move(reviews))
+               : name(std::move(name)), city(std::move(city)), sportType(std::move(sportType)), ownerId(std::move(ownerId)), description(std::move(description)), reviews(std::move(reviews)), accessible(accessible), reservationCounter(counter)
                {}
 
 
