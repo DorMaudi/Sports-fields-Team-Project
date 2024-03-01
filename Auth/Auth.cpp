@@ -218,3 +218,19 @@ bool Auth::isDigit(std::string &e, std::string Num) {
     }
     return true;
 }
+
+bool Auth::idAuth_(std::string &e, std::string ID) {
+    // Check if the ID has 9 digits
+    if (ID.size() != 9){
+        e = "Your ID is not 9 Numbers";
+        return false;
+    }
+    // Check if all characters in ID are digits
+    for (char c : ID) {
+        if (!isdigit(c)||c == ' ') {
+            e = "ID should contain only numbers.";
+            return false;
+        }
+    }
+    return true;
+}

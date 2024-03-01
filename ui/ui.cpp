@@ -47,32 +47,42 @@ int ui::welcomeScreen()
     return input;
 }
 
-int ui::registration()
-{
-    //system("cls");
+int ui::registration() {
     setColor(C_PURPLE);
     std::cout << "Registration:\n";
-   int input = 0;
-   while(input != 1 && input != 2)
-   {
-       setColor(C_WHITE);
-       std::cout << "For manager registration - ";
-       setColor(C_BLUE);
-       std::cout << "enter 1.\n";
-       setColor(C_WHITE);
-       std::cout << "For player registration - ";
-       setColor(C_BLUE);
-       std::cout << "enter 2.\n";
-       std::cin >> input;
-       if(input != 1 && input != 2)
-       {
-           setColor(C_RED);
-           std::cout << "invalid value!\n";
-       }
-   }
+    std::string option;
+    int input = 0;
+    bool flag = false;
+
+    do {
+        setColor(C_WHITE);
+        std::cout << "For manager registration - ";
+        setColor(C_BLUE);
+        std::cout << "enter 1.\n";
+        setColor(C_WHITE);
+        std::cout << "For player registration - ";
+        setColor(C_BLUE);
+        std::cout << "enter 2.\n";
+        std::cin >> option;
+
+        // Clear input buffer
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        // Check if the input is a valid integer
+        if (option != "1" && option != "2") {
+            setColor(C_RED);
+            std::cout << "Invalid input. Please enter 1 or 2.\n";
+        } else {
+            flag = true;
+            input = std::stoi(option);
+        }
+    } while (!flag);
+
     setColor(C_WHITE);
     return input;
 }
+
 
 void ui::registrationProcess(int type, db& db)
 {
@@ -259,7 +269,11 @@ std::string ui::login(db& db)
 
         std::cout << "Enter your password:\n";
         std::cin >> pass;
-
+        if(!Auth::idAuth_(msg,id)){
+            setColor(C_RED);
+            std::cout << msg << '\n'; //bad id input
+            continue;
+        }
         if (!Auth::login(id, pass, msg, db))
         {
             setColor(C_RED);
@@ -275,18 +289,16 @@ std::string ui::login(db& db)
     }
 }
 
-void ui::playerPanel(db& db, std::string& id)
-{
+void ui::playerPanel(db& db, std::string& id) {
     auto user = db.startSession(id);
     std::string tempUid = user->getID();
-    //system("cls");
     setColor(C_WHITE);
     std::cout << "WELCOME ";
     setColor(C_PURPLE);
     std::cout << user->getFirstName() << '\n';
     int option = 0;
-    while(option < 1 || option > 5)
-    {
+
+    while (option < 1 || option > 5) {
         id = tempUid;
         setColor(C_L_BLUE);
         std::cout << "Player Menu: " << tempUid << "\n";
@@ -312,9 +324,13 @@ void ui::playerPanel(db& db, std::string& id)
         std::cout << "enter 5.\n";
         std::cin >> option;
 
+        // Clear input buffer
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
         if (option < 1 || option > 5) {
             setColor(C_RED);
-            std::cout << "invalid value\n";
+            std::cout << "Invalid value. Please enter a number between 1 and 5.\n";
         }
 
         setColor(C_WHITE);
@@ -326,25 +342,25 @@ void ui::playerPanel(db& db, std::string& id)
             case bookFieldOption: {
                 bookField(db, id);
                 option = 0;
-                continue;
+                break;
             }
             case cancelReservationOption: {
                 cancelReservation(db, tempUid);
                 option = 0;
-                continue;
+                break;
             }
             case calendarOption: {
                 calendar(db, tempUid);
                 option = 0;
-                continue;
+                break;
             }
             case editProfileOption: {
                 editProfile(db, id);
                 option = 0;
-                continue;
+                break;
             }
             case exitProgram: {
-                ///////////////////////////////////////////////////////////לוודא שאחרי שהמשתמש בוחר לצאת הוא חוזר לפונקציית ההתחלהwelcome screen
+                // Add any necessary cleanup or exit logic here
                 break;
             }
         }
@@ -378,10 +394,14 @@ void ui::bookField(db& db, std::string& id)
         setColor(C_BLUE);
         std::cout << "enter 4.\n";
         std::cin >> sportOption;
-        if(sportOption < 1 || sportOption > 4)
-        {
+        if (sportOption >= 1 && sportOption <= 4) {
+            break;  // Exit the loop if the input is valid
+        } else {
             setColor(C_RED);
-            std::cout << "invalid value\n";
+            std::cout << "Invalid input. Please enter a number between 1 and 4.\n";
+            // Clear input buffer
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
 
         enum sports {soccer = 1,basketBall , tennis, footBall};
@@ -431,10 +451,14 @@ void ui::bookField(db& db, std::string& id)
         setColor(C_BLUE);
         std::cout << "enter 4.\n";
         std::cin >> cityOption;
-        if(cityOption < 1 || cityOption > 4)
-        {
+        if (cityOption >= 1 && cityOption <= 4) {
+            break;  // Exit the loop if the input is valid
+        } else {
             setColor(C_RED);
-            std::cout << "invalid value\n";
+            std::cout << "Invalid input. Please enter a number between 1 and 4.\n";
+            // Clear input buffer
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
 
         enum cities {Ashdod = 1,TelAviv , Jerusalem, Eilat};
@@ -743,10 +767,12 @@ void ui::editProfile(db& db, std::string& id)
         std::cout << "enter 5.\n";
         std::cin >> editOption;
 
-        if(editOption < 1 || editOption > 5)
-        {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if (editOption < 1 || editOption > 5) {
             setColor(C_RED);
-            std::cout << "invalid value\n";
+            std::cout << "Invalid value. Please enter a number between 1 and 5.\n";
         }
     }
 
@@ -914,9 +940,12 @@ void ui::managerPanel(db& db, std::string& id)
         std::cout << "enter 6.\n";
         std::cin >> option;
 
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
         if (option < 1 || option > 6) {
             setColor(C_RED);
-            std::cout << "invalid value\n";
+            std::cout << "Invalid value. Please enter a number between 1 and 6.\n";
         }
 
         setColor(C_WHITE);
@@ -980,16 +1009,22 @@ void ui::listOfScheduledGames(db &db, std::string &id)
 
     while (selectedOption != 1 && selectedOption != 2)
     {
-        std::cin >> selectedOption;
-
-        if(selectedOption != 1 && selectedOption != 2)
+        if (!(std::cin >> selectedOption)) // Check if input is valid
         {
             setColor(C_RED);
-            std::cout << "invalid value\n";
+            std::cout << "Invalid input\n";
             setColor(C_WHITE);
-            std::cout << "enter a valid value (1 or 2):\n";
+            std::cout << "Enter a valid value (1 or 2): \n";
+            std::cin.clear(); // Clear error flags
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
         }
-
+        else if(selectedOption != 1 && selectedOption != 2)
+        {
+            setColor(C_RED);
+            std::cout << "Invalid value\n";
+            setColor(C_WHITE);
+            std::cout << "Enter a valid value (1 or 2): ";
+        }
     }
 
     std::vector<int> vec;
@@ -1572,11 +1607,14 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
         }
         std::cin >> indexA;
 
-        if (indexA < 1  || indexA > k)
+        if (indexA < 1 || indexA > k)
         {
             setColor(C_RED);
             std::cout << "Invalid index, try again!\n";
             setColor(C_WHITE);
+            // Clear input buffer
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         else
         {
