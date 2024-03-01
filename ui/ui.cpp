@@ -268,6 +268,7 @@ std::string ui::login(db& db)
 void ui::playerPanel(db& db, std::string& id)
 {
     auto user = db.startSession(id);
+    std::string tempUid = user->getID();
     //system("cls");
     setColor(C_WHITE);
     std::cout << "WELCOME ";
@@ -317,7 +318,7 @@ void ui::playerPanel(db& db, std::string& id)
                 continue;
             }
             case cancelReservationOption: {
-                cancelReservation(db, id);
+                cancelReservation(db, tempUid);
                 option = 0;
                 continue;
             }
@@ -325,7 +326,7 @@ void ui::playerPanel(db& db, std::string& id)
 //            std::vector<date> cal;
 //            makeCalender(cal);
 //            displayCalenderPlayer(cal, db, id);
-                calendar(db, user->getID());
+                calendar(db, tempUid);
                 option = 0;
                 continue;
             }
@@ -675,6 +676,7 @@ void ui::cancelReservation(db& db, std::string& id)
 
     std::string tempFieldName = db.getReservationArr()[zIndex - 1]->getFieldName();
     std::string tempTime = db.getReservationArr()[zIndex - 1]->getTime();
+
 
     db.dbDelReservation(id, tempFieldName, tempTime);
     setColor(C_GREEN);
