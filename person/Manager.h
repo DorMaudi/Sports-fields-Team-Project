@@ -18,7 +18,7 @@ private:
 public:
     Manager(std::string &id, std::string &password, std::string &firstName, std::string &lastName, std::string &phoneNumber, char gender, date* B_date);
     ~Manager() { delete B_date; }
-
+    virtual int getType() const { return 2; }
     void setBirthday(int day, int month, int year) { this->B_date = new date(day, month, year); }
 
     date* getBirthday() const { return B_date; }

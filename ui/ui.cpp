@@ -455,8 +455,25 @@ void ui::bookField(db& db, std::string& id)
     }
     setColor(C_WHITE);
 
-    std::vector<int> possibleIndex;
+    int counter = 0;
+    for (int i = 0; i < db.getNumOfFields(); ++i)
+    {
+        if (db.getFieldArr()[i]->getCity() == citySelector && db.getFieldArr()[i]->getSportType() == gameSelector)
+            break;
+        else
+        {
+         ++counter;
+        }
+    }
+    if(counter == db.getNumOfFields())
+    {
+        setColor(C_RED);
+        std::cout << "There is no fields available.\n";
+        return;
+    }
 
+
+    std::vector<int> possibleIndex;
     for (int i = 0; i < db.getNumOfFields(); ++i) {
         if (db.getFieldArr()[i]->getCity() == citySelector && db.getFieldArr()[i]->getSportType() == gameSelector)
         {
@@ -467,6 +484,13 @@ void ui::bookField(db& db, std::string& id)
             std::cout << "enter " << i + 1 << '.' << '\n';
         }
     }
+    if(db.getFieldArr().empty())
+    {
+        setColor(C_RED);
+        std::cout << "There is no fields available.\n";
+        return;
+    }
+
     setColor(C_WHITE);
     std::string nameOfFieldSelected;
     int selectedOption = 0;
@@ -1375,6 +1399,21 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
     std::cout << "This is the calender for ";
     setColor(C_BLUE);
     std::cout << fieldName;
+
+    for (auto i : db.getFieldArr())
+    {
+       if(i->getName() == fieldName)
+       {
+           if(i->isAccessible())
+           {
+               setColor(C_WHITE);
+               std::cout << "This Field is ";
+               setColor(C_YELLOW);
+               std::cout << "ACCESSIBLE.\n";
+               break;
+           }
+       }
+    }
     setColor(C_WHITE);
     std::cout << ".\nThe color - ";
     setColor(C_GREEN);
@@ -1510,16 +1549,8 @@ void ui::mainFunction(db& db)
         if (selector == 1) // want to register.
         {
             selector = registration();
-            if (selector == 1) // register as manager.
-            {
-                registrationProcess(selector, db);
-                continue;
-            }
-            else // register as player.
-            {
-                registrationProcess(selector, db);
-                continue;
-            }
+            registrationProcess(selector, db);
+            continue;
         }
         else if (selector == 2) // want to log in.
         {
@@ -1529,7 +1560,7 @@ void ui::mainFunction(db& db)
             {
                 if (i->getID() == id)
                 {
-                    if (typeid(i) == typeid(Manager))
+                    if (i->getType() == 2)
                     {
                         managerPanel(db, id);
                         break;
