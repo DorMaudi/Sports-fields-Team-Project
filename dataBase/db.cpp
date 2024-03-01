@@ -73,6 +73,9 @@ void db::init()
         char gender = 'A';
 
         // args for manager.
+        std::string bDay;
+        std::string bMon;
+        std::string bYr;
         int day, month, year;
 
         loadIntToMem(type, myFile);
@@ -83,9 +86,13 @@ void db::init()
         loadStringToMem(phone, myFile);
         loadCharToMem(gender, myFile);
 
-        loadIntToMem(day, myFile);
-        loadIntToMem(month, myFile);
-        loadIntToMem(year, myFile);
+        loadStringToMem(bDay, myFile);
+        loadStringToMem(bMon, myFile);
+        loadStringToMem(bYr, myFile);
+
+//        loadIntToMem(day, myFile);
+//        loadIntToMem(month, myFile);
+//        loadIntToMem(year, myFile);
 
         // use user ctor here.
         enum userType {PlayerType = 1, ManagerType};
@@ -99,6 +106,9 @@ void db::init()
             }
             case ManagerType:
             {
+                day = std::stoi(bDay);
+                month = std::stoi(bMon);
+                year = std::stoi(bYr);
                 this->personArr.push_back(new Manager(id, password, name, lName, phone, gender, new date(day, month, year)));
                 break;
             }
@@ -124,8 +134,9 @@ void db::init()
         std::string ownerId;
         std::string description;
         std::string reviews;
-        int accessible;
-        int reservationCounter = 0;
+        std::string accessible;
+        std::string reservationCounter;
+
 
         loadStringToMem(name, myFile);
         loadStringToMem(city, myFile);
@@ -133,11 +144,19 @@ void db::init()
         loadStringToMem(ownerId, myFile);
         loadArrToMem(description, myFile);
         loadArrToMem(reviews, myFile);
-        loadIntToMem(accessible, myFile);
-        loadIntToMem(reservationCounter, myFile);
+        loadStringToMem(accessible, myFile);
+        loadStringToMem(reservationCounter, myFile);
+
+        bool accessibleBool = false;
+        int accessibleInt = std::stoi(accessible);
+
+        if (accessibleInt >= 1)
+            accessibleBool = true;
+
+        int reservationCounterInt = std::stoi(reservationCounter);
 
         // call fields ctor and add into fields vector.
-        this->fieldsArr.push_back(new fields(name, city, sportType, ownerId, description, reviews, accessible, reservationCounter));
+        this->fieldsArr.push_back(new fields(name, city, sportType, ownerId, description, reviews, accessibleBool, reservationCounterInt));
 
         ++this->numOfFieldFiles;
         myFile.close();
@@ -384,7 +403,9 @@ void db::dbMakeUser(int type, std::string &id, std::string &password, std::strin
                             << "l_name: " + lastName + '\n'
                             << "phone: " + phoneNumber + '\n'
                             << "gender: " << gender << '\n'
-                            << "b_day: " << day << '/' << month << '/' << year << '\n';
+                            << "b_day: " << day << '\n'
+                            << "b_mon: " << month << '\n'
+                            << "b_yr: " << year << '\n';
                 newUserData.close();
             }
             this->personArr.push_back(new Manager(id, password, firstName, lastName, phoneNumber, gender, new date(day, month, year)));
