@@ -1,6 +1,6 @@
 type: 1
 id: 207055138
-pass: sapir123
+pass: 123
 name: dor
 l_name: maudi
 phone: 0526211604

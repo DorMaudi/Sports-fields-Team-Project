@@ -154,12 +154,14 @@ bool Auth::cityAuth(std::string& e, std::string city) {
         return true;
     }
     e = "We dont have that city.";
+    return false;
 }
 
 bool Auth::sportTypeAuth(std::string &e, std::string sportType) {
     if (sportType == "Soccer" || sportType == "Basketball" || sportType == "Tennis" || sportType == "Football")
         return true;
     e = "We dont have a field for that sport type.";
+    return false;
 }
 
 bool Auth::fieldNameAuth(std::string &e, std::string fieldName) {
