@@ -1,0 +1,8 @@
+name: ted
+city: Eilat
+sportType: Tennis
+ownerId: 322378068
+description: wowwwwwwwwwwwwwww
+reviews: 
+accessible: 1
+resCounter: 0

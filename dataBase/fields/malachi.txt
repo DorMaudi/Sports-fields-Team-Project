@@ -2,7 +2,7 @@ name: malachi
 city: Ashdod
 sportType: Football
 ownerId: 322378068
-description: the
+description: the best field
 reviews: 
 accessible: 0
 resCounter: 0

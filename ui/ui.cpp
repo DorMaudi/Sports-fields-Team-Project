@@ -325,7 +325,7 @@ void ui::playerPanel(db& db, std::string& id)
 //            std::vector<date> cal;
 //            makeCalender(cal);
 //            displayCalenderPlayer(cal, db, id);
-                calendar(db, id);
+                calendar(db, user->getID());
                 option = 0;
                 continue;
             }
@@ -586,9 +586,12 @@ void ui::bookField(db& db, std::string& id)
             }
         }
 
+        if (db.getReservationArr().empty())
+            break;
+
         for (auto g: db.getReservationArr())
         {
-            if (validDD != g->getDate().getDay() && validHH != std::stoi(g->getTime()) && nameOfFieldSelected == g->getFieldName())
+            if (dd != g->getDate().getDay() || hh != std::stoi(g->getTime()) && nameOfFieldSelected == g->getFieldName())
             {
                 validBook = true;
             }
@@ -678,7 +681,7 @@ void ui::cancelReservation(db& db, std::string& id)
     std::cout << "The cancellation was successfully.\n";
 }
 
-void ui::calendar(db& db, std::string& id)
+void ui::calendar(db& db, const std::string& id)
 {
     //system("cls");
     setColor(C_PURPLE);
@@ -1361,7 +1364,7 @@ void ui::makeCalender(std::vector<date>& arr)
     }
 }
 
-void ui::displayCalenderPlayer(std::vector<date> &dateArr, db &db, std::string &id)
+void ui::displayCalenderPlayer(std::vector<date> &dateArr, db &db, const std::string &id)
 {
     std::vector<int> vec;
 
@@ -1430,11 +1433,12 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
     std::cout << "This is the calender for ";
     setColor(C_BLUE);
     std::cout << fieldName;
-
+    fields* getCurField;
     for (auto i : db.getFieldArr())
     {
        if(i->getName() == fieldName)
        {
+           getCurField = i;
            if(i->isAccessible())
            {
                setColor(C_WHITE);
@@ -1460,7 +1464,8 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
     setColor(C_PURPLE);
     std::cout << "Purple ";
     setColor(C_WHITE);
-    std::cout << "marks a closed field for this day (you can't make a reservation).\n\n";
+    std::cout << "marks a closed field for this day (you can't make a reservation).\n";
+    std::cout << "Description: " << getCurField->getDescription() << "\n\n";
 
     for (auto q : dateArr)
     {
@@ -1490,6 +1495,7 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
         setColor(C_WHITE);
         std::cout << '\n';
     }
+    std::cout << "Reviews: \n" << getCurField->getReviews() << "\n\n";
 
 }
 
