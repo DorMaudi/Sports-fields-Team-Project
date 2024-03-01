@@ -532,7 +532,7 @@ void db::dbDelReservation(const std::string& id, const std::string& fieldName, c
         {
             std::string pathToRes = this->reservationsPath + "\\" + i->getId() + ".txt";
             std::remove(pathToRes.c_str());
-            this->fieldsArr.erase(this->fieldsArr.begin() + counter);
+            this->reservationArr.erase(this->reservationArr.begin() + counter);
             break;
         }
         ++counter;
