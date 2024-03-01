@@ -1,7 +1,0 @@
-resId: 4
-userId: 207055138
-fieldName: tedy
-day: 1
-month: 3
-year: 2024
-time: 19
