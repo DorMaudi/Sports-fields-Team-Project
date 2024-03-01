@@ -5,6 +5,6 @@ name: david
 l_name: kof
 phone: 0587744458
 gender: M
-b_day: 24
-b_mon: 3
-b_yr: 2002
+day: 24
+month: 3
+year: 2002

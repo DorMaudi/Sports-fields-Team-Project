@@ -42,14 +42,14 @@ public:
     static void managerPanel(db& db, std::string& id);
     static void bookField(db& db, std::string& id);
     static void cancelReservation(db& db, std::string& id);
-    static void calendar(db& db, std::string& id);
+    static void calendar(db& db, const std::string& id);
     static void editProfile(db& db, std::string& id);
     static void listOfScheduledGames(db& db, std::string& id);
     static void addField(db& db, std::string& id);
     static void deleteField(db& db, std::string& id);
     static void markDateAsUnavailable(db& , std::string& id);
     static void makeCalender(std::vector<date>& arr);
-    static void displayCalenderPlayer(std::vector<date>& dateArr, db& db, std::string& id);
+    static void displayCalenderPlayer(std::vector<date>& dateArr, db& db, const std::string& id);
     static void displayCalenderField(std::vector<date>& dateArr, db& db, std::string& fieldName);
 
 private:
