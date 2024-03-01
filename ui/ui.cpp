@@ -1551,19 +1551,27 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
     int indexA = 0;
     while (!validIndex)
     {
+        int k = 0;
         for (auto i : managerFields)
         {
-            std::cout << "For " << db.getFieldArr()[i]->getName() << "Enter " << i+1 << '\n';
+            setColor(C_WHITE);
+            std::cout << "For " << db.getFieldArr()[i]->getName() << " - ";
+            setColor(C_BLUE);
+            std::cout << "Enter " << k+1 << '\n';
+            ++k;
         }
         std::cin >> indexA;
-        for (auto i : managerFields)
+
+        if (indexA < 1  || indexA > k)
         {
-            if (indexA == i)
-                validIndex = true;
+            setColor(C_RED);
+            std::cout << "Invalid index, try again!\n";
+            setColor(C_WHITE);
         }
-        setColor(C_RED);
-        std::cout << "Invalid index, try again!\n";
-        setColor(C_WHITE);
+        else
+        {
+            validIndex = true;
+        }
     }
 
     std::cout << "Enter a day to make unavailable (for ex: [dd] for 25/6/2026 just enter 25).\n";
@@ -1585,8 +1593,11 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
                 break;
             }
         }
-        setColor(C_RED);
-        std::cout << "Invalid day, try again!\n";
+        if (!validDay)
+        {
+            setColor(C_RED);
+            std::cout << "Invalid day, try again!\n";
+        }
     }
 
     for (auto i : db.getReservationArr())
