@@ -1,0 +1,8 @@
+name: BaQar
+city: Tel-Aviv
+sportType: Football
+ownerId: 548755698
+description: the best field
+reviews: 
+accessible: 1
+resCounter: 0

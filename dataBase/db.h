@@ -65,6 +65,9 @@ public:
     void setDescForField(std::string& fieldName, std::string& desc);
     void addReviewToField(std::string& fieldName, std::string& review);
 
+    // parsing functions to disk.
+    static void transFromDisk(std::string& text);
+    static void transFromMem(std::string & text);
     
 private:
 
@@ -90,9 +93,6 @@ private:
     static void loadIntToMem(int& output, std::fstream& file);
     static void loadCharToMem(char& output, std::fstream& file);
     static void loadArrToMem(std::string& output, std::fstream& file);
-
-    // parsing functions to disk.
-    static void transToDisk(std::string& text);
 
 };
 

@@ -1190,8 +1190,9 @@ void ui::addField(db &db, std::string &id)
         std::cout << "max 250 characters";
         setColor(C_WHITE);
         std::cout << "):\n";
-        std::cin >> description;
-        flag = Auth::fieldDescription(e, id);
+        fflush(stdin);
+        std::getline(std::cin >> std::ws, description);
+        flag = Auth::fieldDescription(e, description);
         if(!flag)
         {
             setColor(C_RED);
@@ -1222,6 +1223,7 @@ void ui::addField(db &db, std::string &id)
     }
 
     int counter = 0;
+
 
     db.dbMakeField(name, city, sportType, id, description, reviews, accessible, counter);
 }
