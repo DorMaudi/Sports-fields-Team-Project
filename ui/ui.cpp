@@ -6,12 +6,14 @@
 
 int ui::welcomeScreen()
 {
-    //system("cls");
-    setColor(C_PURPLE);
-    std::cout << "Welcome To Sport Fields Reservation System\n";
+    std::string option, error;
     int input = 0;
-    while(input != 1 && input != 2 && input != 3)
+    bool flag = false;
+
+    do
     {
+        setColor(C_PURPLE);
+        std::cout << "Welcome To Sport Fields Reservation System\n";
         setColor(C_L_BLUE);
         std::cout << "Registration \\ Login\n";
         setColor(C_WHITE);
@@ -26,13 +28,21 @@ int ui::welcomeScreen()
         std::cout << "For Exit - ";
         setColor(C_BLUE);
         std::cout << "enter 3.\n";
-        std::cin >> input;
-        if(input != 1 && input != 2 && input != 3)
+        std::cin >> option;
+
+        // Check if the input is a valid digit
+        if (Auth::isDigit(error, option) != 1 && Auth::isDigit(error, option) != 2 && Auth::isDigit(error, option) != 3)
         {
-            setColor(C_RED);
-            std::cout << "invalid value!\n";
+            std::cout << error << "\n";
+            flag = false;
         }
-    }
+        else
+        {
+            flag = true;
+            input = std::stoi(option); // Convert string to integer
+        }
+    } while (!flag);
+
     setColor(C_WHITE);
     return input;
 }
