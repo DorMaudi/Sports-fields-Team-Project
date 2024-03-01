@@ -1,7 +1,0 @@
-type: 1
-id: 207055138
-pass: sapir123
-name: dor
-l_name: maudi
-phone: 0526211604
-gender: M

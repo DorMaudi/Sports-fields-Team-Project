@@ -866,8 +866,7 @@ void ui::managerPanel(db& db, std::string& id)
     setColor(C_PURPLE);
     std::cout << manager->getFirstName() << '\n';
     int option = 0;
-    while(option < 1 || option > 6)
-    {
+    while(option < 1 || option > 6) {
         setColor(C_L_BLUE);
         std::cout << "Manager Menu:\n";
         setColor(C_WHITE);
@@ -893,57 +892,61 @@ void ui::managerPanel(db& db, std::string& id)
         setColor(C_WHITE);
         std::cout << "EXIT - ";
         setColor(C_BLUE);
-        std::cout << "enter 6.";
+        std::cout << "enter 6.\n";
         std::cin >> option;
 
-        if(option < 1 || option > 6)
-        {
+        if (option < 1 || option > 6) {
             setColor(C_RED);
             std::cout << "invalid value\n";
         }
-    }
-    setColor(C_WHITE);
-    enum menuOptions {ScheduledGames = 1, markDatesAsUnavailable, addFieldOption, deleteFieldOption, editProfileOption, exitProgram};
-    int selectedOption = 0;
-    int indexOption = 0;
-    switch (option)
-    {
-        case ScheduledGames:
-        {
-            listOfScheduledGames(db, id);
-            break;
-        }
-        case markDatesAsUnavailable:
-        {
-            markDateAsUnavailable(db, id);
-            break;
-        }
-        case addFieldOption:
-        {
-            addField(db, id);
-            break;
-        }
-        case deleteFieldOption:
-        {
-            deleteField(db, id);
-            break;
-        }
-        case editProfileOption:
-        {
-            editProfile(db,id);
-            break;
-        }
-        case exitProgram:
-        {
-            ///////////////////////////////////////////////////////////לוודא שאחרי שהמשתמש בוחר לצאת הוא חוזר לפונקציית ההתחלהwelcome screen
-            break;
+
+        setColor(C_WHITE);
+        enum menuOptions {
+            ScheduledGames = 1,
+            markDatesAsUnavailable,
+            addFieldOption,
+            deleteFieldOption,
+            editProfileOption,
+            exitProgram
+        };
+        int selectedOption = 0;
+        int indexOption = 0;
+        switch (option) {
+            case ScheduledGames: {
+                listOfScheduledGames(db, id);
+                option = 0;
+                break;
+            }
+            case markDatesAsUnavailable: {
+                markDateAsUnavailable(db, id);
+                option = 0;
+                break;
+            }
+            case addFieldOption: {
+                addField(db, id);
+                option = 0;
+                break;
+            }
+            case deleteFieldOption: {
+                deleteField(db, id);
+                option = 0;
+                break;
+            }
+            case editProfileOption: {
+                editProfile(db, id);
+                option = 0;
+                break;
+            }
+            case exitProgram: {
+                ///////////////////////////////////////////////////////////לוודא שאחרי שהמשתמש בוחר לצאת הוא חוזר לפונקציית ההתחלהwelcome screen
+                break;
+            }
         }
     }
 }
 
 void ui::listOfScheduledGames(db &db, std::string &id)
 {
-
     int selectedOption = 0;
     int indexOption = 0;
 
@@ -982,6 +985,13 @@ void ui::listOfScheduledGames(db &db, std::string &id)
                 std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName();
                 ++k;
             }
+        }
+        if(vec.empty())
+        {
+            setColor(C_RED);
+            std::cout << "You don't have any fields.\n";
+            setColor(C_WHITE);
+            return;
         }
 
         while(indexOption < 1 || indexOption > k + 1)
@@ -1073,6 +1083,14 @@ void ui::listOfScheduledGames(db &db, std::string &id)
                     if (db.getReservationArr()[j]->getDate().getDay() == d && db.getReservationArr()[j]->getDate().getMonth() == m && db.getReservationArr()[j]->getDate().getYear() == y)
                         validResIndex.push_back(j);
             }
+        }
+
+        if(validResIndex.empty())
+        {
+            setColor(C_RED);
+            std::cout << "You don't have any scheduled games on this date.\n";
+            setColor(C_WHITE);
+            return;
         }
 
         int i, j;
@@ -1207,11 +1225,14 @@ void ui::addField(db &db, std::string &id)
     while(!flag)
     {
         setColor(C_WHITE);
-        std::cout << "Enter 1 - for accessible field. Enter 2 - for not accessible field (";
+        std::cout << "for accessible field - ";
         setColor(C_BLUE);
-        std::cout << "0 or 1";
+        std::cout << "enter 0.\n";
         setColor(C_WHITE);
-        std::cout << "):\n";
+        std::cout << "For not accessible field - ";
+        setColor(C_BLUE);
+        std::cout << "enter 1.\n";
+        setColor(C_WHITE);
         std::cin >> accessible;
         flag = Auth::accessibleField(e,accessible);
         if(!flag)
@@ -1241,6 +1262,14 @@ void ui::deleteField(db &db, std::string &id)
             std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName();
             ++k;
         }
+    }
+
+    if (vec.empty())
+    {
+        setColor(C_RED);
+        std::cout << "You don't have any field to delete.\n";
+        setColor(C_WHITE);
+        return;
     }
 
     while(indexOption < 1 || indexOption > k + 1)
@@ -1407,7 +1436,7 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
            if(i->isAccessible())
            {
                setColor(C_WHITE);
-               std::cout << "This Field is ";
+               std::cout << " This Field is ";
                setColor(C_YELLOW);
                std::cout << "ACCESSIBLE.\n";
                break;
@@ -1415,7 +1444,7 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
        }
     }
     setColor(C_WHITE);
-    std::cout << ".\nThe color - ";
+    std::cout << "The color - ";
     setColor(C_GREEN);
     std::cout << "Green ";
     setColor(C_WHITE);
@@ -1477,6 +1506,14 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
             managerFields.push_back(index);
         }
         ++index;
+    }
+
+    if(managerFields.empty())
+    {
+        setColor(C_RED);
+        std::cout << "You don't have any fields.\n";
+        setColor(C_WHITE);
+        return;
     }
 
     bool validIndex = false;
