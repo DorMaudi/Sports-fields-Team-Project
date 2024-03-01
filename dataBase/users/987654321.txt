@@ -1,0 +1,7 @@
+type: 1
+id: 987654321
+pass: abc12345
+name: player
+l_name: playerovich
+phone: 0505555555
+gender: F

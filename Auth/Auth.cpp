@@ -208,3 +208,13 @@ bool Auth::accessibleField(std::string &e, bool acces)
 //bool Auth::reservationAuth(std::string&e ,std::string sportType, std::string city, std::string fieldName, int day,int month, int year, db& database) {
 
 //}
+
+bool Auth::isDigit(std::string &e, std::string Num) {
+    for (char c : Num) {
+        if (!isdigit(c)||c == ' ') {
+            e = "ID should contain only numbers.";
+            return false;
+        }
+    }
+    return true;
+}
