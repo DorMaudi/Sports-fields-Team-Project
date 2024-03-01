@@ -209,7 +209,7 @@ void db::commitToDisk()
 
         auto p = this->personArr.back();
         tempId = p->getID();
-        if (typeid(p) == typeid(Manager))
+        if (p->getType() == DB_USER_TYPE_MANGER)
             userType = DB_USER_TYPE_MANGER;
         else
             userType = DB_USER_TYPE_PLAYER;
@@ -232,12 +232,12 @@ void db::commitToDisk()
             {
                 auto pManager = (Manager*)p;
                 iFile << "type: " << userType << '\n'
-                      << "id: " << p->getID() << '\n'
-                      << "pass: " << p->getPassword() << '\n'
-                      << "name: " << p->getFirstName() << '\n'
-                      << "l_name: " << p->getLastName() << '\n'
-                      << "phone: " << p->getPhoneNumber() << '\n'
-                      << "gender: " << p->getGender() << '\n'
+                      << "id: " << pManager->getID() << '\n'
+                      << "pass: " << pManager->getPassword() << '\n'
+                      << "name: " << pManager->getFirstName() << '\n'
+                      << "l_name: " << pManager->getLastName() << '\n'
+                      << "phone: " << pManager->getPhoneNumber() << '\n'
+                      << "gender: " << pManager->getGender() << '\n'
                       << "day: " << pManager->getBirthday()->getDay() << '\n'
                       << "month: " << pManager->getBirthday()->getMonth() << '\n'
                       << "year: " << pManager->getBirthday()->getYear() << '\n';
