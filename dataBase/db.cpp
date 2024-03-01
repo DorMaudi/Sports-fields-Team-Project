@@ -256,12 +256,18 @@ void db::commitToDisk()
         tempName = p->getName();
         iFile.open(this->fieldsPath + "\\" + tempName + ".txt", std::ios::out | std::ios::trunc);
 
+        std::string reviewParsed = p->getReviews();
+        std::string descriptionParsed = p->getDescription();
+
+        transFromMem(reviewParsed);
+        transFromMem(descriptionParsed);
+
         iFile << "name: " << p->getName() << '\n'
               << "city: " << p->getCity() << '\n'
               << "sportType: " << p->getSportType() << '\n'
               << "ownerId: " << p->getOwnerId() << '\n'
-              << "description: " << p->getDescription() << '\n' // add description parser.
-              << "reviews: " << p->getReviews() << '\n' // add reviews parser.
+              << "description: " << descriptionParsed << '\n'
+              << "reviews: " << reviewParsed << '\n'
               << "accessible: " << p->isAccessible() << '\n'
               << "resCounter: " << p->getReservationCounter() << '\n';
 
@@ -278,8 +284,8 @@ void db::commitToDisk()
               << "userId: " << p->getIdPlayer() << '\n'
               << "fieldName: " << p->getFieldName() << '\n'
               << "day: " << p->getDate().getDay() << '\n'
-              << "month: " << p->getDate().getMonth() << '\n' // add description parser.
-              << "year: " << p->getDate().getYear() << '\n' // add reviews parser.
+              << "month: " << p->getDate().getMonth() << '\n'
+              << "year: " << p->getDate().getYear() << '\n'
               << "time: " << p->getTime() << '\n';
         iFile.close();
     }
@@ -433,8 +439,8 @@ void db::dbMakeField(std::string& name, std::string& city, std::string& sportTyp
     else
         stringifyBool = "0";
 
-    transToDisk(description);
-    transToDisk(reviews);
+    transFromMem(description);
+    transFromMem(reviews);
 
     newFieldData << "name: " << name << '\n'
                     << "city: " << city << '\n'
@@ -445,6 +451,11 @@ void db::dbMakeField(std::string& name, std::string& city, std::string& sportTyp
                     << "accessible: " << stringifyBool << '\n'
                     << "resCounter: " << std::to_string(reservationCounter) << '\n';
     ++this->numOfFieldFiles;
+    newFieldData.close();
+
+    transFromDisk(description);
+    transFromDisk(reviews);
+    this->fieldsArr.push_back(new fields(name, city, sportType, ownerId, description, reviews, accessible, reservationCounter));
 }
 
 void db::dbMakeReservation(std::string& id, std::string& fieldName, int day, int month, int year, std::string& time)
@@ -557,7 +568,7 @@ Person *db::startSession(std::string &id) const
     }
 }
 
-void db::transToDisk(std::string &text)
+void db::transFromDisk(std::string &text)
 {
     for (auto i : text)
     {
@@ -594,6 +605,23 @@ void db::addReviewToField(std::string &fieldName, std::string &review)
         {
             i->appReview(review);
             return;
+        }
+    }
+}
+
+void db::transFromMem(std::string &text)
+{
+    for (auto i : text)
+    {
+        if (i == ' ')
+        {
+            i = '_';
+            continue;
+        }
+        if (i == '\n')
+        {
+            i = '/';
+            continue;
         }
     }
 }
