@@ -277,8 +277,9 @@ void ui::playerPanel(db& db, std::string& id)
     int option = 0;
     while(option < 1 || option > 5)
     {
+        id = tempUid;
         setColor(C_L_BLUE);
-        std::cout << "Player Menu:\n";
+        std::cout << "Player Menu: " << tempUid << "\n";
         setColor(C_WHITE);
         std::cout << "Book field - ";
         setColor(C_BLUE);
@@ -323,9 +324,6 @@ void ui::playerPanel(db& db, std::string& id)
                 continue;
             }
             case calendarOption: {
-//            std::vector<date> cal;
-//            makeCalender(cal);
-//            displayCalenderPlayer(cal, db, id);
                 calendar(db, tempUid);
                 option = 0;
                 continue;
@@ -475,6 +473,7 @@ void ui::bookField(db& db, std::string& id)
 
 
     std::vector<int> possibleIndex;
+    int k = 0;
     for (int i = 0; i < db.getNumOfFields(); ++i) {
         if (db.getFieldArr()[i]->getCity() == citySelector && db.getFieldArr()[i]->getSportType() == gameSelector)
         {
@@ -482,7 +481,8 @@ void ui::bookField(db& db, std::string& id)
             setColor(C_WHITE);
             std::cout <<"For " << db.getFieldArr()[i]->getName() << " - ";
             setColor(C_BLUE);
-            std::cout << "enter " << i + 1 << '.' << '\n';
+            std::cout << "enter " << k + 1 << '.' << '\n';
+            ++k;
         }
     }
     if(db.getFieldArr().empty())
@@ -503,7 +503,7 @@ void ui::bookField(db& db, std::string& id)
         nameOfFieldSelected = db.getFieldArr()[possibleIndex[selectedOption-1]]->getName();
         for (int i : possibleIndex)
         {
-            if(possibleIndex[selectedOption-1] != selectedOption-1)
+            if(!possibleIndex[selectedOption-1])
             {
                 setColor(C_RED);
                 std::cout << "invalid value\n";
@@ -589,7 +589,7 @@ void ui::bookField(db& db, std::string& id)
 
         if (db.getReservationArr().empty())
             break;
-
+        int counterX = 0;
         for (auto g: db.getReservationArr())
         {
             if (dd != g->getDate().getDay() || hh != std::stoi(g->getTime()) && nameOfFieldSelected == g->getFieldName())
@@ -598,11 +598,15 @@ void ui::bookField(db& db, std::string& id)
             }
             else
             {
-                setColor(C_RED);
-                std::cout << "This date and time is unavailable\n";
-                setColor(C_WHITE);
-                validBook = false;
+                ++counterX;
             }
+        }
+        if (counterX == db.getNumOfReservations())
+        {
+            setColor(C_RED);
+            std::cout << "This date and time is unavailable\n";
+            setColor(C_WHITE);
+            validBook = false;
         }
     }
 
@@ -987,7 +991,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
             if(db.getFieldArr()[i]->getOwnerId() == id)
             {
                 vec.push_back(i);
-                std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName();
+                std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName() << '\n';
                 ++k;
             }
         }
@@ -1012,20 +1016,40 @@ void ui::listOfScheduledGames(db &db, std::string &id)
             }
         }
 
+        std::vector<int> vecRes;
+        std::string selectedField = db.getFieldArr()[vec[indexOption-1]]->getName();
+        int indexRes = 0;
+        for (auto n : db.getReservationArr())
+        {
+            if (n->getFieldName() == selectedField)
+            {
+                vecRes.push_back(indexRes);
+                ++indexRes;
+            }
+        }
+
+        if (vecRes.empty())
+        {
+            setColor(C_RED);
+            std::cout << "No reservation for this field.\n";
+            setColor(C_WHITE);
+            return;
+        }
+
         int i, j;
-        int n = (int)vec.size();
+        int n = (int)vecRes.size();
         bool swapped;
         for (i = 0; i < n - 1; i++)
         {
             swapped = false;
             for (j = 0; j < n - i - 1; j++)
             {
-                if (db.getReservationArr()[vec[j]]->getDate().getYear() >= db.getReservationArr()[vec[j+1]]->getDate().getYear())
-                    if (db.getReservationArr()[vec[j]]->getDate().getMonth() >= db.getReservationArr()[vec[j+1]]->getDate().getMonth())
-                        if (db.getReservationArr()[vec[j]]->getDate().getDay() >= db.getReservationArr()[vec[j+1]]->getDate().getDay())
-                            if (std::stoi(db.getReservationArr()[vec[j]]->getTime()) > std::stoi(db.getReservationArr()[vec[j+1]]->getTime()))
+                if (db.getReservationArr()[vecRes[j]]->getDate().getYear() >= db.getReservationArr()[vecRes[j+1]]->getDate().getYear())
+                    if (db.getReservationArr()[vecRes[j]]->getDate().getMonth() >= db.getReservationArr()[vecRes[j+1]]->getDate().getMonth())
+                        if (db.getReservationArr()[vecRes[j]]->getDate().getDay() >= db.getReservationArr()[vecRes[j+1]]->getDate().getDay())
+                            if (std::stoi(db.getReservationArr()[vecRes[j]]->getTime()) > std::stoi(db.getReservationArr()[vecRes[j+1]]->getTime()))
                             {
-                                std::swap(vec[j], vec[j + 1]);
+                                std::swap(vecRes[j], vecRes[j + 1]);
                                 swapped = true;
                             }
             }
@@ -1035,9 +1059,8 @@ void ui::listOfScheduledGames(db &db, std::string &id)
                 break;
         }
 
-        std::string selectedField = db.getFieldArr()[vec[indexOption-1]]->getName();
 
-        for(auto u : vec)
+        for(auto u : vecRes)
         {
             setColor(C_WHITE);
             std::cout << "Date: ";
@@ -1370,13 +1393,11 @@ void ui::displayCalenderPlayer(std::vector<date> &dateArr, db &db, const std::st
 {
     std::vector<int> vec;
 
-    int k = 0;
-    for(auto i : db.getReservationArr())
+    for(int i = 0; i < db.getNumOfReservations(); ++i)
     {
-        if(i->getIdPlayer() == id)
+        if(db.getReservationArr()[i]->getIdPlayer() == id)
         {
-            vec.push_back(k);
-            ++k;
+            vec.push_back(i);
         }
     }
 
