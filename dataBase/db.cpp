@@ -474,11 +474,12 @@ void db::dbMakeReservation(std::string& id, std::string& fieldName, int day, int
                         << "month: " << std::to_string(month) << '\n'
                         << "year: " << std::to_string(year) << '\n'
                         << "time: " << time << '\n';
+    newReservationData.close();
 
     std::string idTracker = std::to_string(this->reservationIdTracker);
+
     this->reservationArr.push_back(new reservation(idTracker, id, fieldName, time, day, month, year));
     ++this->numOfReservations;
-    newReservationData.close();
 }
 
 void db::dbDelUser(std::string& id)
