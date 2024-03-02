@@ -208,6 +208,7 @@ void ui::registrationProcess(int type, db& db)
         setColor(C_WHITE);
         std::cout << "):\n";
         std::cin >> gender;
+        fflush(stdin);
         flag = Auth::genderAuth(e, gender);
         if(!flag)
         {
@@ -373,6 +374,7 @@ void ui::playerPanel(db& db, std::string& id)
 
         if (option < 1 || option > 5) {
             setColor(C_RED);
+            system("cls");
             std::cout << "Invalid value. Please enter a number between 1 and 5.\n";
         }
 
@@ -438,14 +440,17 @@ void ui::bookField(db& db, std::string& id)
         setColor(C_BLUE);
         std::cout << "enter 4.\n";
         std::cin >> sportOption;
-        if (sportOption > 4 || sportOption < 1) {
-            setColor(C_RED);
-            std::cout << "Invalid input. Please enter a number between 1 and 4.\n";
-            // Clear input buffer
+        if (sportOption < 1 || sportOption > 4 || std::cin.fail())
+        {
+            system("cls");
+            std::cin.clear();
             fflush(stdin);
+            setColor(C_RED);
+            std::cout << "Invalid input. Please try again:\n";
             setColor(C_WHITE);
             continue;
         }
+
 
         enum sports {soccer = 1,basketBall , tennis, footBall};
         switch (sportOption)
@@ -494,12 +499,13 @@ void ui::bookField(db& db, std::string& id)
         setColor(C_BLUE);
         std::cout << "enter 4.\n";
         std::cin >> cityOption;
-        if (cityOption > 4 || cityOption < 1)
+        if (cityOption < 1 || cityOption > 4 || std::cin.fail())
         {
-            setColor(C_RED);
-            std::cout << "Invalid input. Please enter a number between 1 and 4.\n";
-            // Clear input buffer
+            system("cls");
+            std::cin.clear();
             fflush(stdin);
+            setColor(C_RED);
+            std::cout << "Invalid input. Please try again:\n";
             setColor(C_WHITE);
             continue;
         }
@@ -575,6 +581,15 @@ void ui::bookField(db& db, std::string& id)
     while(!flag)
     {
         std::cin >> selectedOption;
+        if (selectedOption < 1 || selectedOption > possibleIndex.size() || std::cin.fail())
+        {
+            std::cin.clear();
+            fflush(stdin);
+            setColor(C_RED);
+            std::cout << "Invalid input. Please try again:\n";
+            setColor(C_WHITE);
+            continue;
+        }
         nameOfFieldSelected = db.getFieldArr()[possibleIndex[selectedOption-1]]->getName();
         for (int i : possibleIndex)
         {
@@ -612,12 +627,14 @@ void ui::bookField(db& db, std::string& id)
         std::cout << "press 2.\n";
 
         std::cin >> revPick;
-        if (revPick != 1 && revPick != 2)
+        if (revPick < 1 || revPick > 2 || std::cin.fail())
         {
-            setColor(C_RED);
-            std::cout << "Invalid input try again!\n";
+            std::cin.clear();
             fflush(stdin);
+            setColor(C_RED);
+            std::cout << "Invalid input. Please try again:\n";
             setColor(C_WHITE);
+            continue;
         }
     }
 
@@ -662,6 +679,15 @@ void ui::bookField(db& db, std::string& id)
             setColor(C_WHITE);
             std::cout << ").\n";
             std::cin >> dd;
+            if (dd < cal[0].getDay() || dd > cal[6].getDay() || std::cin.fail())
+            {
+                std::cin.clear();
+                fflush(stdin);
+                setColor(C_RED);
+                std::cout << "Invalid input. Please try again:\n";
+                setColor(C_WHITE);
+                continue;
+            }
 
             for (auto z: cal)
             {
@@ -693,6 +719,16 @@ void ui::bookField(db& db, std::string& id)
             std::cout << ").\n";
             std::cin >> hh;
 
+            if (hh < 8 || hh > 20 || std::cin.fail())
+            {
+                std::cin.clear();
+                fflush(stdin);
+                setColor(C_RED);
+                std::cout << "Invalid input. Please try again:\n";
+                setColor(C_WHITE);
+                continue;
+            }
+
             for (int i = 8; i < 21; ++i) {
                 if (hh == i) {
                     validHH = true;
@@ -709,25 +745,26 @@ void ui::bookField(db& db, std::string& id)
 
         if (db.getReservationArr().empty())
             break;
-        int counterX = 0;
+
+
+        int curTime = 0;
+        bool isGood = true;
         for (auto g: db.getReservationArr())
         {
-            if (dd != g->getDate().getDay() || hh != std::stoi(g->getTime()) && nameOfFieldSelected == g->getFieldName())
+            curTime = std::stoi(g->getTime());
+            //if (dd != g->getDate().getDay() || hh != std::stoi(g->getTime()) && nameOfFieldSelected == g->getFieldName())
+            if (g->getFieldName() == nameOfFieldSelected && curTime == hh && g->getDate().getDay() == dd && g->getDate().getYear() == yr)
             {
-                validBook = true;
-            }
-            else
-            {
-                ++counterX;
+                validBook = false;
+                isGood = false;
+                setColor(C_RED);
+                std::cout << "This date and time is unavailable\n";
+                setColor(C_WHITE);
+                break;
             }
         }
-        if (counterX == db.getNumOfReservations())
-        {
-            setColor(C_RED);
-            std::cout << "This date and time is unavailable\n";
-            setColor(C_WHITE);
-            validBook = false;
-        }
+        if (isGood)
+            validBook = true;
     }
 
     std::string stringHH;
@@ -799,30 +836,24 @@ void ui::cancelReservation(db& db, std::string& id)
     {
         std::cin >> userOption;
 
-        for (int i : possibleIndex)
+        if (userOption < 1 || userOption > possibleIndex.size() || std::cin.fail())
         {
-            //if(possibleIndex[userOption-1] != userOption-1)
-            if(userOption > possibleIndex.size() || userOption < 1)
-            {
-                setColor(C_RED);
-                std::cout << "invalid value\n";
-                validValue = false;
-                break;
-            }
-        }
-        if (!validValue)
-        {
-            std::cout << "Select a valid value: \n";
+            std::cin.clear();
+            fflush(stdin);
+            setColor(C_RED);
+            std::cout << "Invalid input. Please try again:\n";
+            setColor(C_WHITE);
             continue;
         }
+
         flag = true;
     }
 
-    std::string tempFieldName = db.getReservationArr()[zIndex - 1]->getFieldName();
-    std::string tempTime = db.getReservationArr()[zIndex - 1]->getTime();
+    std::string tempFieldName = db.getReservationArr()[possibleIndex[zIndex-1]]->getFieldName();
+    std::string tempTime = db.getReservationArr()[possibleIndex[zIndex-1]]->getTime();
+    int dayToDelete = db.getReservationArr()[possibleIndex[zIndex-1]]->getDate().getDay();
 
-
-    db.dbDelReservation(id, tempFieldName, tempTime);
+    db.dbDelReservation(id, tempFieldName, dayToDelete, tempTime);
     setColor(C_GREEN);
     system("cls");
     std::cout << "The cancellation was successfully.\n";
@@ -1256,10 +1287,41 @@ void ui::listOfScheduledGames(db &db, std::string &id)
             setColor(C_WHITE);
             std::cout << "enter day: (1-31)\n";
             std::cin >> d;
+            if (d < 1 || d > 31 || std::cin.fail())
+            {
+                std::cin.clear();
+                fflush(stdin);
+                setColor(C_RED);
+                std::cout << "Invalid input. Please try again:\n";
+                setColor(C_WHITE);
+                continue;
+            }
             std::cout << "enter month: (1-12)\n";
             std::cin >> m;
+            if (m < 1 || m > 12 || std::cin.fail())
+            {
+                std::cin.clear();
+                fflush(stdin);
+                setColor(C_RED);
+                std::cout << "Invalid input. Please try again:\n";
+                setColor(C_WHITE);
+                continue;
+            }
             std::cout << "enter year: (>=1900)\n";
             std::cin >> y;
+
+            std::vector<date> cal;
+            makeCalender(cal);
+
+            if (y < 1900 || y > cal[6].getYear() || std::cin.fail())
+            {
+                std::cin.clear();
+                fflush(stdin);
+                setColor(C_RED);
+                std::cout << "Invalid input. Please try again:\n";
+                setColor(C_WHITE);
+                continue;
+            }
 
             valid = Auth::dateAuth(e, d, m, y);
             if(!valid)
@@ -1370,7 +1432,7 @@ void ui::addField(db &db, std::string &id)
         setColor(C_WHITE);
         std::cout << "Enter city name (";
         setColor(C_BLUE);
-        std::cout << "from this options - Ashdod, Tel-Aviv, Jerusalem, Eilat, Ashkelon";
+        std::cout << "from this options - Ashdod, Tel-Aviv, Jerusalem, Eilat, Ashkelon (first letter must be capital. look for symbols like \"-\")";
         setColor(C_WHITE);
         std::cout << "):\n";
         std::cin >> city;
@@ -1389,7 +1451,7 @@ void ui::addField(db &db, std::string &id)
         setColor(C_WHITE);
         std::cout << "Enter sport type (";
         setColor(C_BLUE);
-        std::cout << "from this options - Soccer, Basketball, Tennis, Football";
+        std::cout << "from this options - Soccer, Basketball, Tennis, Football (first letter must be capital)";
         setColor(C_WHITE);
         std::cout << "):\n";
         std::cin >> sportType;
@@ -1438,6 +1500,15 @@ void ui::addField(db &db, std::string &id)
         std::cout << "enter 1.\n";
         setColor(C_WHITE);
         std::cin >> accessible;
+        if (accessible != 0 && accessible != 1 || std::cin.fail())
+        {
+            std::cin.clear();
+            fflush(stdin);
+            setColor(C_RED);
+            std::cout << "Invalid input. Please try again:\n";
+            setColor(C_WHITE);
+            continue;
+        }
         flag = Auth::accessibleField(e,accessible);
         if(!flag)
         {
@@ -1484,14 +1555,18 @@ void ui::deleteField(db &db, std::string &id)
         setColor(C_WHITE);
         std::cout << "enter a number option from the list to cancel the specific field:\n";
         std::cin >> indexOption;
-
-        if(indexOption < 1 || indexOption > k + 1)
+        if (indexOption < 1 || indexOption > k+1 || std::cin.fail())
         {
+            std::cin.clear();
+            fflush(stdin);
             setColor(C_RED);
-            std::cout << "invalid value\n";
+            std::cout << "Invalid input. Please try again:\n";
+            setColor(C_WHITE);
+            continue;
         }
     }
 
+    system("cls");
     std::string delThisField = db.getFieldArr()[vec[indexOption - 1]]->getName();
     db.dbDelField(delThisField);
     setColor(C_GREEN);
@@ -1761,6 +1836,7 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
         }
     }
 
+    setColor(C_WHITE);
     std::cout << "The available dates are: " << cal[0].getDay() << "/" << cal[0].getMonth() << "/" << cal[0].getYear() << " ~ " << cal[6].getDay() << "/" << cal[6].getMonth() << "/" << cal[6].getYear() << '\n';
     std::cout << "Enter a day to make unavailable (for ex: [dd] for 25/6/2026 just enter 25).\n";
 
@@ -1771,6 +1847,16 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
     while (!validDay)
     {
         std::cin >> dd;
+        if (dd < cal[0].getDay() || dd > cal[6].getDay() || std::cin.fail())
+        {
+            std::cin.clear();
+            fflush(stdin);
+            setColor(C_RED);
+            std::cout << "Invalid input. Please try again:\n";
+            setColor(C_WHITE);
+            continue;
+        }
+
         for (auto i : cal)
         {
             if (i.getDay() == dd)
@@ -1790,9 +1876,9 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
 
     for (auto i : db.getReservationArr())
     {
-        if (i->getFieldName() == db.getFieldArr()[indexA-1]->getName() && i->getDate().getDay() == dd)
+        if (i->getFieldName() == db.getFieldArr()[managerFields[indexA-1]]->getName() && i->getDate().getDay() == dd)
         {
-            db.dbDelReservation(i->getIdPlayer(), db.getFieldArr()[indexA-1]->getName(), i->getTime());
+            db.dbDelReservation(i->getIdPlayer(), db.getFieldArr()[managerFields[indexA-1]]->getName(), i->getDate().getDay(), i->getTime());
         }
     }
 
@@ -1800,7 +1886,7 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
     {
         std::string zero = "0";
         std::string hr = std::to_string(i);
-        std::string arrName = db.getFieldArr()[indexA-1]->getName();
+        std::string arrName = db.getFieldArr()[managerFields[indexA-1]]->getName();
         db.dbMakeReservation(zero, arrName, dd, mm, year, hr);
     }
 

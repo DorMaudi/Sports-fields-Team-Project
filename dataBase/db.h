@@ -46,7 +46,7 @@ public:
     // delete user / field / res on db.
     void dbDelUser(std::string& id);
     void dbDelField(std::string& nameOfField);
-    void dbDelReservation(const std::string& id, const std::string& fieldName, const std::string& hour);
+    void dbDelReservation(const std::string& id, const std::string& fieldName, int dd, const std::string& hour);
     void dbDelReservationByField(std::string& fieldName);
 
     // getFunctions.

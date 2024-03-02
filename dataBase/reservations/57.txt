@@ -1,7 +1,0 @@
-resId: 57
-userId: 0
-fieldName: BaQar
-day: 6
-month: 3
-year: 2024
-time: 9

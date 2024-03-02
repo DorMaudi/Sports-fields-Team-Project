@@ -513,7 +513,7 @@ void db::dbDelField(std::string& nameOfField)
     // delete file on disk.
     dbDelReservationByField(nameOfField);
 
-    std::string pathToField = this->userPath + "\\" + nameOfField + ".txt";
+    std::string pathToField = this->fieldsPath + "\\" + nameOfField + ".txt";
     std::remove(pathToField.c_str());
     int counter = 0;
 
@@ -529,14 +529,14 @@ void db::dbDelField(std::string& nameOfField)
     --this->numOfFieldFiles;
 }
 
-void db::dbDelReservation(const std::string& id, const std::string& fieldName, const std::string& hour)
+void db::dbDelReservation(const std::string& id, const std::string& fieldName, const int dd, const std::string& hour)
 {
     // delete file on disk.
     int counter = 0;
 
     for (auto i : this->reservationArr)
     {
-        if (i->getIdPlayer() == id && i->getFieldName() == fieldName && i->getTime() == hour)
+        if (i->getIdPlayer() == id && i->getFieldName() == fieldName && i->getDate().getDay() == dd && i->getTime() == hour)
         {
             std::string pathToRes = this->reservationsPath + "\\" + i->getId() + ".txt";
             std::remove(pathToRes.c_str());

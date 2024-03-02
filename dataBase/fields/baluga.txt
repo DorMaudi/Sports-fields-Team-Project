@@ -1,8 +1,0 @@
-name: baluga
-city: Jerusalem
-sportType: Tennis
-ownerId: 322378068
-description: baluga_is_a_field_so_great,_it_was_made_with_the_best_products_in_mind.
-reviews: 
-accessible: 0
-resCounter: 0
