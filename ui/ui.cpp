@@ -1622,6 +1622,7 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
         }
     }
 
+    std::cout << "The available dates are: " << cal[0].getDay() << "/" << cal[0].getMonth() << "/" << cal[0].getYear() << " ~ " << cal[6].getDay() << "/" << cal[6].getMonth() << "/" << cal[6].getYear() << '\n';
     std::cout << "Enter a day to make unavailable (for ex: [dd] for 25/6/2026 just enter 25).\n";
 
     bool validDay = false;
