@@ -6,6 +6,7 @@
 
 int ui::welcomeScreen()
 {
+    //system("cls");
     std::string option, error;
     int input = 0;
     bool flag = false;
@@ -47,7 +48,9 @@ int ui::welcomeScreen()
     return input;
 }
 
-int ui::registration() {
+int ui::registration()
+{
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "Registration:\n";
     std::string option;
@@ -86,7 +89,7 @@ int ui::registration() {
 
 void ui::registrationProcess(int type, db& db)
 {
-    //system("cls");
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "Welcome to the registration process, please enter the following fields to make an account:\n";
     std::string e;
@@ -216,19 +219,46 @@ void ui::registrationProcess(int type, db& db)
             std::cout << "1-31";
             setColor(C_WHITE);
             std::cout << "):\n";
-            std::cin >> day;
+            while (!(std::cin >> day))
+            {
+                // Clear the error flag
+                std::cin.clear();
+                // Discard the input buffer until the end of the line
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                setColor(C_RED);
+                std::cout << "Invalid input. Please try again:\n";
+                setColor(C_WHITE);
+            }
             std::cout << "Enter month (";
             setColor(C_BLUE);
             std::cout << "1-12";
             setColor(C_WHITE);
             std::cout << "):\n";
-            std::cin >> month;
+            while (!(std::cin >> month))
+            {
+                // Clear the error flag
+                std::cin.clear();
+                // Discard the input buffer until the end of the line
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                setColor(C_RED);
+                std::cout << "Invalid input. Please try again:\n";
+                setColor(C_WHITE);
+            }
             std::cout << "Enter year (";
             setColor(C_BLUE);
             std::cout << "1900 - 2006";
             setColor(C_WHITE);
             std::cout << "):\n";
-            std::cin >> year;
+            while (!(std::cin >> year))
+            {
+                // Clear the error flag
+                std::cin.clear();
+                // Discard the input buffer until the end of the line
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                setColor(C_RED);
+                std::cout << "Invalid input. Please try again:\n";
+                setColor(C_WHITE);
+            }
             flag = Auth::dateAuth(e, day, month, year);
             if(!flag)
             {
@@ -237,7 +267,7 @@ void ui::registrationProcess(int type, db& db)
             }
         }
     }
-    //system("cls");
+    system("cls");
     if(type == 1)
     {
         db.dbMakeUser(DB_USER_TYPE_MANGER, id, password, fName, lName, pNumber, gender, day, month, year);
@@ -254,7 +284,7 @@ void ui::registrationProcess(int type, db& db)
 
 std::string ui::login(db& db)
 {
-    //system("cls");
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "To login you need to enter ID and password:\n";\
     while(true)
@@ -289,7 +319,9 @@ std::string ui::login(db& db)
     }
 }
 
-void ui::playerPanel(db& db, std::string& id) {
+void ui::playerPanel(db& db, std::string& id)
+{
+    system("cls");
     auto user = db.startSession(id);
     std::string tempUid = user->getID();
     setColor(C_WHITE);
@@ -301,7 +333,9 @@ void ui::playerPanel(db& db, std::string& id) {
     while (option < 1 || option > 5) {
         id = tempUid;
         setColor(C_L_BLUE);
-        std::cout << "Player Menu: " << tempUid << "\n";
+        std::cout << "Player Menu: ";
+        setColor(C_YELLOW);
+        std::cout << user->getFirstName() << " {" << tempUid << "}\n";
         setColor(C_WHITE);
         std::cout << "Book field - ";
         setColor(C_BLUE);
@@ -361,6 +395,7 @@ void ui::playerPanel(db& db, std::string& id) {
             }
             case exitProgram: {
                 // Add any necessary cleanup or exit logic here
+                system("cls");
                 break;
             }
         }
@@ -369,7 +404,7 @@ void ui::playerPanel(db& db, std::string& id) {
 
 void ui::bookField(db& db, std::string& id)
 {
-    //system("cls");
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "Book Field:\n";
     std::string citySelector;
@@ -694,6 +729,7 @@ void ui::bookField(db& db, std::string& id)
     db.dbMakeReservation(id, nameOfFieldSelected, dd, mm, yr, stringHH);
 
     setColor(C_GREEN);
+    system("cls");
     std::cout << "You have booked " << dd << '/' << mm << '/' << yr << " at: " << hh << ":00" << '\n';
     for (auto i : db.getFieldArr())
     {
@@ -709,7 +745,7 @@ void ui::bookField(db& db, std::string& id)
 
 void ui::cancelReservation(db& db, std::string& id)
 {
-    //system("cls");
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "Cancel Field:\n";
     setColor(C_L_BLUE);
@@ -773,12 +809,13 @@ void ui::cancelReservation(db& db, std::string& id)
 
     db.dbDelReservation(id, tempFieldName, tempTime);
     setColor(C_GREEN);
+    system("cls");
     std::cout << "The cancellation was successfully.\n";
 }
 
 void ui::calendar(db& db, const std::string& id)
 {
-    //system("cls");
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "Calendar:\n";
     setColor(C_L_BLUE);
@@ -793,12 +830,12 @@ void ui::calendar(db& db, const std::string& id)
 
 void ui::editProfile(db& db, std::string& id)
 {
-    //system("cls");
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "Edit Your Profile:\n";
     int editOption = 0;
 
-    while(editOption < 1 || editOption > 4)
+    while(editOption < 1 || editOption > 5)
     {
         setColor(C_WHITE);
         std::cout << "To edit your password - ";
@@ -837,6 +874,11 @@ void ui::editProfile(db& db, std::string& id)
     std::string e;
 
     auto p = db.startSession(id);
+    Manager* g = nullptr;
+    int type = p->getType();
+    if (type == DB_USER_TYPE_MANGER)
+        g = dynamic_cast<Manager*>(p);
+
     std::string password = p->getPassword();
     std::string fName = p->getFirstName();
     std::string lName = p->getLastName();
@@ -951,16 +993,20 @@ void ui::editProfile(db& db, std::string& id)
         }
     }
     db.dbDelUser(id);
-    db.dbMakeUser(DB_USER_TYPE_PLAYER, id, password, fName, lName, pNumber, gender);
+    if (type == DB_USER_TYPE_PLAYER)
+        db.dbMakeUser(DB_USER_TYPE_PLAYER, id, password, fName, lName, pNumber, gender);
+    else
+        db.dbMakeUser(DB_USER_TYPE_MANGER, id, password, fName, lName, pNumber, gender, g->getBirthday()->getDay(), g->getBirthday()->getMonth(), g->getBirthday()->getYear());
 
     setColor(C_GREEN);
+    system("cls");
     std::cout << "Updated private information successfully!\n";
 }
 
 void ui::managerPanel(db& db, std::string& id)
 {
     auto manager = db.startSession(id);
-    //system("cls");
+    system("cls");
     setColor(C_WHITE);
     std::cout << "WELCOME ";
     setColor(C_PURPLE);
@@ -968,7 +1014,9 @@ void ui::managerPanel(db& db, std::string& id)
     int option = 0;
     while(option < 1 || option > 6) {
         setColor(C_L_BLUE);
-        std::cout << "Manager Menu:\n";
+        std::cout << "Manager Menu: " ;
+        setColor(C_YELLOW);
+        std::cout << manager->getFirstName() << " {" << manager->getID() << "}\n";
         setColor(C_WHITE);
         std::cout << "List of scheduled games - ";
         setColor(C_BLUE);
@@ -1041,7 +1089,7 @@ void ui::managerPanel(db& db, std::string& id)
                 break;
             }
             case exitProgram: {
-                ///////////////////////////////////////////////////////////לוודא שאחרי שהמשתמש בוחר לצאת הוא חוזר לפונקציית ההתחלהwelcome screen
+                system("cls");
                 break;
             }
         }
@@ -1050,6 +1098,7 @@ void ui::managerPanel(db& db, std::string& id)
 
 void ui::listOfScheduledGames(db &db, std::string &id)
 {
+    system("cls");
     int selectedOption = 0;
     int indexOption = 0;
 
@@ -1082,6 +1131,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
         }
     }
 
+    system("cls");
     std::vector<int> vec;
     if(selectedOption == 1)
     {
@@ -1098,6 +1148,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
         if(vec.empty())
         {
             setColor(C_RED);
+            system("cls");
             std::cout << "You don't have any fields.\n";
             setColor(C_WHITE);
             return;
@@ -1132,6 +1183,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
         if (vecRes.empty())
         {
             setColor(C_RED);
+            system("cls");
             std::cout << "No reservation for this field.\n";
             setColor(C_WHITE);
             return;
@@ -1223,6 +1275,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
         if(validResIndex.empty())
         {
             setColor(C_RED);
+            system("cls");
             std::cout << "You don't have any scheduled games on this date.\n";
             setColor(C_WHITE);
             return;
@@ -1247,7 +1300,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
             if (swapped == false)
                 break;
         }
-
+        system("cls");
         int index = 0;
         for(int k : validResIndex)
         {
@@ -1272,7 +1325,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
 
 void ui::addField(db &db, std::string &id)
 {
-    //system("cls");
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "Add Field:\n";
     std::string e;
@@ -1386,6 +1439,7 @@ void ui::addField(db &db, std::string &id)
 
 void ui::deleteField(db &db, std::string &id)
 {
+    system("cls");
     setColor(C_PURPLE);
     std::cout << "Delete Field:\n";
     std::vector<int> vec;
@@ -1396,7 +1450,7 @@ void ui::deleteField(db &db, std::string &id)
         if(db.getFieldArr()[i]->getOwnerId() == id)
         {
             vec.push_back(i);
-            std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName();
+            std::cout << k + 1 << ". " << db.getFieldArr()[i]->getName() << '\n';
             ++k;
         }
     }
@@ -1404,6 +1458,7 @@ void ui::deleteField(db &db, std::string &id)
     if (vec.empty())
     {
         setColor(C_RED);
+        system("cls");
         std::cout << "You don't have any field to delete.\n";
         setColor(C_WHITE);
         return;
@@ -1424,6 +1479,9 @@ void ui::deleteField(db &db, std::string &id)
 
     std::string delThisField = db.getFieldArr()[vec[indexOption - 1]]->getName();
     db.dbDelField(delThisField);
+    setColor(C_GREEN);
+    std::cout << "You have deleted the selected field successfully.\n";
+    setColor(C_WHITE);
 }
 
 void ui::makeCalender(std::vector<date>& arr)
@@ -1498,6 +1556,7 @@ void ui::makeCalender(std::vector<date>& arr)
 
 void ui::displayCalenderPlayer(std::vector<date> &dateArr, db &db, const std::string &id)
 {
+    system("cls");
     std::vector<int> vec;
 
     for(int i = 0; i < db.getNumOfReservations(); ++i)
@@ -1557,7 +1616,7 @@ void ui::displayCalenderPlayer(std::vector<date> &dateArr, db &db, const std::st
 
 void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &fieldName)
 {
-    //system("cls");
+    system("cls");
     setColor(C_WHITE);
 
     std::cout << "This is the calender for ";
@@ -1631,6 +1690,7 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
 
 void ui::markDateAsUnavailable(db &db, std::string& id)
 {
+    system("cls");
     std::vector<date> cal;
     makeCalender(cal);
 
@@ -1728,11 +1788,13 @@ void ui::markDateAsUnavailable(db &db, std::string& id)
     }
 
     setColor(C_GREEN);
+    system("cls");
     std::cout << "The date selected will be unavailable\n";
 }
 
 void ui::mainFunction(db& db)
 {
+    system("cls");
     while (true)
     {
         int selector = welcomeScreen();
