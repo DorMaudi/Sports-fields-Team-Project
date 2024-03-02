@@ -526,16 +526,13 @@ void ui::bookField(db& db, std::string& id)
     for (int i = 0; i < db.getNumOfFields(); ++i)
     {
         if (db.getFieldArr()[i]->getCity() == citySelector && db.getFieldArr()[i]->getSportType() == gameSelector)
-            break;
-        else
-        {
-         ++counter;
-        }
+            ++counter;
     }
 
     if(counter == 0)
     {
         setColor(C_RED);
+        system("cls");
         std::cout << "There is no fields available.\n";
         return;
     }
@@ -752,6 +749,7 @@ void ui::cancelReservation(db& db, std::string& id)
     std::cout << "My Reservations:\n";
     setColor(C_WHITE);
 
+
     int zIndex = 0;
     std::vector<int> possibleIndex;
     for(int i = 0; i < db.getNumOfReservations(); ++i)
@@ -774,6 +772,14 @@ void ui::cancelReservation(db& db, std::string& id)
             std::cout << db.getReservationArr()[i]->getTime() << '\n';
             setColor(C_WHITE);
         }
+    }
+
+    if (possibleIndex.empty())
+    {
+        setColor(C_RED);
+        system("cls");
+        std::cout << "You don't have any reservations to cancel.\n";
+        return;
     }
 
     int userOption = 0;
