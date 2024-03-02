@@ -1690,7 +1690,9 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
         setColor(C_WHITE);
         std::cout << '\n';
     }
-    std::cout << "Reviews: \n" << getCurField->getReviews() << "\n\n";
+    setColor(C_L_BLUE);
+    std::cout << "\nReviews: \n" << getCurField->getReviews() << "\n\n";
+    setColor(C_WHITE);
 
 }
 
