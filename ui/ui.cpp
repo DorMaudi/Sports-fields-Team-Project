@@ -6,9 +6,7 @@
 
 int ui::welcomeScreen()
 {
-    //system("cls");
-    std::string option, error;
-    int input = 0;
+    int option = 0;
     bool flag = false;
 
     do
@@ -29,23 +27,34 @@ int ui::welcomeScreen()
         std::cout << "For Exit - ";
         setColor(C_BLUE);
         std::cout << "enter 3.\n";
+        setColor(C_WHITE);
+
+
+        // Clear input buffer before reading new input
+        std::cin.clear();
+
+        // Read user input
         std::cin >> option;
 
-        // Check if the input is a valid digit
-        if (Auth::isDigit(error, option) != 1 && Auth::isDigit(error, option) != 2 && Auth::isDigit(error, option) != 3)
+        // Check if input is valid
+        if (option < 1 || option > 3 || std::cin.fail())
         {
-            std::cout << error << "\n";
+            system("cls");
+            fflush(stdin);
+            setColor(C_RED);
+            std::cout << "Invalid input. Please try again:\n";
+            setColor(C_WHITE);
             flag = false;
         }
         else
         {
             flag = true;
-            input = std::stoi(option);
         }
+
     } while (!flag);
 
     setColor(C_WHITE);
-    return input;
+    return option;
 }
 
 int ui::registration()
