@@ -2,7 +2,7 @@ name: BaQar
 city: Tel-Aviv
 sportType: Football
 ownerId: 548755698
-description: the best field
-reviews: 
+description: the_best_field
+reviews: /dor_:_asdqwe/dor_:_135554164684
 accessible: 1
-resCounter: 0
+resCounter: 2

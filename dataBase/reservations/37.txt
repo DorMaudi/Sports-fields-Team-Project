@@ -1,7 +1,7 @@
 resId: 37
-userId: 0
-fieldName: BaQar
-day: 5
+userId: 207055138
+fieldName: malachi
+day: 6
 month: 3
 year: 2024
-time: 16
+time: 18

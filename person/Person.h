@@ -14,6 +14,7 @@ protected:
     char gender;
 public:
     Person(std::string& ID, std::string& password, std::string& firstName, std::string& lastName, std::string& phoneNumber, char gender) ;
+    virtual ~Person() = default;
     virtual int getType() const = 0;
     // Get
     std::string getID() const { return ID; }

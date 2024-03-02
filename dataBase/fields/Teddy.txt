@@ -1,8 +1,0 @@
-name: Teddy
-city: Tel-Aviv
-sportType: Soccer
-ownerId: 123456789
-description: best
-reviews: 
-accessible: 0
-resCounter: 0

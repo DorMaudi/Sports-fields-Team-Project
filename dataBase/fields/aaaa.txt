@@ -3,6 +3,6 @@ city: Ashdod
 sportType: Soccer
 ownerId: 123456789
 description: abc
-reviews: 
+reviews: /
 accessible: 1
 resCounter: 0

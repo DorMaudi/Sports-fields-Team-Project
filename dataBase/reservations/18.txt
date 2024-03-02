@@ -1,7 +1,0 @@
-resId: 18
-userId: 0
-fieldName: malachi
-day: 2
-month: 3
-year: 2024
-time: 11

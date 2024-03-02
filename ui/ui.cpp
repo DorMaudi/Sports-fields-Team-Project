@@ -394,14 +394,13 @@ void ui::bookField(db& db, std::string& id)
         setColor(C_BLUE);
         std::cout << "enter 4.\n";
         std::cin >> sportOption;
-        if (sportOption >= 1 && sportOption <= 4) {
-            break;  // Exit the loop if the input is valid
-        } else {
+        if (sportOption > 4 || sportOption < 1) {
             setColor(C_RED);
             std::cout << "Invalid input. Please enter a number between 1 and 4.\n";
             // Clear input buffer
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            fflush(stdin);
+            setColor(C_WHITE);
+            continue;
         }
 
         enum sports {soccer = 1,basketBall , tennis, footBall};
@@ -451,14 +450,14 @@ void ui::bookField(db& db, std::string& id)
         setColor(C_BLUE);
         std::cout << "enter 4.\n";
         std::cin >> cityOption;
-        if (cityOption >= 1 && cityOption <= 4) {
-            break;  // Exit the loop if the input is valid
-        } else {
+        if (cityOption > 4 || cityOption < 1)
+        {
             setColor(C_RED);
             std::cout << "Invalid input. Please enter a number between 1 and 4.\n";
             // Clear input buffer
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            fflush(stdin);
+            setColor(C_WHITE);
+            continue;
         }
 
         enum cities {Ashdod = 1,TelAviv , Jerusalem, Eilat};
@@ -498,7 +497,8 @@ void ui::bookField(db& db, std::string& id)
          ++counter;
         }
     }
-    if(counter == db.getNumOfFields())
+
+    if(counter == 0)
     {
         setColor(C_RED);
         std::cout << "There is no fields available.\n";
@@ -558,6 +558,51 @@ void ui::bookField(db& db, std::string& id)
     std::string selectedName = db.getFieldArr()[possibleIndex[selectedOption-1]]->getName();
     displayCalenderField(cal, db, selectedName);
 
+    int revPick = 0;
+    while (revPick != 1 && revPick != 2)
+    {
+        setColor(C_WHITE);
+        std::cout << "If you would like to leave a review first ";
+        setColor(C_BLUE);
+        std::cout << "press 1.\n";
+        setColor(C_WHITE);
+        std::cout << "If you just want to make a reservation ";
+        setColor(C_BLUE);
+        std::cout << "press 2.\n";
+
+        std::cin >> revPick;
+        if (revPick != 1 && revPick != 2)
+        {
+            setColor(C_RED);
+            std::cout << "Invalid input try again!\n";
+            fflush(stdin);
+            setColor(C_WHITE);
+        }
+    }
+
+    if (revPick == 1)
+    {
+        std::cout << "Leave a review to " << selectedName << " (review must be only characters and numbers no like [ / or _ ] allowed)\n";
+        std::string thisReview;
+        std::string revBody;
+        for (auto x : db.getPersonArr())
+        {
+            if (x->getID() == id)
+            {
+                thisReview += x->getFirstName();
+                thisReview += " : ";
+                break;
+            }
+        }
+        std::getline(std::cin >> std::ws, revBody);
+        thisReview += revBody;
+        db.getFieldArr()[possibleIndex[selectedOption-1]]->setReview(thisReview);
+        setColor(C_GREEN);
+        std::cout << "Thanks for leaving a review for the other people to watch!\n";
+        setColor(C_WHITE);
+    }
+
+    std::cout << "The available dates are: " << cal[0].getDay() << "/" << cal[0].getMonth() << "/" << cal[0].getYear() << " ~ " << cal[6].getDay() << "/" << cal[6].getMonth() << "/" << cal[6].getYear() << '\n';
 
     bool validBook = false;
     int hh = 0;
@@ -644,11 +689,20 @@ void ui::bookField(db& db, std::string& id)
         }
     }
 
-    std::string stringHH = std::to_string(hh);
+    std::string stringHH;
+    stringHH = std::to_string(hh);
     db.dbMakeReservation(id, nameOfFieldSelected, dd, mm, yr, stringHH);
 
     setColor(C_GREEN);
-    std::cout << "You have booked " << dd << '/' << mm << '/' << yr << " at: " << stringHH << '\n';
+    std::cout << "You have booked " << dd << '/' << mm << '/' << yr << " at: " << hh << ":00" << '\n';
+    for (auto i : db.getFieldArr())
+    {
+        if (i->getName() == selectedName)
+        {
+            i->setCounter(i->getReservationCounter() + 1);
+            break;
+        }
+    }
     setColor(C_WHITE);
 
 }
@@ -689,14 +743,15 @@ void ui::cancelReservation(db& db, std::string& id)
     int userOption = 0;
     bool validValue = true;
     bool flag = false;
-    std::cout << "To cancel field enter his number option:\n";
+    std::cout << "To cancel field enter his id number:\n";
     while(!flag)
     {
         std::cin >> userOption;
 
         for (int i : possibleIndex)
         {
-            if(possibleIndex[userOption-1] != userOption-1)
+            //if(possibleIndex[userOption-1] != userOption-1)
+            if(userOption > possibleIndex.size() || userOption < 1)
             {
                 setColor(C_RED);
                 std::cout << "invalid value\n";
@@ -1063,6 +1118,7 @@ void ui::listOfScheduledGames(db &db, std::string &id)
 
         std::vector<int> vecRes;
         std::string selectedField = db.getFieldArr()[vec[indexOption-1]]->getName();
+        int numReservations = db.getFieldArr()[vec[indexOption-1]]->getReservationCounter();
         int indexRes = 0;
         for (auto n : db.getReservationArr())
         {
@@ -1116,6 +1172,12 @@ void ui::listOfScheduledGames(db &db, std::string &id)
             setColor(C_YELLOW);
             std::cout << db.getReservationArr()[u]->getTime() << ":00\n";
         }
+        setColor(C_WHITE);
+        std::cout << "This field was ordered: ";
+        setColor(C_BLUE);
+        std::cout << numReservations;
+        setColor(C_WHITE);
+        std::cout << " Times.\n";
     }
     else
     {
@@ -1500,7 +1562,7 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
 
     std::cout << "This is the calender for ";
     setColor(C_BLUE);
-    std::cout << fieldName;
+    std::cout << fieldName << '\n';
     fields* getCurField;
     for (auto i : db.getFieldArr())
     {
@@ -1683,7 +1745,6 @@ void ui::mainFunction(db& db)
         else if (selector == 2) // want to log in.
         {
             std::string id = login(db);
-            int type = 0;
             for (auto i : db.getPersonArr())
             {
                 if (i->getID() == id)
