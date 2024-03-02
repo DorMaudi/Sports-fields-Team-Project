@@ -1,10 +1,10 @@
 type: 2
 id: 322378068
-pass: sapir123
+pass: 12345678
 name: sapir
-l_name: natanov
-phone: 0527989430
+l_name: maudi
+phone: 0587744458
 gender: F
-b_day: 24
-b_mon: 4
-b_yr: 2001
+day: 24
+month: 3
+year: 2002
