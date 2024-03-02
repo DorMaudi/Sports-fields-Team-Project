@@ -90,10 +90,6 @@ void db::init()
         loadStringToMem(bMon, myFile);
         loadStringToMem(bYr, myFile);
 
-//        loadIntToMem(day, myFile);
-//        loadIntToMem(month, myFile);
-//        loadIntToMem(year, myFile);
-
         // use user ctor here.
         enum userType {PlayerType = 1, ManagerType};
 
@@ -259,6 +255,16 @@ void db::commitToDisk()
         std::string reviewParsed = p->getReviews();
         std::string descriptionParsed = p->getDescription();
 
+        if (p->getDescription().empty())
+        {
+            p->fixArr(1);
+        }
+
+        if (p->getReviews().empty())
+        {
+            p->fixArr(0);
+        }
+
         transFromMem(reviewParsed);
         transFromMem(descriptionParsed);
 
@@ -272,6 +278,7 @@ void db::commitToDisk()
               << "resCounter: " << p->getReservationCounter() << '\n';
 
         iFile.close();
+        this->fieldsArr.pop_back();
     }
 
     for (int i = 0; i < this->numOfReservations; ++i) {
@@ -612,16 +619,16 @@ void db::addReviewToField(std::string &fieldName, std::string &review)
 
 void db::transFromMem(std::string &text)
 {
-    for (auto i : text)
+    for (int i = 0; i < text.size()+1; ++i)
     {
-        if (i == ' ')
+        if (text[i] == ' ')
         {
-            i = '_';
+            text[i] = '_';
             continue;
         }
-        if (i == '\n')
+        if (text[i] == '\n')
         {
-            i = '/';
+            text[i] = '/';
             continue;
         }
     }

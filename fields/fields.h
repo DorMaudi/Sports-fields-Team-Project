@@ -40,7 +40,9 @@ public:
     void setDescription(const std::string &descriptionEdit);
     void setAccessible(bool accessible);
     void setCounter(int counter);
+    void setReview(std::string& rev);
     void appReview(std::string& rev);
+    void fixArr(int type);
 
 
 };

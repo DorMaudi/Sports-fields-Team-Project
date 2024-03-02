@@ -41,7 +41,7 @@ bool fields::isAccessible() const {
 }
 
 int fields::getReservationCounter() const {
-    return reservationCounter;
+    return this->reservationCounter;
 }
 
 void fields::setName(const std::string &name) {
@@ -71,4 +71,21 @@ void fields::setCounter(int counter) {
 void fields::appReview(std::string &rev)
 {
     this->reviews += rev += '\n';
+}
+
+void fields::setReview(std::string &rev)
+{
+    this->reviews += rev;
+}
+
+void fields::fixArr(int type)
+{
+    if (type == 1) // for description.
+    {
+        this->description = '\0';
+    }
+    else // for reviews
+    {
+        this->reviews = '\0';
+    }
 }
