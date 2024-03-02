@@ -1,8 +1,0 @@
-name: ted
-city: Eilat
-sportType: Tennis
-ownerId: 322378068
-description: wow_wow
-reviews: /
-accessible: 1
-resCounter: 0
