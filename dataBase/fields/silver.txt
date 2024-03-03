@@ -1,0 +1,8 @@
+name: silver
+city: Jerusalem
+sportType: Basketball
+ownerId: 318509445
+description: best_field!
+reviews: 
+accessible: 1
+resCounter: 1

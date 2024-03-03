@@ -1,0 +1,7 @@
+resId: 118
+userId: 208060111
+fieldName: gold
+day: 4
+month: 3
+year: 2024
+time: 20

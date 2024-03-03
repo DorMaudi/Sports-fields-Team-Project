@@ -1721,7 +1721,7 @@ void ui::displayCalenderField(std::vector<date> &dateArr, db &db, std::string &f
            if(i->isAccessible())
            {
                setColor(C_WHITE);
-               std::cout << " This Field is ";
+               std::cout << "This Field is ";
                setColor(C_YELLOW);
                std::cout << "ACCESSIBLE.\n";
                break;

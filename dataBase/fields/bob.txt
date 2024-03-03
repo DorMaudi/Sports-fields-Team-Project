@@ -1,8 +1,0 @@
-name: bob
-city: Tel-Aviv
-sportType: Tennis
-ownerId: 123456789
-description: asd
-reviews: /
-accessible: 1
-resCounter: 0

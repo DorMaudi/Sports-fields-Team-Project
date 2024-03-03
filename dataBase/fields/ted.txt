@@ -1,0 +1,8 @@
+name: ted
+city: Eilat
+sportType: Soccer
+ownerId: 318509445
+description: the_best_soccer_field_in_eilat!
+reviews: 
+accessible: 1
+resCounter: 0
