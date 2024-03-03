@@ -1,0 +1,7 @@
+resId: 136
+userId: 207055138
+fieldName: silver
+day: 6
+month: 3
+year: 2024
+time: 17

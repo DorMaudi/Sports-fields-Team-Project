@@ -3,6 +3,6 @@ city: Jerusalem
 sportType: Basketball
 ownerId: 318509445
 description: best_field!
-reviews: 
+reviews: dor_:_good_field_over_all./david_:_nice_field/
 accessible: 1
-resCounter: 1
+resCounter: 4

@@ -1,0 +1,8 @@
+name: test
+city: Tel-Aviv
+sportType: Soccer
+ownerId: 322378068
+description: best_field
+reviews: 
+accessible: 0
+resCounter: 0
