@@ -345,7 +345,7 @@ void ui::playerPanel(db& db, std::string& id)
         setColor(C_L_BLUE);
         std::cout << "Player Menu: ";
         setColor(C_YELLOW);
-        std::cout << user->getFirstName() << " {" << tempUid << "}\n";
+        std::cout << " {" << tempUid << "}\n";
         setColor(C_WHITE);
         std::cout << "Book field - ";
         setColor(C_BLUE);
@@ -850,9 +850,9 @@ void ui::cancelReservation(db& db, std::string& id)
         flag = true;
     }
 
-    std::string tempFieldName = db.getReservationArr()[possibleIndex[zIndex-1]]->getFieldName();
-    std::string tempTime = db.getReservationArr()[possibleIndex[zIndex-1]]->getTime();
-    int dayToDelete = db.getReservationArr()[possibleIndex[zIndex-1]]->getDate().getDay();
+    std::string tempFieldName = db.getReservationArr()[possibleIndex[userOption-1]]->getFieldName();
+    std::string tempTime = db.getReservationArr()[possibleIndex[userOption-1]]->getTime();
+    int dayToDelete = db.getReservationArr()[possibleIndex[userOption-1]]->getDate().getDay();
 
     db.dbDelReservation(id, tempFieldName, dayToDelete, tempTime);
     setColor(C_GREEN);
@@ -1063,7 +1063,7 @@ void ui::managerPanel(db& db, std::string& id)
         setColor(C_L_BLUE);
         std::cout << "Manager Menu: " ;
         setColor(C_YELLOW);
-        std::cout << manager->getFirstName() << " {" << manager->getID() << "}\n";
+        std::cout << "{" << manager->getID() << "}\n";
         setColor(C_WHITE);
         std::cout << "List of scheduled games - ";
         setColor(C_BLUE);
