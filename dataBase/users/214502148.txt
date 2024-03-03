@@ -1,7 +1,0 @@
-type: 1
-id: 214502148
-pass: 21547896
-name: kjhgh
-l_name: hgf
-phone: 0554488879
-gender: M

@@ -1,7 +1,0 @@
-type: 1
-id: 000000000
-pass: 000000000
-name: zero
-l_name: ZeroBero
-phone: 0500000000
-gender: F

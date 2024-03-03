@@ -1,0 +1,8 @@
+name: gold
+city: Tel-Aviv
+sportType: Tennis
+ownerId: 322378068
+description: new_tennis_field
+reviews: Yakov_:_amaizing_field
+accessible: 0
+resCounter: 5

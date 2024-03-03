@@ -1,8 +1,0 @@
-name: aaaa
-city: Ashdod
-sportType: Soccer
-ownerId: 123456789
-description: abc
-reviews: /
-accessible: 1
-resCounter: 0
