@@ -593,13 +593,13 @@ void ui::bookField(db& db, std::string& id)
         nameOfFieldSelected = db.getFieldArr()[possibleIndex[selectedOption-1]]->getName();
         for (int i : possibleIndex)
         {
-            if(!possibleIndex[selectedOption-1])
-            {
-                setColor(C_RED);
-                std::cout << "invalid value\n";
-                validValue = false;
-                break;
-            }
+//            if(!possibleIndex[selectedOption-1])
+//            {
+//                setColor(C_RED);
+//                std::cout << "invalid value\n";
+//                validValue = false;
+//                break;
+//            }
         }
         if (!validValue)
         {
