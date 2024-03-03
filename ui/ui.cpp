@@ -654,6 +654,7 @@ void ui::bookField(db& db, std::string& id)
         }
         std::getline(std::cin >> std::ws, revBody);
         thisReview += revBody;
+        thisReview += "\n";
         db.getFieldArr()[possibleIndex[selectedOption-1]]->setReview(thisReview);
         setColor(C_GREEN);
         std::cout << "Thanks for leaving a review for the other people to watch!\n";
