@@ -5,4 +5,4 @@ ownerId: 322378068
 description: the_best_field
 reviews: dor_:_worst_place_i've_seen_in_a_while!/dor_:_after_a_secound_thouht_i_think_i_like_this_place!!!/dor_:_abcd_efg!/jacob_:_i_dont_like_this_field
 accessible: 0
-resCounter: 17
+resCounter: 3
