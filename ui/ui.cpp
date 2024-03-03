@@ -1210,6 +1210,8 @@ void ui::listOfScheduledGames(db &db, std::string &id)
             {
                 setColor(C_RED);
                 std::cout << "invalid value\n";
+                std::cin.clear(); // Clear error flags
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
         }
 
