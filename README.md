@@ -1,4 +1,4 @@
 # Sports-fields-Team-Project
 
-* Must have the pull path in  english.
-* Must run the program in external console.
+* Must have the full path in English.
+* Must run the program in an external console.
